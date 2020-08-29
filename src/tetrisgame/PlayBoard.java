@@ -46,7 +46,7 @@ public class PlayBoard {
     }
 
     /**
-     *Prints playboard with actual state of blocks
+     * Prints playboard with actual state of blocks
      */
     public void printPlayBoard(){
     for (int i = 0; i < (playBoard.length); i++) {
