@@ -24,8 +24,8 @@ public class PlayBoard {
     public PlayBoard() {
         sc = new Scanner(System.in,"Windows-1250");
         this.userChoice = "";
-        this.gameArrayHeight=15;
-        this.gameArrayWidth=25;
+        this.gameArrayHeight=15; 
+        this.gameArrayWidth=15;
         this.playBoard=new boolean[gameArrayHeight][gameArrayWidth];
 
     }
@@ -39,10 +39,14 @@ public class PlayBoard {
             playBoard[0][i]=true;
             playBoard[(playBoard.length-1)][i]=true;
         }
+        playBoard[5][5]=true;
+        playBoard[5][6]=true;
+        playBoard[5][7]=true;
+        
         
         printPlayBoard();
         System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
-
+        
     }
 
     /**
