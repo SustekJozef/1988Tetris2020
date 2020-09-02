@@ -39,11 +39,13 @@ public class PlayBoard {
             playBoard[0][i]=true;
             playBoard[(playBoard.length-1)][i]=true;
         }
-        playBoard[5][5]=true;
-        playBoard[5][6]=true;
-        playBoard[5][7]=true;
         
-        
+        Shape shape=new Shape();
+        playBoard[shape.shapeI[0][0]][shape.shapeI[0][1]]=true;
+                playBoard[shape.shapeI[1][0]][shape.shapeI[1][1]]=true;
+        playBoard[shape.shapeI[2][0]][shape.shapeI[2][1]]=true;
+        playBoard[shape.shapeI[3][0]][shape.shapeI[3][1]]=true;
+
         printPlayBoard();
         System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
         

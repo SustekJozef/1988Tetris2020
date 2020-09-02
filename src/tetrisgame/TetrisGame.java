@@ -21,6 +21,21 @@ p.printWelcomeScreen();
         
         Shape sh=new Shape();
         System.out.println("ôsdfkjôds");
+    
+    ShapeI shapeI=new ShapeI();
+    shapeI
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     }
     
 }
