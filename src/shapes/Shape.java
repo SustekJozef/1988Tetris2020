@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package tetrisgame;
+package shapes;
 
 /**
  *
@@ -12,22 +12,17 @@ package tetrisgame;
  */
 public class Shape {
 
-protected int[][] shapeI;
-private int[][] shapeT;
+protected int[][] shapeInitializationArray;
+/*private int[][] shapeT;
 private int[][] shapeZ;
 private int[][] shapeMirroredZ;
 private int[][] shapeSquar;
 private int[][] shapeL;
-private int[][] shapeMirroredL;
-
-int baseX=0;
-private int baseY=7;
-
-Shape(){
-    this.shapeI= new int[][]{{baseX, baseY},{baseX+1, baseY+1},{baseX+2, baseY+2},{baseX+3, baseY+3}};
-
-
-}
+private int[][] shapeMirroredL;*/
+//shape´s starting position na x axis of array
+protected int baseX=0; //pozrieť
+//shape´s starting position na x axis of array
+protected int baseY=7;
 
 public void MakeShapeRisingFromBackround(Shape currentShape){ //not sure if it is gooed defined
     

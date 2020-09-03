@@ -4,15 +4,18 @@
  * and open the template in the editor.
  */
 
-package tetrisgame;
+package shapes;
 
 /**
  *
  * @author Jozef
  */
-public class ShapeI extends Shape{
+public class ShapeLMirrored extends Shape{
 
-    
+    public ShapeLMirrored() {
+        this.shapeInitializationArray= new int[][]{{baseX, baseY},{baseX, baseY-1},{baseX-1, baseY},{baseX-2, baseY}};
+    }
+
 
 
 

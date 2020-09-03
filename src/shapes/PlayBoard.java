@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tetrisgame;
+package shapes;
 
 import java.util.Scanner;
-
 /**
  * Represents playboard of Tetris.
  *
@@ -40,12 +39,11 @@ public class PlayBoard {
             playBoard[(playBoard.length-1)][i]=true;
         }
         
-        Shape shape=new Shape();
-        playBoard[shape.shapeI[0][0]][shape.shapeI[0][1]]=true;
-                playBoard[shape.shapeI[1][0]][shape.shapeI[1][1]]=true;
-        playBoard[shape.shapeI[2][0]][shape.shapeI[2][1]]=true;
-        playBoard[shape.shapeI[3][0]][shape.shapeI[3][1]]=true;
-
+                ShapeI shapeI=new ShapeI();
+        playBoard[shapeI.shapeInitializationArray[0][0]][shapeI.shapeInitializationArray[0][1]]=true;
+        playBoard[shapeI.shapeInitializationArray[1][0]][shapeI.shapeInitializationArray[1][1]]=true;
+        playBoard[shapeI.shapeInitializationArray[2][0]][shapeI.shapeInitializationArray[2][1]]=true;
+        playBoard[shapeI.shapeInitializationArray[3][0]][shapeI.shapeInitializationArray[3][1]]=true;
         printPlayBoard();
         System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
         
@@ -66,6 +64,9 @@ public class PlayBoard {
             }
         }
         System.out.println();
+        
+        ShapeI shapeI=new ShapeI();
+        System.out.print("");
     }
 }
 

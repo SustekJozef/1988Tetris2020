@@ -5,6 +5,8 @@
  */
 package tetrisgame;
 
+import shapes.PlayBoard;
+
 /**
  *
  * @author Jozef
@@ -18,13 +20,9 @@ public class TetrisGame {
 PlayBoard p=new PlayBoard();
 p.printWelcomeScreen();
         
-        
-        Shape sh=new Shape();
-        System.out.println("ôsdfkjôds");
-    
-    ShapeI shapeI=new ShapeI();
-    shapeI
-    
+
+
+      
     
     
     
