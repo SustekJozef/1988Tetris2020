@@ -12,6 +12,9 @@ package shapes;
  */
 public class ShapeZ extends Shape{
 
+    /**
+     *
+     */
     public ShapeZ() {
         this.shapeInitializationArray= new int[][]{{baseX, baseY},{baseX-1, baseY},{baseX-1, baseY-1},{baseX, baseY+1}};
 

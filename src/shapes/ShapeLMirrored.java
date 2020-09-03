@@ -12,11 +12,17 @@ package shapes;
  */
 public class ShapeLMirrored extends Shape{
 
+    /**
+     *
+     */
     public ShapeLMirrored() {
         this.shapeInitializationArray= new int[][]{{baseX, baseY},{baseX, baseY-1},{baseX-1, baseY},{baseX-2, baseY}};
     }
-
-
+    /*
+    @Override
+    public void automaticMoveDown(){
+    
+    }*/
 
 
 

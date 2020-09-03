@@ -16,10 +16,13 @@ public class TetrisGame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 PlayBoard p=new PlayBoard();
-p.printWelcomeScreen();
-        
+
+        for (int i = 0; i < 10; i++) {
+            p.printWelcomeScreen();
+        }
+
 
 
       

@@ -12,6 +12,9 @@ package shapes;
  */
 public class ShapeZMirrored extends Shape{
 
+    /**
+     *
+     */
     public ShapeZMirrored() {
         this.shapeInitializationArray= new int[][]{{baseX, baseY},{baseX, baseY-1},{baseX-1, baseY},{baseX-1, baseY+1}};
 

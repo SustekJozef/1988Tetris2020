@@ -14,8 +14,11 @@ import shapes.Shape;
  */
 public class ShapeI extends Shape{
 
+    /**
+     *
+     */
     public ShapeI() {
-        this.shapeInitializationArray= new int[][]{{baseX, baseY},{baseX+1, baseY},{baseX+2, baseY},{baseX+3, baseY}};
+        this.shapeInitializationArray= new int[][]{{baseX, baseY},{baseX, baseY-1},{baseX, baseY+1},{baseX, baseY+2}};
 
     }
 
