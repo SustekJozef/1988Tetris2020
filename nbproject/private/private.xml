@@ -4,8 +4,15 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/tetrisgame/TetrisGame.java</file>
-            <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/tetrisgame/Shape.java</file>
-            <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/tetrisgame/PlayBoard.java</file>
+            <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/shapes/ShapeI.java</file>
+            <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/shapes/ShapeSquar.java</file>
+            <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/shapes/ShapeLMirrored.java</file>
+            <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/shapes/PlayBoard.java</file>
+            <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/shapes/Shape.java</file>
+            <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/shapes/ShapeZ.java</file>
+            <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/shapes/ShapeZMirrored.java</file>
+            <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/shapes/ShapeT.java</file>
+            <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/shapes/ShapeL.java</file>
         </group>
     </open-files>
 </project-private>

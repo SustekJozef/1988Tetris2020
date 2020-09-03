@@ -41,7 +41,7 @@ public class PlayBoard {
 
     private int sleepTime;
     
-    private Shape currentShape;
+    private Shape currentShape1;
     
     /**
      *
@@ -54,7 +54,7 @@ public class PlayBoard {
         this.playBoard=new boolean[gameArrayHeight][gameArrayWidth];
         this.shapeI=new ShapeI();
         this.shapeI=new ShapeL();
-        this.currentShape=new ShapeSquar();
+        this.currentShape1=new ShapeI();
         this.sleepTime=500;
     }
 
@@ -69,10 +69,10 @@ public class PlayBoard {
         }
         
                 
-                inputShape(this.currentShape);
+                inputShapeToPlayBoard(this.currentShape1);
                 printPlayBoard();
-                removeShape(this.currentShape);
-                automaticMoveDown(this.currentShape);
+                removeShapeFromPlayBoard(this.currentShape1);
+                automaticMoveDown(this.currentShape1);
 
 
         System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
@@ -83,14 +83,15 @@ public class PlayBoard {
      * Makes input of a specific shape into the playboard (in to the game)
      * @param currentShape Shape which is currently next for puzzling(Lshape,Tshape etc.)
      */
-    public void inputShape(Shape currentShape){
+    public void inputShapeToPlayBoard(Shape currentShape){
+        //put xy position from shapes´s predefined position into playboard[][] positional system.
         playBoard[currentShape.shapeInitializationArray[0][0]][currentShape.shapeInitializationArray[0][1]]=true;
         playBoard[currentShape.shapeInitializationArray[1][0]][currentShape.shapeInitializationArray[1][1]]=true;
         playBoard[currentShape.shapeInitializationArray[2][0]][currentShape.shapeInitializationArray[2][1]]=true;
         playBoard[currentShape.shapeInitializationArray[3][0]][currentShape.shapeInitializationArray[3][1]]=true;
     }
 
-    public void removeShape(Shape currentShape){
+    public void removeShapeFromPlayBoard(Shape currentShape){
         playBoard[currentShape.shapeInitializationArray[0][0]][currentShape.shapeInitializationArray[0][1]]=false;
         playBoard[currentShape.shapeInitializationArray[1][0]][currentShape.shapeInitializationArray[1][1]]=false;
         playBoard[currentShape.shapeInitializationArray[2][0]][currentShape.shapeInitializationArray[2][1]]=false;
@@ -105,8 +106,11 @@ public class PlayBoard {
     
     //(currentShape.shapeInitializationArray[0][0]+1) == (currentShape.shapeInitializationArray[1][0]+1) == (currentShape.shapeInitializationArray[2][0]+1) == (currentShape.shapeInitializationArray[3][0]+1) == true) {
     Thread.sleep(sleepTime);
-    //add one point to the shape position on playboard. It push the shape one row down
-    currentShape.shapeInitializationArray[0][0]=currentShape.shapeInitializationArray[1][0]=currentShape.shapeInitializationArray[2][0]=currentShape.shapeInitializationArray[3][0]+=1;
+    //add one point to the shape position on playboard. It pushes the shape one row down
+    currentShape.shapeInitializationArray[0][0]+=1;
+    currentShape.shapeInitializationArray[1][0]+=1;
+    currentShape.shapeInitializationArray[2][0]+=1;
+    currentShape.shapeInitializationArray[3][0]+=1;
    
     }
     

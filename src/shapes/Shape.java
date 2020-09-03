@@ -27,7 +27,7 @@ private int[][] shapeMirroredL;*/
     /**
      *
      */
-protected int baseX=2; //pozrieť
+protected int baseX=3; //pozrieť
 //shape´s starting position na x axis of array
 
     /**
