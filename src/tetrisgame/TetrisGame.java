@@ -19,11 +19,9 @@ public class TetrisGame {
     public static void main(String[] args) throws InterruptedException {
 PlayBoard p=new PlayBoard();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             p.printWelcomeScreen();
         }
-
-
 
       
     
