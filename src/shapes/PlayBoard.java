@@ -5,6 +5,9 @@
  */
 package shapes;
 
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 /**
  * Represents playboard of Tetris.
@@ -45,13 +48,16 @@ public class PlayBoard {
     
     private boolean pushNewShape;
     
-    private boolean removeLast;
+   
 
     //checks if next position of the shape is occupied or not.
     private boolean continueAutomaticMoveDown;//this variable makes sure that while-cycle goes only ONE time (one shape´s move)
 
+    private Random randomShape;
 
-
+    private ArrayList arrayOfUniqueArrayListShapes;
+    
+    
     /**
      *
      */
@@ -64,7 +70,15 @@ public class PlayBoard {
         this.currentShape=new ShapeI();
         this.sleepTime=500;
         this.pushNewShape=true;
-        this.removeLast=true;
+        this.randomShape=new Random();
+        this.arrayOfUniqueArrayListShapes=new ArrayList();
+            this.arrayOfUniqueArrayListShapes.add(new ShapeI());
+            this.arrayOfUniqueArrayListShapes.add(new ShapeL());
+            this.arrayOfUniqueArrayListShapes.add(new ShapeLMirrored());
+            this.arrayOfUniqueArrayListShapes.add(new ShapeSquare());
+            this.arrayOfUniqueArrayListShapes.add(new ShapeT());
+            this.arrayOfUniqueArrayListShapes.add(new ShapeZ());
+            this.arrayOfUniqueArrayListShapes.add(new ShapeZMirrored());
         this.continueAutomaticMoveDown=true;
     }
 
@@ -117,10 +131,8 @@ public class PlayBoard {
     }
     
     public void MakeNewShape(){
-        if (pushNewShape){
-            //makes new shape to come to game
-            this.currentShape=new ShapeL();
-        }
+            //makes new random shape to come to game
+            this.currentShape=(Shape)arrayOfUniqueArrayListShapes.get(randomShape.nextInt(arrayOfUniqueArrayListShapes.size()));
     }
     
     /**
