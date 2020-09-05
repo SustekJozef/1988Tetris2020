@@ -58,8 +58,8 @@ public class PlayBoard {
     public PlayBoard() {
         sc = new Scanner(System.in,"Windows-1250");
         this.userChoice = "";
-        this.gameArrayHeight=15; 
-        this.gameArrayWidth=15;
+        this.gameArrayHeight=17; 
+        this.gameArrayWidth=17;
         this.playBoard=new boolean[gameArrayHeight][gameArrayWidth];
         this.currentShape=new ShapeI();
         this.sleepTime=500;
@@ -71,13 +71,18 @@ public class PlayBoard {
     /**
      *Prints Welcome screen. User can choice to run a game in different modes.
      */
-    public void printWelcomeScreen() throws InterruptedException {
+    public void printEmptyScreen() throws InterruptedException {
         //fills first and last row with blocks (by this it makes playing ground
         for (int i = 0; i < (playBoard[1].length); i++) {
-            playBoard[0][i]=true;
-            playBoard[(playBoard.length-1)][i]=true;
+            playBoard[0][i]=true;//makes blocks upper row
+            playBoard[(playBoard.length-1)][i]=true; //makes blocks lower row
+            playBoard[i][playBoard.length-1]=true;//makes blocks on the right side
+            playBoard[i][0]=true;//makes blocks on the left side
+
         }
-    automaticMoveDown();
+        automaticMoveDown();
+        System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s\033[0m");
+
     }
 
     public void automaticMoveDown() throws InterruptedException{
@@ -91,7 +96,6 @@ public class PlayBoard {
                 printPlayBoard();
                 removeShapeFromPlayBoard();
                 MoveDown();
-                System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
             }
             else {
                 pushNewShape=true;//it means that this else will run only when is a Game OVER, becase there is no space for a new shape
@@ -103,13 +107,11 @@ public class PlayBoard {
                 printPlayBoard();
                 removeShapeFromPlayBoard();
                 MoveDown();
-                System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
             }
             else { //when it can´t go down - it will stop at last position(will be not removed)
                 pushNewShape=true;
                 inputShapeToPlayBoard();
                 printPlayBoard();
-                System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
             }
           }
     }

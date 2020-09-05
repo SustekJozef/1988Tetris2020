@@ -16,12 +16,6 @@ public class Shape {
      * Array in which is saved position of all of blocks of current shape. 
      */
     protected int[][] shapeInitializationArray;
-/*private int[][] shapeT;
-private int[][] shapeZ;
-private int[][] shapeMirroredZ;
-private int[][] shapeSquar;
-private int[][] shapeL;
-private int[][] shapeMirroredL;*/
 //shape´s starting position na x axis of array
 
     /**
@@ -33,7 +27,7 @@ protected int baseX=3; //pozrieť
     /**
      *
      */
-protected int baseY=7;
+protected int baseY=8;
 
     /**
      *

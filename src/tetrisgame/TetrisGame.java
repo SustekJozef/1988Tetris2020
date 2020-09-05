@@ -20,7 +20,7 @@ public class TetrisGame {
 PlayBoard p=new PlayBoard();
 
         for (int i = 0; i < 100; i++) {
-            p.printWelcomeScreen();
+            p.printEmptyScreen();
         }
 
       
