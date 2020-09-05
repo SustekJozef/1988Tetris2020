@@ -77,74 +77,43 @@ public class PlayBoard {
             playBoard[0][i]=true;
             playBoard[(playBoard.length-1)][i]=true;
         }
+    automaticMoveDown();
+    }
+
+    public void automaticMoveDown() throws InterruptedException{
         //if new shape request is available program makes new shape
         if (pushNewShape){
             MakeNewShape(); //makes new shape
             pushNewShape=false; //stop making a new shape in next round
             
-            if (checkIfShapeCanGoDown()) {
+            if (checkIfShapeCanGoDown()) { //if there is possibility to go down
                 inputShapeToPlayBoard();
                 printPlayBoard();
                 removeShapeFromPlayBoard();
-                automaticMoveDown();
+                MoveDown();
                 System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
             }
             else {
                 pushNewShape=true;//it means that this else will run only when is a Game OVER, becase there is no space for a new shape
 
             }
-        } else {
+        } else { //if the shape is NOT new
             if (checkIfShapeCanGoDown()) {
                 inputShapeToPlayBoard();
                 printPlayBoard();
                 removeShapeFromPlayBoard();
-                automaticMoveDown();
+                MoveDown();
                 System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
             }
-            else {
+            else { //when it can´t go down - it will stop at last position(will be not removed)
                 pushNewShape=true;
                 inputShapeToPlayBoard();
                 printPlayBoard();
                 System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
-
             }
           }
     }
-
-    public void makingMoveDown() throws InterruptedException{
-                //if new shape request is available program makes new shape
-        if (pushNewShape){
-            MakeNewShape(); //makes new shape
-            pushNewShape=false; //stop making a new shape in next round
-            
-            if (checkIfShapeCanGoDown()) {
-                inputShapeToPlayBoard();
-                printPlayBoard();
-                removeShapeFromPlayBoard();
-                automaticMoveDown();
-                System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
-            }
-            else {
-                pushNewShape=true;//it means that this else will run only when is a Game OVER, becase there is no space for a new shape
-
-            }
-        } else {
-            if (checkIfShapeCanGoDown()) {
-                inputShapeToPlayBoard();
-                printPlayBoard();
-                removeShapeFromPlayBoard();
-                automaticMoveDown();
-                System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
-            }
-            else {
-                pushNewShape=true;
-                inputShapeToPlayBoard();
-                printPlayBoard();
-                System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
-
-            }
-          }
-    }
+    
     public void MakeNewShape(){
         if (pushNewShape){
             //makes new shape to come to game
@@ -174,7 +143,7 @@ public class PlayBoard {
      *Automatically push shape one row down
      * @param currentShape Shape which is currently next for puzzling(Lshape,Tshape etc.)
      */
-    public void automaticMoveDown() throws InterruptedException{ //dorobiť dotyk s inou -- takže či dalšie pole je to, čo je)
+    public void MoveDown() throws InterruptedException{ //dorobiť dotyk s inou -- takže či dalšie pole je to, čo je)
           //(currentShape.shapeInitializationArray[0][0]+1) == (currentShape.shapeInitializationArray[1][0]+1) == (currentShape.shapeInitializationArray[2][0]+1) == (currentShape.shapeInitializationArray[3][0]+1) == true) {
     Thread.sleep(sleepTime);
     //add one point to the shape position on playboard. It pushes the shape one row down
