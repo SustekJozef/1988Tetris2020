@@ -46,6 +46,12 @@ public class PlayBoard {
     private boolean pushNewShape;
     
     private boolean removeLast;
+
+    //checks if next position of the shape is occupied or not.
+    private boolean continueAutomaticMoveDown;//this variable makes sure that while-cycle goes only ONE time (one shape´s move)
+
+
+
     /**
      *
      */
@@ -57,8 +63,9 @@ public class PlayBoard {
         this.playBoard=new boolean[gameArrayHeight][gameArrayWidth];
         this.currentShape=new ShapeI();
         this.sleepTime=500;
-        this.pushNewShape=false;
+        this.pushNewShape=true;
         this.removeLast=true;
+        this.continueAutomaticMoveDown=true;
     }
 
     /**
@@ -70,24 +77,64 @@ public class PlayBoard {
             playBoard[0][i]=true;
             playBoard[(playBoard.length-1)][i]=true;
         }
+        //only for debbuging purposes
+        boolean a=true;
         //if new shape request is available program makes new shape
-            if (pushNewShape){
-                MakeNewShape(); //makes new shape
-                pushNewShape=false; //stop making a new shape
+        if (pushNewShape){
+            MakeNewShape(); //makes new shape
+            pushNewShape=false; //stop making a new shape in next round
+            //inputShapeToPlayBoard(this.currentShape);
+            //printPlayBoard();
+            
+            if (checkIfShapeCanGoDown()) {
                 inputShapeToPlayBoard(this.currentShape);
                 printPlayBoard();
-                automaticMoveDown(this.currentShape);
+                removeShapeFromPlayBoard(this.currentShape);
+                automaticMoveDown(currentShape);
                 System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
             }
-            else{
+            else {
+                pushNewShape=true;//it means that this else will run only when is a Game OVER, becase there is no space for a new shape
+
+            }
+        } else {
+            if (checkIfShapeCanGoDown()) {
                 inputShapeToPlayBoard(this.currentShape);
                 printPlayBoard();
-                                                                        //removeShapeFromPlayBoard(this.currentShape);
-                automaticMoveDown(this.currentShape);
+                removeShapeFromPlayBoard(this.currentShape);
+                automaticMoveDown(currentShape);
                 System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
             }
-        
+            else {
+                pushNewShape=true;
+                inputShapeToPlayBoard(this.currentShape);
+                printPlayBoard();
+                System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
+
+            }
+          }
     }
+/*//removes old position of blocks, because the shape is going to be in a new position. Also protect
+//from blocking shape to block itself. Remove is needed only when shapes is moving. When shape set down
+//removeLast has to be false - so it is not going to remove this shape
+if (removeLast){
+removeShapeFromPlayBoard(this.currentShape);
+}
+else {
+removeLast=true;
+}
+
+automaticMoveDown(this.currentShape);
+System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
+}
+else{
+inputShapeToPlayBoard(this.currentShape);
+printPlayBoard();
+removeShapeFromPlayBoard(this.currentShape);
+//removeShapeFromPlayBoard(this.currentShape);
+automaticMoveDown(this.currentShape);
+System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s");
+}*/       
 
     public void MakeNewShape(){
         if (pushNewShape){
@@ -119,27 +166,8 @@ public class PlayBoard {
      * @param currentShape Shape which is currently next for puzzling(Lshape,Tshape etc.)
      */
     public void automaticMoveDown(Shape currentShape) throws InterruptedException{ //dorobiť dotyk s inou -- takže či dalšie pole je to, čo je)
-    
-    //removes old position of blocks, because the shape is going to be in a new position. Also protect
-    //from blocking shape to block itself. Remove is needed only when shapes is moving. When shape set down
-    //removeLast has to be false - so it is not going to remove this shape
-    if (removeLast){
-        removeShapeFromPlayBoard(this.currentShape);
-    }
-    else {
-        removeLast=true;
-    }
-//checks if next position of the shape is occupied or not.
-        boolean stopAutomaticMoveDown=true;//this variable makes sure that while-cycle goes only ONE time (one shape´s move)
-        while (stopAutomaticMoveDown) {
-            if (playBoard[(currentShape.shapeInitializationArray[0][0])+1][currentShape.shapeInitializationArray[0][1]]==false &&
-                playBoard[(currentShape.shapeInitializationArray[1][0])+1][currentShape.shapeInitializationArray[1][1]]==false && 
-                playBoard[(currentShape.shapeInitializationArray[2][0])+1][currentShape.shapeInitializationArray[2][1]]==false && 
-                playBoard[(currentShape.shapeInitializationArray[3][0])+1][currentShape.shapeInitializationArray[3][1]]==false &&
-                stopAutomaticMoveDown==true){            
-            
-                //this variable makes sure that while-cycle goes only ONE time (one shape´s move)
-                stopAutomaticMoveDown=false;
+        //this variable makes sure that while-cycle goes only ONE time (one shape´s move)
+        //continueAutomaticMoveDown=false;
             
     //(currentShape.shapeInitializationArray[0][0]+1) == (currentShape.shapeInitializationArray[1][0]+1) == (currentShape.shapeInitializationArray[2][0]+1) == (currentShape.shapeInitializationArray[3][0]+1) == true) {
     Thread.sleep(sleepTime);
@@ -151,16 +179,21 @@ public class PlayBoard {
     currentShape.shapeInitializationArray[2][0]+=1;
     currentShape.shapeInitializationArray[3][0]+=1;
    
-            }
-            else {
-                stopAutomaticMoveDown=false;
-                //this variable says to the system,that a new shape should come to game
-                pushNewShape=true;
-                                removeLast=false; //chceck that remove function is not going to remove last shape in its place
+}
 
-            }
+    public boolean checkIfShapeCanGoDown(){
+        if (playBoard[(currentShape.shapeInitializationArray[0][0])+1][currentShape.shapeInitializationArray[0][1]]==false &&
+            playBoard[(currentShape.shapeInitializationArray[1][0])+1][currentShape.shapeInitializationArray[1][1]]==false && 
+            playBoard[(currentShape.shapeInitializationArray[2][0])+1][currentShape.shapeInitializationArray[2][1]]==false && 
+            playBoard[(currentShape.shapeInitializationArray[3][0])+1][currentShape.shapeInitializationArray[3][1]]==false)  {
+     
+            return true;
         }
-}    
+        else {
+            return false;
+                    }
+    }
+    
     /**
      * Prints playboard with actual state of blocks.
      */
@@ -176,7 +209,6 @@ public class PlayBoard {
             }
         }
         System.out.println();
-        
         System.out.print("");
     }
 }
