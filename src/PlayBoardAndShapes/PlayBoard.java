@@ -125,31 +125,63 @@ public class PlayBoard {
             }
         } 
         else { //if the shape is NOT new
+            removeShapeFromPlayBoardXYSystem(); //removes an old shape
             
+            switch(direction) {
+                case "down":
+                    if (checkIfShapeCanGoDown()) {
+                        MoveDown();
+                        writeShapeToPlayBoardXYSystem();
+                    }
+                    else {
+                        writeShapeToPlayBoardXYSystem(); //even though is the shape removed, it need to be there -so it is repainted
+                        pushNewShape=true;
+                    }
+                    break;
+                  case "right":
+                    if (checkIfShapeCanGoRight()) {
+                        MoveRight();
+                        writeShapeToPlayBoardXYSystem();
+                    }
+                    else {
+                        writeShapeToPlayBoardXYSystem();
+                    }
+                    break;
+                  case "left":
+                   if (checkIfShapeCanGoLeft()) {
+                        MoveLeft();
+                        writeShapeToPlayBoardXYSystem();
+                    }
+                   else {
+                        writeShapeToPlayBoardXYSystem();
+                    }
+                    break;
+                }
+            /*
             if (("down".equals(direction)) && checkIfShapeCanGoDown()){
-                removeShapeFromPlayBoardXYSystem();
-                MoveDown();
-                writeShapeToPlayBoardXYSystem();
-                
-                
-                /*writeShapeToPlayBoardXYSystem();
-                MoveDown();*/
+            //removeShapeFromPlayBoardXYSystem();
+            MoveDown();
+            writeShapeToPlayBoardXYSystem();
             
-                if (direction.equals("right") && checkIfShapeCanGoRight()){
-                    removeShapeFromPlayBoardXYSystem();
+            }
+            /*writeShapeToPlayBoardXYSystem();
+            MoveDown();*/
+            
+            /* else    if (direction.equals("right") && checkIfShapeCanGoRight()){
+                    //removeShapeFromPlayBoardXYSystem();
                     MoveRight();
                     writeShapeToPlayBoardXYSystem();
-                }
-                    if (direction.equals("left") && checkIfShapeCanGoLeft()){
-                        removeShapeFromPlayBoardXYSystem();
-                        MoveLeft();
-                        writeShapeToPlayBoardXYSystem();                    }
-            }        
-                    else {//when it can´t go down - it will stop at last position(will be NOT removed)
-                        writeShapeToPlayBoardXYSystem();
-                        pushNewShape=true;
-                        //printPlayBoard(); THIS IS REPLACED BY DRAWING IN JAVA SWING
                     }
+                    else    if (direction.equals("left") && checkIfShapeCanGoLeft()){
+                    //removeShapeFromPlayBoardXYSystem();
+                    MoveLeft();
+                    writeShapeToPlayBoardXYSystem();                    }
+                    
+                    else {//when it can´t go down - it will stop at last position(will be NOT removed)
+                    writeShapeToPlayBoardXYSystem(); //even though is the shape removed, it need to be there -so it is repainted
+                    pushNewShape=true;
+                    //printPlayBoard(); THIS IS REPLACED BY DRAWING IN JAVA SWING
+                    }*/
           }
     }
     
@@ -195,10 +227,10 @@ public class PlayBoard {
      */
     public void MoveRight() { 
     //add one point to the shape position on playboard. It pushes the shape one collumn right
-    currentShape.shapeInitializationArray[0][0]+=1;
     currentShape.shapeInitializationArray[0][1]+=1;
-    currentShape.shapeInitializationArray[0][2]+=1;
-    currentShape.shapeInitializationArray[0][3]+=1;
+    currentShape.shapeInitializationArray[1][1]+=1;
+    currentShape.shapeInitializationArray[2][1]+=1;
+    currentShape.shapeInitializationArray[3][1]+=1;
     }
     
     /**
@@ -208,10 +240,10 @@ public class PlayBoard {
     public void MoveLeft() { 
         
     //add one point to the shape position on playboard. It pushes the shape one collumn left
-    currentShape.shapeInitializationArray[0][0]-=1;
     currentShape.shapeInitializationArray[0][1]-=1;
-    currentShape.shapeInitializationArray[0][2]-=1;
-    currentShape.shapeInitializationArray[0][3]-=1;
+    currentShape.shapeInitializationArray[1][1]-=1;
+    currentShape.shapeInitializationArray[2][1]-=1;
+    currentShape.shapeInitializationArray[3][1]-=1;
 }
 
     /**
@@ -219,15 +251,12 @@ public class PlayBoard {
      * @return True if there is a possibility for shape to move down.
      */
     public boolean checkIfShapeCanGoDown(){
-        return playBoard[(currentShape.shapeInitializationArray[0][0])+2][currentShape.shapeInitializationArray[0][1]]==false &&
-        playBoard[(currentShape.shapeInitializationArray[1][0])+2][currentShape.shapeInitializationArray[1][1]]==false &&
-        playBoard[(currentShape.shapeInitializationArray[2][0])+2][currentShape.shapeInitializationArray[2][1]]==false &&
-        playBoard[(currentShape.shapeInitializationArray[3][0])+2][currentShape.shapeInitializationArray[3][1]]==false;
+       
         
-        /*return playBoard[(currentShape.shapeInitializationArray[0][0])+1][currentShape.shapeInitializationArray[0][1]]==false &&
+        return playBoard[(currentShape.shapeInitializationArray[0][0])+1][currentShape.shapeInitializationArray[0][1]]==false &&
         playBoard[(currentShape.shapeInitializationArray[1][0])+1][currentShape.shapeInitializationArray[1][1]]==false &&
         playBoard[(currentShape.shapeInitializationArray[2][0])+1][currentShape.shapeInitializationArray[2][1]]==false &&
-        playBoard[(currentShape.shapeInitializationArray[3][0])+1][currentShape.shapeInitializationArray[3][1]]==false;*/
+        playBoard[(currentShape.shapeInitializationArray[3][0])+1][currentShape.shapeInitializationArray[3][1]]==false;
     }
     
     /**
@@ -252,10 +281,6 @@ public class PlayBoard {
                 playBoard[(currentShape.shapeInitializationArray[3][0])][currentShape.shapeInitializationArray[3][1]-1]==false;
     }
     
-    public void removingShapeAfterSuccesffulMoving(){
-        removeShapeFromPlayBoardXYSystem();
-        MoveDown();
-    }
     
     
     /**
