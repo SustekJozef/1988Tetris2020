@@ -95,7 +95,7 @@ public class PlayBoard {
     /**
      *Prints Welcome screen. User can choice to run a game in different modes.
      */
-    public void printEmptyScreen() throws InterruptedException {
+    public void prepareScreenBorders() {
         //fills first and last row with blocks (by this it makes playing ground
         for (int i = 0; i < (playBoard[1].length); i++) {
             playBoard[0][i]=true;//makes blocks upper row
@@ -104,39 +104,52 @@ public class PlayBoard {
             playBoard[i][0]=true;//makes blocks on the left side
 
         }
-        inputShapeToPlayboard();
-        System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s\033[0m");
-
+        /*//inputShapeToPlayboard();
+        System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s\033[0m");*/
     }
 
-    public void inputShapeToPlayboard(){
+    public void inputShapeToPlayboard(String direction){
         //if new shape request is available program makes new shape
-        if (pushNewShape){
+        if (pushNewShape){                                                                                              
             MakeNewShape(); //makes new shape
             pushNewShape=false; //stop making a new shape in next round
             
-            if (checkIfShapeCanGoDown()) { //if there is a possibility to go down
+            if (checkIfShapeCanGoDown()) { //if there is a possibility to go down - new shape can co only down at first
                 writeShapeToPlayBoardXYSystem();
 
-//needed deleting here 
+//print by javaswing
+
             }
-            else {
+            else  { //if there is not a possibility to go ONLY down (so there is needed new shape {
                 pushNewShape=true;//it means that this else will run only when is a Game OVER, becase there is no space for a new shape
             }
-        } else { //if the shape is NOT new
-            if (checkIfShapeCanGoDown()) {
+        } 
+        else { //if the shape is NOT new
+            
+            if (("down".equals(direction)) && checkIfShapeCanGoDown()){
+                removeShapeFromPlayBoardXYSystem();
+                MoveDown();
                 writeShapeToPlayBoardXYSystem();
-                                
-//printPlayBoard(); THIS IS REPLACED BY DRAWING IN JAVA SWING
-//needed deleting       here         
                 
-            }
-            else { //when it can´t go down - it will stop at last position(will be not removed)
-                pushNewShape=true;
-                writeShapeToPlayBoardXYSystem();
-                //printPlayBoard(); THIS IS REPLACED BY DRAWING IN JAVA SWING
-
-            }
+                
+                /*writeShapeToPlayBoardXYSystem();
+                MoveDown();*/
+            
+                if (direction.equals("right") && checkIfShapeCanGoRight()){
+                    removeShapeFromPlayBoardXYSystem();
+                    MoveRight();
+                    writeShapeToPlayBoardXYSystem();
+                }
+                    if (direction.equals("left") && checkIfShapeCanGoLeft()){
+                        removeShapeFromPlayBoardXYSystem();
+                        MoveLeft();
+                        writeShapeToPlayBoardXYSystem();                    }
+            }        
+                    else {//when it can´t go down - it will stop at last position(will be NOT removed)
+                        writeShapeToPlayBoardXYSystem();
+                        pushNewShape=true;
+                        //printPlayBoard(); THIS IS REPLACED BY DRAWING IN JAVA SWING
+                    }
           }
     }
     
@@ -164,30 +177,79 @@ public class PlayBoard {
         playBoard[currentShape.shapeInitializationArray[3][0]][currentShape.shapeInitializationArray[3][1]]=false;
     }
     /**
-     *Automatically push shape one row down
+     *Push shape one row down
      * @param currentShape Shape which is currently next for puzzling(Lshape,Tshape etc.)
      */
-    public void MoveDown() { //dorobiť dotyk s inou -- takže či dalšie pole je to, čo je)
-          //(currentShape.shapeInitializationArray[0][0]+1) == (currentShape.shapeInitializationArray[1][0]+1) == (currentShape.shapeInitializationArray[2][0]+1) == (currentShape.shapeInitializationArray[3][0]+1) == true) {
-//    Thread.sleep(sleepTime);
+    public void MoveDown() { 
     //add one point to the shape position on playboard. It pushes the shape one row down
     currentShape.shapeInitializationArray[0][0]+=1;
     currentShape.shapeInitializationArray[1][0]+=1;
     currentShape.shapeInitializationArray[2][0]+=1;
     currentShape.shapeInitializationArray[3][0]+=1;
 }
+    
+    
+    /**
+     *Push shape one collumn right
+     * @param currentShape Shape which is currently next for puzzling(Lshape,Tshape etc.)
+     */
+    public void MoveRight() { 
+    //add one point to the shape position on playboard. It pushes the shape one collumn right
+    currentShape.shapeInitializationArray[0][0]+=1;
+    currentShape.shapeInitializationArray[0][1]+=1;
+    currentShape.shapeInitializationArray[0][2]+=1;
+    currentShape.shapeInitializationArray[0][3]+=1;
+    }
+    
+    /**
+     *Push shape one collumn leff
+     * @param currentShape Shape which is currently next for puzzling(Lshape,Tshape etc.)
+     */
+    public void MoveLeft() { 
+        
+    //add one point to the shape position on playboard. It pushes the shape one collumn left
+    currentShape.shapeInitializationArray[0][0]-=1;
+    currentShape.shapeInitializationArray[0][1]-=1;
+    currentShape.shapeInitializationArray[0][2]-=1;
+    currentShape.shapeInitializationArray[0][3]-=1;
+}
 
+    /**
+     *Checks if and only if there is any possibility for shape to go down.
+     * @return True if there is a possibility for shape to move down.
+     */
     public boolean checkIfShapeCanGoDown(){
-        if (playBoard[(currentShape.shapeInitializationArray[0][0])+1][currentShape.shapeInitializationArray[0][1]]==false &&
-            playBoard[(currentShape.shapeInitializationArray[1][0])+1][currentShape.shapeInitializationArray[1][1]]==false && 
-            playBoard[(currentShape.shapeInitializationArray[2][0])+1][currentShape.shapeInitializationArray[2][1]]==false && 
-            playBoard[(currentShape.shapeInitializationArray[3][0])+1][currentShape.shapeInitializationArray[3][1]]==false)  {
-     
-            return true;
-        }
-        else {
-            return false;
-                    }
+        return playBoard[(currentShape.shapeInitializationArray[0][0])+2][currentShape.shapeInitializationArray[0][1]]==false &&
+        playBoard[(currentShape.shapeInitializationArray[1][0])+2][currentShape.shapeInitializationArray[1][1]]==false &&
+        playBoard[(currentShape.shapeInitializationArray[2][0])+2][currentShape.shapeInitializationArray[2][1]]==false &&
+        playBoard[(currentShape.shapeInitializationArray[3][0])+2][currentShape.shapeInitializationArray[3][1]]==false;
+        
+        /*return playBoard[(currentShape.shapeInitializationArray[0][0])+1][currentShape.shapeInitializationArray[0][1]]==false &&
+        playBoard[(currentShape.shapeInitializationArray[1][0])+1][currentShape.shapeInitializationArray[1][1]]==false &&
+        playBoard[(currentShape.shapeInitializationArray[2][0])+1][currentShape.shapeInitializationArray[2][1]]==false &&
+        playBoard[(currentShape.shapeInitializationArray[3][0])+1][currentShape.shapeInitializationArray[3][1]]==false;*/
+    }
+    
+    /**
+     *Checks if and only if there is any possibility for shape to go right.
+     * @return True if there is a possibility for shape to move right.
+     */
+    public boolean checkIfShapeCanGoRight(){
+        return playBoard[(currentShape.shapeInitializationArray[0][0])][currentShape.shapeInitializationArray[0][1]+1]==false &&
+                playBoard[(currentShape.shapeInitializationArray[1][0])][currentShape.shapeInitializationArray[1][1]+1]==false &&
+                playBoard[(currentShape.shapeInitializationArray[2][0])][currentShape.shapeInitializationArray[2][1]+1]==false &&
+                playBoard[(currentShape.shapeInitializationArray[3][0])][currentShape.shapeInitializationArray[3][1]+1]==false;
+    }
+    
+    /**
+     *Checks if and only if there is any possibility for shape to go left.
+     * @return True if there is a possibility for shape to move left.
+     */
+    public boolean checkIfShapeCanGoLeft(){
+        return playBoard[(currentShape.shapeInitializationArray[0][0])][currentShape.shapeInitializationArray[0][1]-1]==false &&
+                playBoard[(currentShape.shapeInitializationArray[1][0])][currentShape.shapeInitializationArray[1][1]-1]==false &&
+                playBoard[(currentShape.shapeInitializationArray[2][0])][currentShape.shapeInitializationArray[2][1]-1]==false &&
+                playBoard[(currentShape.shapeInitializationArray[3][0])][currentShape.shapeInitializationArray[3][1]-1]==false;
     }
     
     public void removingShapeAfterSuccesffulMoving(){
@@ -220,6 +282,17 @@ public class PlayBoard {
     }
 }
 
+    public void repaintingAfterAnyKindOfMoveDownRightLeft(){
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    
     
     
 }
