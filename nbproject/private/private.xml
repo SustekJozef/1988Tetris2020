@@ -3,9 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/tetrisgame/TetrisGame.java</file>
-            <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/shapes/PlayBoard.java</file>
-            <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/TetrisSwingPackage/MainJFrame.java</file>
+            <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/PlayBoardAndShapes/PlayBoard.java</file>
+            <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/TetrisSwingPackage/PlayBoardJFrame.java</file>
+            <file>file:/C:/Users/Jozef/Dropbox/TetrisGame%2027.8.2020/TetrisGame/src/TetrisSwingPackage/Background.java</file>
         </group>
     </open-files>
 </project-private>

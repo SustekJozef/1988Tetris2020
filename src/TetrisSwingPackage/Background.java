@@ -14,18 +14,19 @@ import javax.swing.JPanel;
  *Represents backround of grafical bacround of game
  * @author Jozef
  */
-public class Backround extends JPanel{
+public class Background extends JPanel{
 
     /**
      * Playboard
      */
     private PlayBoard playBoard;
     
+    
     /**
      * Saves instantion of backround
-     * @param Backround 
+     * 
      */
-    public Backround(PlayBoard playBoard){
+    public Background(PlayBoard playBoard){
         super();
         this.playBoard=playBoard;
     }
@@ -37,11 +38,11 @@ public class Backround extends JPanel{
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        playBoard.prepareScreenBorders();
         playBoard.printPlayBoard(g);
     }
 
-
-
+    
 
 
 

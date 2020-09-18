@@ -4,21 +4,25 @@
  * and open the template in the editor.
  */
 
-package shapes;
+package PlayBoardAndShapes;
+
+import PlayBoardAndShapes.Shape;
 
 /**
  *
  * @author Jozef
  */
-public class ShapeT extends Shape{
+public class ShapeI extends Shape{
 
     /**
      *
      */
-    public ShapeT() {
-        this.shapeInitializationArray= new int[][]{{baseX, baseY},{baseX, baseY+1},{baseX, baseY-1},{baseX-1, baseY}};
+    public ShapeI() {
+        this.shapeInitializationArray= new int[][]{{baseX, baseY},{baseX, baseY-1},{baseX, baseY+1},{baseX, baseY+2}};
 
     }
+
+   
 
 
 

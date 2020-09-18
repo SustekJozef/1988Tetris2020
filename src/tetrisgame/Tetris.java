@@ -4,23 +4,15 @@
  * and open the template in the editor.
  */
 
-package shapes;
+package tetrisgame;
 
 /**
  *
  * @author Jozef
  */
-public class ShapeZ extends Shape{
+public class Tetris {
 
-    /**
-     *
-     */
-    public ShapeZ() {
-        this.shapeInitializationArray= new int[][]{{baseX, baseY},{baseX-1, baseY},{baseX-1, baseY-1},{baseX, baseY+1}};
-
-    }
-
-
+  
 
 
 
