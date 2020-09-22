@@ -40,12 +40,11 @@ protected int maxNumberOfRotationPositionOfShape;
 
 protected int currentNumberOfRotationPositionOfShape;
 
-
     public Shape() {
         this.currentNumberOfRotationPositionOfShape=startingNumberOfRotationPositionOfShape;
     }
 
-  abstract public void rotateShape();
+  abstract public void rotateShape(boolean [][] playBoard);
       
  
   

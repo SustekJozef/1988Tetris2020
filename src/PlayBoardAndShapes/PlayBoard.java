@@ -22,7 +22,7 @@ public class PlayBoard {
    /**
      * Game´s playboard, where are saved all existing blocks. 
      */
-    private boolean[][] playBoard;
+    protected boolean[][] playBoard;
    /**
      *
      */
@@ -328,7 +328,7 @@ public class PlayBoard {
     public void rotateAnyShape() { 
         
          removeShapeFromPlayBoardXYSystem();
-         currentShape.rotateShape();
+         currentShape.rotateShape(playBoard);
          writeShapeToPlayBoardXYSystem();
         
 }

@@ -14,6 +14,6 @@ public interface ShapeRotateInterface {
     /**
      *
      */
-    public void rotateShape ();
+    public void rotateShape (boolean [][] playBoard);
         
 }

@@ -20,7 +20,7 @@ public class ShapeSquare extends Shape{
     }
 
     @Override
-    public void rotateShape() {
+    public void rotateShape(boolean [][] playBoard) {
     }
     
 

@@ -21,11 +21,15 @@ public class ShapeL extends Shape implements ShapeRotateInterface{
     }
 
     @Override
-    public void rotateShape() {
+    public void rotateShape(boolean [][] playBoard) {
         chceckAndDecideRotationState();
         switch(currentNumberOfRotationPositionOfShape) {
                 case 0:
-                    //rotate to 0st position
+                if (
+                playBoard[(shapeInitializationArray[1][0])+1][shapeInitializationArray[1][1]+1]==false &&
+                playBoard[(shapeInitializationArray[2][0])-1][shapeInitializationArray[2][1]+1]==false &&
+                playBoard[(shapeInitializationArray[3][0])-2][shapeInitializationArray[3][1]+2]==false) {
+                    //shape - rotate to 0st position
                     //first block remains the same
 
                     //shapeInitializationArray[0][0]-=0;
@@ -39,10 +43,17 @@ public class ShapeL extends Shape implements ShapeRotateInterface{
                     
                     shapeInitializationArray[3][0]-=2;
                     shapeInitializationArray[3][1]+=2;
+                }
+                else {    //needed for reseting state of rotation
+                    currentNumberOfRotationPositionOfShape-=1;
+                }
                 break;
-                    
                 case 1:
-                    //rotate to 2nd position
+                    if (
+                playBoard[(shapeInitializationArray[1][0])+1][shapeInitializationArray[1][1]-1]==false &&
+                playBoard[(shapeInitializationArray[2][0])+1][shapeInitializationArray[2][1]+1]==false &&
+                playBoard[(shapeInitializationArray[3][0])+2][shapeInitializationArray[3][1]+2]==false) {
+                    //shape - rotate to 1st position
                     //first block remains the same
 
                     //shapeInitializationArray[0][0]-=0;
@@ -56,9 +67,17 @@ public class ShapeL extends Shape implements ShapeRotateInterface{
                     
                     shapeInitializationArray[3][0]+=2;
                     shapeInitializationArray[3][1]+=2;
+                }
+                else {    //needed for reseting state of rotation
+                    currentNumberOfRotationPositionOfShape-=1;
+                }
                 break;
                 case 2:
-                    //rotate to 3rd position
+                    if (
+                playBoard[(shapeInitializationArray[1][0])-1][shapeInitializationArray[1][1]-1]==false &&
+                playBoard[(shapeInitializationArray[2][0])+1][shapeInitializationArray[2][1]-1]==false &&
+                playBoard[(shapeInitializationArray[3][0])+2][shapeInitializationArray[3][1]-2]==false) {
+                    //shape - rotate to 3rd position
                     //first block remains the same
 
                     //shapeInitializationArray[0][0]-=0;
@@ -72,9 +91,17 @@ public class ShapeL extends Shape implements ShapeRotateInterface{
                     
                     shapeInitializationArray[3][0]+=2;
                     shapeInitializationArray[3][1]-=2;
+                }
+                else {    //needed for reseting state of rotation
+                    currentNumberOfRotationPositionOfShape-=1;
+                }
                 break;
                 case 3:
-                    //rotate to 4th position
+                    if (
+                playBoard[(shapeInitializationArray[1][0])-1][shapeInitializationArray[1][1]+1]==false &&
+                playBoard[(shapeInitializationArray[2][0])-1][shapeInitializationArray[2][1]-1]==false &&
+                playBoard[(shapeInitializationArray[3][0])-2][shapeInitializationArray[3][1]-2]==false) {
+                    //shape - rotate to 4th position
                     //first block remains the same
 
                     //shapeInitializationArray[0][0]-=0;
@@ -88,9 +115,11 @@ public class ShapeL extends Shape implements ShapeRotateInterface{
                     
                     shapeInitializationArray[3][0]-=2;
                     shapeInitializationArray[3][1]-=2;
+                }
+                else {    //needed for reseting state of rotation
+                    currentNumberOfRotationPositionOfShape-=1;
+                }
                 break;
-        
-        
         }             
         
 
