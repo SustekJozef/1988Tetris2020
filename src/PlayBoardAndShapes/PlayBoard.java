@@ -68,6 +68,7 @@ public class PlayBoard {
     private Background background=new Background(this);
     
     
+    private boolean setDownOrCanRotete;
     /**
      *
      */
@@ -89,6 +90,7 @@ public class PlayBoard {
         this.arrayOfUniqueArrayListShapes.add(new ShapeZ());
         this.arrayOfUniqueArrayListShapes.add(new ShapeZMirrored());*/
         this.continueAutomaticMoveDown=true;
+        setDownOrCanRotete=true;
     }
 
     /**
@@ -127,6 +129,7 @@ public class PlayBoard {
         if (pushNewShape){                                                                                              
             MakeNewShape(); //makes new shape
             pushNewShape=false; //stop making a new shape in next round
+            setDownOrCanRotete=true; //can freely rotate
             
             if (checkIfShapeCanGoDown()) { //if there is a possibility to go down - new shape can co only down at first
                 writeShapeToPlayBoardXYSystem();
@@ -150,7 +153,8 @@ public class PlayBoard {
                     else {
                         writeShapeToPlayBoardXYSystem(); //even though is the shape removed, it need to be there -so it is repainted
                         pushNewShape=true;
-                        checkFullRowAndRemoveIt();
+                        setDownOrCanRotete=false;
+                        //checkFullRowAndRemoveIt();
                     }
                     break;
                   case "right":
@@ -325,10 +329,12 @@ public class PlayBoard {
      *Push shape to rotate to the next rotation
      */
     public void rotateAnyShape() { 
+         if (setDownOrCanRotete){
+             
          removeShapeFromPlayBoardXYSystem();
          currentShape.rotateShape(playBoard);
          writeShapeToPlayBoardXYSystem();
-        
+         }
 }
     /**
     *Checks if there is any one full row of blocks and removes it immediately with falling other rows down.
