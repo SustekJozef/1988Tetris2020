@@ -77,7 +77,6 @@ public class PlayBoard {
         this.gameArrayHeight=17; 
         this.gameArrayWidth=17;
         this.playBoard=new boolean[gameArrayHeight][gameArrayWidth];
-        this.currentShape=new ShapeI();
         this.sleepTime=500;
         this.pushNewShape=true;
         this.randomShape=new Random();
@@ -93,7 +92,7 @@ public class PlayBoard {
     }
 
     /**
-     *Prints Welcome screen. User can choice to run a game in different modes.
+     *Prints screen with borders. User can choice to run a game in different modes.
      */
     public void prepareScreenBorders() {
         //fills first and last row with blocks (by this it makes playing ground
@@ -104,8 +103,23 @@ public class PlayBoard {
             playBoard[i][0]=true;//makes blocks on the left side
 
         }
-        /*//inputShapeToPlayboard();
-        System.out.println("THIS IS \033[37;7mjust   \033[34;7mT  e Tr i  s\033[0m");*/
+       
+    }
+    
+    /**
+     *Prints Welcome screen. User can choice to run a game in different modes.
+     */
+    public void deleteScreenBorders() {
+        //fills first and last row with blocks (by this it makes playing ground
+        for (int i = 0; i < (playBoard[1].length); i++) {
+            for (int j = 0; j < playBoard.length; j++) {
+               playBoard[i][j]=false;//makes blocks upper row
+           
+            }
+              
+
+        }
+        
     }
 
     public void inputShapeToPlayboard(String direction){
@@ -306,18 +320,19 @@ public class PlayBoard {
         System.out.print("");
     }
 }
-
-    public void repaintingAfterAnyKindOfMoveDownRightLeft(){
-        
-        
-        
-        
-        
-        
-        
-    }
     
-    
+ /**
+     *Push shape to rotate to the next rotation
+     * @param currentShape Shape which is currently next for puzzling(Lshape,Tshape etc.)
+     */
+    public void rotateAnyShape() { 
+        
+         removeShapeFromPlayBoardXYSystem();
+         currentShape.rotateShape();
+         writeShapeToPlayBoardXYSystem();
+        
+}
+  
     
     
 }

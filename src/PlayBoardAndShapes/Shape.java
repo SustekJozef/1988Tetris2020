@@ -10,18 +10,18 @@ package PlayBoardAndShapes;
  *
  * @author Jozef
  */
-public class Shape {
+public abstract class Shape{
 
     /**
      * Array in which is saved position of all of blocks of current shape. 
      */
-    protected int[][] shapeInitializationArray;
+protected int[][] shapeInitializationArray;
 //shape´s starting position na x axis of array
 
     /**
      *
      */
-protected int baseX=3; //pozrieť
+final protected int baseX=3; //pozrieť
 //shape´s starting position na x axis of array
 
     /**
@@ -29,14 +29,34 @@ protected int baseX=3; //pozrieť
      */
 protected int baseY=8;
 
-    /**
-     *
-     * @param currentShape
-     */
-    public void MakeShapeRisingFromBackround(Shape currentShape){ //not sure if it is gooed defined
-    
-}
+ /**
+ *Starting position of shape´s rotation - each shape has it´s own positions.
+ */
+final protected int startingNumberOfRotationPositionOfShape=0;
+/**
+ *Max number of position of shape´s rotation- each shape has it´s own positions. Must be 1 point less than real number of positions.
+ */
+protected int maxNumberOfRotationPositionOfShape;
 
+protected int currentNumberOfRotationPositionOfShape;
+
+
+    public Shape() {
+        this.currentNumberOfRotationPositionOfShape=startingNumberOfRotationPositionOfShape;
+    }
+
+  abstract public void rotateShape();
+      
+ 
+  
+   public void chceckAndDecideRotationState(){ 
+        if (currentNumberOfRotationPositionOfShape<maxNumberOfRotationPositionOfShape){
+            currentNumberOfRotationPositionOfShape++;
+        }
+        else {
+            currentNumberOfRotationPositionOfShape=startingNumberOfRotationPositionOfShape;
+        }
+  }
 
 
 
