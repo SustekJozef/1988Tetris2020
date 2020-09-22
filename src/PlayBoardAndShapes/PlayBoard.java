@@ -59,7 +59,7 @@ public class PlayBoard {
 
     private Random randomShape;
 
-    private ArrayList arrayOfUniqueArrayListShapes;
+    //private ArrayList<Shape> arrayOfUniqueArrayListShapes;
     
     private static final int BLOCK_WIDTH=16;
     private static final int SPACE_BETWEEN_BLOCKS=2;
@@ -75,19 +75,19 @@ public class PlayBoard {
         sc = new Scanner(System.in,"Windows-1250");
         this.userChoice = "";
         this.gameArrayHeight=17; 
-        this.gameArrayWidth=17;
+        this.gameArrayWidth=17; 
         this.playBoard=new boolean[gameArrayHeight][gameArrayWidth];
         this.sleepTime=500;
         this.pushNewShape=true;
         this.randomShape=new Random();
-        this.arrayOfUniqueArrayListShapes=new ArrayList();
-            this.arrayOfUniqueArrayListShapes.add(new ShapeI());
-            this.arrayOfUniqueArrayListShapes.add(new ShapeL());
-            this.arrayOfUniqueArrayListShapes.add(new ShapeLMirrored());
-            this.arrayOfUniqueArrayListShapes.add(new ShapeSquare());
-            this.arrayOfUniqueArrayListShapes.add(new ShapeT());
-            this.arrayOfUniqueArrayListShapes.add(new ShapeZ());
-            this.arrayOfUniqueArrayListShapes.add(new ShapeZMirrored());
+        /*  this.arrayOfUniqueArrayListShapes=new ArrayList<>();
+        this.arrayOfUniqueArrayListShapes.add(new ShapeI());
+        this.arrayOfUniqueArrayListShapes.add(new ShapeL());
+        this.arrayOfUniqueArrayListShapes.add(new ShapeLMirrored());
+        this.arrayOfUniqueArrayListShapes.add(new ShapeSquare());
+        this.arrayOfUniqueArrayListShapes.add(new ShapeT());
+        this.arrayOfUniqueArrayListShapes.add(new ShapeZ());
+        this.arrayOfUniqueArrayListShapes.add(new ShapeZMirrored());*/
         this.continueAutomaticMoveDown=true;
     }
 
@@ -96,10 +96,10 @@ public class PlayBoard {
      */
     public void prepareScreenBorders() {
         //fills first and last row with blocks (by this it makes playing ground
-        for (int i = 0; i < (playBoard[1].length); i++) {
+        for (int i = 0; i < (playBoard[0].length); i++) {
             playBoard[0][i]=true;//makes blocks upper row
             playBoard[(playBoard.length-1)][i]=true; //makes blocks lower row
-            playBoard[i][playBoard.length-1]=true;//makes blocks on the right side
+            playBoard[i][playBoard[0].length-1]=true;//makes blocks on the right side
             playBoard[i][0]=true;//makes blocks on the left side
 
         }
@@ -150,6 +150,7 @@ public class PlayBoard {
                     else {
                         writeShapeToPlayBoardXYSystem(); //even though is the shape removed, it need to be there -so it is repainted
                         pushNewShape=true;
+                        checkFullRowAndRemoveIt();
                     }
                     break;
                   case "right":
@@ -171,37 +172,36 @@ public class PlayBoard {
                     }
                     break;
                 }
-            /*
-            if (("down".equals(direction)) && checkIfShapeCanGoDown()){
-            //removeShapeFromPlayBoardXYSystem();
-            MoveDown();
-            writeShapeToPlayBoardXYSystem();
             
-            }
-            /*writeShapeToPlayBoardXYSystem();
-            MoveDown();*/
-            
-            /* else    if (direction.equals("right") && checkIfShapeCanGoRight()){
-                    //removeShapeFromPlayBoardXYSystem();
-                    MoveRight();
-                    writeShapeToPlayBoardXYSystem();
-                    }
-                    else    if (direction.equals("left") && checkIfShapeCanGoLeft()){
-                    //removeShapeFromPlayBoardXYSystem();
-                    MoveLeft();
-                    writeShapeToPlayBoardXYSystem();                    }
-                    
-                    else {//when it can´t go down - it will stop at last position(will be NOT removed)
-                    writeShapeToPlayBoardXYSystem(); //even though is the shape removed, it need to be there -so it is repainted
-                    pushNewShape=true;
-                    //printPlayBoard(); THIS IS REPLACED BY DRAWING IN JAVA SWING
-                    }*/
           }
     }
     
     public void MakeNewShape(){
             //makes new random shape to come to game
-            this.currentShape=(Shape)arrayOfUniqueArrayListShapes.get(randomShape.nextInt(arrayOfUniqueArrayListShapes.size()));
+            //this.currentShape=arrayOfUniqueArrayListShapes.get(randomShape.nextInt(arrayOfUniqueArrayListShapes.size()));
+            
+            switch (randomShape.nextInt(7)){
+                    case 0:
+                    this.currentShape=new ShapeI();
+                    break;
+                    case 1:
+                    this.currentShape=new ShapeL();
+                    break;
+                    case 2:
+                    this.currentShape=new ShapeLMirrored();
+                    break;
+                    case 3:
+                    this.currentShape=new ShapeSquare();
+                    break;
+                    case 4:
+                    this.currentShape=new ShapeT();
+                    break;
+                    case 5:
+                    this.currentShape=new ShapeZ();
+                    break;
+                    case 6:
+                    this.currentShape=new ShapeZMirrored();
+            }
     }
     
     /**
@@ -301,8 +301,8 @@ public class PlayBoard {
      * Prints playboard with actual state of blocks.
      */
     public void printPlayBoard(Graphics g){
-    for (int i = 0; i < (playBoard.length); i++) {
-        for (int j = 0; j < (playBoard[1].length); j++) {
+    for (int i = 0; i < (playBoard[0].length); i++) {
+        for (int j = 0; j < (playBoard.length); j++) {
             if ((playBoard[j][i])==true){
                 g.setColor(Color.red);
                 g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
@@ -321,18 +321,38 @@ public class PlayBoard {
     }
 }
     
- /**
+    /**
      *Push shape to rotate to the next rotation
-     * @param currentShape Shape which is currently next for puzzling(Lshape,Tshape etc.)
      */
     public void rotateAnyShape() { 
-        
          removeShapeFromPlayBoardXYSystem();
          currentShape.rotateShape(playBoard);
          writeShapeToPlayBoardXYSystem();
         
 }
-  
-    
-    
+    /**
+    *Checks if there is any one full row of blocks and removes it immediately with falling other rows down.
+    * Method is checking array of blocks from upper side to down side
+    */
+    public void checkFullRowAndRemoveIt(){
+        boolean isFullRow=false;
+        for (int i = 0; i < playBoard.length; i++) {
+            for (int j = 0; j < playBoard[1].length; j++) {
+                if (!playBoard[(currentShape.shapeInitializationArray[i][0])][currentShape.shapeInitializationArray[j][1]]==false){//if there is any white space - result will remains false
+                    isFullRow=true;//if there is no false/white space - save true - so that is full row
+                }
+            }    
+            if (isFullRow){
+                for (int k = i; k > 0; k--) {//goes up to reach each row (till second row from top)
+                    for (int l = 0; l < playBoard[1].length; l++) {//goes block by block in actual row 
+                        //saves higher row to actual row (block by block)
+                        playBoard[(currentShape.shapeInitializationArray[k][0])][currentShape.shapeInitializationArray[l][1]]=playBoard[(currentShape.shapeInitializationArray[k-1][0])][currentShape.shapeInitializationArray[l][1]];
+                        playBoard[(currentShape.shapeInitializationArray[k-1][0])][currentShape.shapeInitializationArray[l][1]]=false;//immediately removes old row
+                    }
+                }
+            }
+        }
+        isFullRow=false;//renewing of variable
+    }
 }
+   
