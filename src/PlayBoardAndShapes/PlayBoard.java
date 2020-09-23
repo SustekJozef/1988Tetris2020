@@ -154,7 +154,7 @@ public class PlayBoard {
                         writeShapeToPlayBoardXYSystem(); //even though is the shape removed, it need to be there -so it is repainted
                         pushNewShape=true;
                         setDownOrCanRotete=false;
-                        //checkFullRowAndRemoveIt();
+                        checkFullRowAndRemoveIt();
                     }
                     break;
                   case "right":
@@ -341,24 +341,29 @@ public class PlayBoard {
     * Method is checking array of blocks from upper side to down side
     */
     public void checkFullRowAndRemoveIt(){
-        boolean isFullRow=false;
-        for (int i = 0; i < playBoard.length; i++) {
-            for (int j = 0; j < playBoard[1].length; j++) {
-                if (!playBoard[(currentShape.shapeInitializationArray[i][0])][currentShape.shapeInitializationArray[j][1]]==false){//if there is any white space - result will remains false
-                    isFullRow=true;//if there is no false/white space - save true - so that is full row
+        boolean isFullRow=true;
+        for (int i = 1; i < playBoard.length-1; i++) {
+            for (int j = 1; j < playBoard[1].length; j++) {
+                if ((playBoard[i][j]==false)){//if there is any white space - result will remains false
+                    isFullRow=false;//if there is no false/white space - remains true - so that is full row
+                    j=playBoard[1].length;//if there is even only one white space - it is not needed to look up further
                 }
             }    
             if (isFullRow){
-                for (int k = i; k > 0; k--) {//goes up to reach each row (till second row from top)
+                for (int k = i; k > 1; k--) {//goes up to reach each row (till second row from top)
                     for (int l = 0; l < playBoard[1].length; l++) {//goes block by block in actual row 
                         //saves higher row to actual row (block by block)
-                        playBoard[(currentShape.shapeInitializationArray[k][0])][currentShape.shapeInitializationArray[l][1]]=playBoard[(currentShape.shapeInitializationArray[k-1][0])][currentShape.shapeInitializationArray[l][1]];
-                        playBoard[(currentShape.shapeInitializationArray[k-1][0])][currentShape.shapeInitializationArray[l][1]]=false;//immediately removes old row
+                        playBoard[k][l]=playBoard[k-1][l];
+                        playBoard[k-1][l]=false;
+
+                        //playBoard[(currentShape.shapeInitializationArray[k][0])][currentShape.shapeInitializationArray[l][1]]=playBoard[(currentShape.shapeInitializationArray[k-1][0])][currentShape.shapeInitializationArray[l][1]];
+                        //playBoard[(currentShape.shapeInitializationArray[k-1][0])][currentShape.shapeInitializationArray[l][1]]=false;//immediately removes old row
                     }
                 }
             }
+        isFullRow=true;//renewing of variable
+            
         }
-        isFullRow=false;//renewing of variable
     }
 }
    
