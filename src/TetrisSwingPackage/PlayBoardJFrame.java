@@ -6,7 +6,10 @@
 package TetrisSwingPackage;
 
 import PlayBoardAndShapes.PlayBoard;
+import PlayBoardAndShapes.ThreadMovingDown;
 import java.awt.event.ActionEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.KeyStroke;
@@ -26,6 +29,22 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
     Action rightArrow;
     Action leftArrow;
     Action rotateShape;
+
+   // ThreadMovingDown threadMovingDown=new ThreadMovingDown("Druhé");
+    
+    Thread automaticMovingDownThread = new Thread(() -> {
+        for (int i = 0; i < 1000; i++) {
+            
+        
+                 
+        try {
+                             Thread.sleep(700);
+                         } catch (InterruptedException ex) {
+                             Logger.getLogger(PlayBoardJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                         }
+                         updateScreen("down");
+        }                }, "Druhe");
+    
     
     //Vlakno threadForRepainting;
     /**
@@ -221,7 +240,14 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
                      updateScreen("down");
-
+                                   
+                     //for (int i = 0; i < 1000; i++) {
+                     //automaticMovingDownThread
+                     automaticMovingDownThread.start();
+                     //}
+                     
+                     
+                     //threadMovingDown.start();
            
     }//GEN-LAST:event_jButton1ActionPerformed
 
