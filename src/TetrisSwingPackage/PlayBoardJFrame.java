@@ -52,7 +52,7 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
      */
     public PlayBoardJFrame() {
         initComponents();
-        
+         
         downArrow=new MoveDownBindingAction();
         rightArrow=new MoveRightBindingAction();
         leftArrow=new MoveLeftBindingAction();
