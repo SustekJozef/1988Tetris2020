@@ -74,6 +74,9 @@ public class PlayBoard {
     
     private int numberFullRowsInOneTurn;
     
+    /**
+     *
+     */
     protected int speedBonusFromSpeedLevel;
 
     
@@ -83,8 +86,8 @@ public class PlayBoard {
     public PlayBoard() {
         sc = new Scanner(System.in,"Windows-1250");
         this.userChoice = "";
-        this.gameArrayHeight=17; 
-        this.gameArrayWidth=17; 
+        this.gameArrayHeight=22; //22
+        this.gameArrayWidth=12;  //12
         this.playBoard=new boolean[gameArrayHeight][gameArrayWidth];
         this.sleepTime=500;
         this.pushNewShape=true;
@@ -109,7 +112,7 @@ public class PlayBoard {
     public void prepareScreenBorders() {
         //fills first and last row with blocks (by this it makes playing ground
         for (int i = 0; i < (playBoard[0].length); i++) {
-            playBoard[0][i]=true;//makes blocks upper row
+            //playBoard[0][i]=true;//makes blocks upper row
             playBoard[(playBoard.length-1)][i]=true; //makes blocks lower row
             playBoard[i][playBoard[0].length-1]=true;//makes blocks on the right side
             playBoard[i][0]=true;//makes blocks on the left side
@@ -134,6 +137,10 @@ public class PlayBoard {
         
     }
 
+    /**
+     *
+     * @param direction
+     */
     public void inputShapeToPlayboard(String direction){
         //if new shape request is available program makes new shape
         if (pushNewShape){                                                                                              
@@ -190,6 +197,9 @@ public class PlayBoard {
           }
     }
     
+    /**
+     *
+     */
     public void MakeNewShape(){
             //makes new random shape to come to game
             //this.currentShape=arrayOfUniqueArrayListShapes.get(randomShape.nextInt(arrayOfUniqueArrayListShapes.size()));
@@ -220,7 +230,6 @@ public class PlayBoard {
     
     /**
      * Makes input of a specific shape into the playboard (in to the game)
-     * @param currentShape Shape which is currently next for puzzling(Lshape,Tshape etc.)
      */
     public void writeShapeToPlayBoardXYSystem(){
         //put xy position from shapes´s predefined position into playboard[][] positional system.
@@ -230,6 +239,9 @@ public class PlayBoard {
         playBoard[currentShape.shapeInitializationArray[3][0]][currentShape.shapeInitializationArray[3][1]]=true;
     }
 
+    /**
+     *
+     */
     public void removeShapeFromPlayBoardXYSystem(){
         playBoard[currentShape.shapeInitializationArray[0][0]][currentShape.shapeInitializationArray[0][1]]=false;
         playBoard[currentShape.shapeInitializationArray[1][0]][currentShape.shapeInitializationArray[1][1]]=false;
@@ -238,7 +250,6 @@ public class PlayBoard {
     }
     /**
      *Push shape one row down
-     * @param currentShape Shape which is currently next for puzzling(Lshape,Tshape etc.)
      */
     public void MoveDown() { 
     //add one point to the shape position on playboard. It pushes the shape one row down
@@ -251,7 +262,6 @@ public class PlayBoard {
     
     /**
      *Push shape one collumn right
-     * @param currentShape Shape which is currently next for puzzling(Lshape,Tshape etc.)
      */
     public void MoveRight() { 
     //add one point to the shape position on playboard. It pushes the shape one collumn right
@@ -263,7 +273,6 @@ public class PlayBoard {
     
     /**
      *Push shape one collumn leff
-     * @param currentShape Shape which is currently next for puzzling(Lshape,Tshape etc.)
      */
     public void MoveLeft() { 
         
@@ -313,6 +322,7 @@ public class PlayBoard {
     
     /**
      * Prints playboard with actual state of blocks.
+     * @param g Object of Graphic type
      */
     public void printPlayBoard(Graphics g){
     for (int i = 0; i < (playBoard[0].length); i++) {
@@ -389,8 +399,11 @@ public class PlayBoard {
         return score;
     }
 
-   
-public void setSpeedBonusFromSpeedLevel(int speedBonusFromSpeedLevel) {
+    /**
+     *
+     * @param speedBonusFromSpeedLevel
+     */
+    public void setSpeedBonusFromSpeedLevel(int speedBonusFromSpeedLevel) {
         this.speedBonusFromSpeedLevel = speedBonusFromSpeedLevel;
     }
 
