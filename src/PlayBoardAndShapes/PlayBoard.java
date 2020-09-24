@@ -6,7 +6,7 @@
 package PlayBoardAndShapes;
 
 import TetrisSwingPackage.Background;
-import TetrisSwingPackage.PlayBoardJFrame;
+import TetrisSwingPackage.*;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -69,6 +69,14 @@ public class PlayBoard {
     
     
     private boolean setDownOrCanRotete;
+    
+    private int score;
+    
+    private int numberFullRowsInOneTurn;
+    
+    protected int speedBonusFromSpeedLevel;
+
+    
     /**
      *
      */
@@ -91,6 +99,8 @@ public class PlayBoard {
         this.arrayOfUniqueArrayListShapes.add(new ShapeZMirrored());*/
         this.continueAutomaticMoveDown=true;
         setDownOrCanRotete=true;
+        this.score=0;
+        this.numberFullRowsInOneTurn=0;
     }
 
     /**
@@ -294,9 +304,9 @@ public class PlayBoard {
      */
     public boolean checkIfShapeCanGoLeft(){
         return playBoard[(currentShape.shapeInitializationArray[0][0])][currentShape.shapeInitializationArray[0][1]-1]==false &&
-                playBoard[(currentShape.shapeInitializationArray[1][0])][currentShape.shapeInitializationArray[1][1]-1]==false &&
-                playBoard[(currentShape.shapeInitializationArray[2][0])][currentShape.shapeInitializationArray[2][1]-1]==false &&
-                playBoard[(currentShape.shapeInitializationArray[3][0])][currentShape.shapeInitializationArray[3][1]-1]==false;
+               playBoard[(currentShape.shapeInitializationArray[1][0])][currentShape.shapeInitializationArray[1][1]-1]==false &&
+               playBoard[(currentShape.shapeInitializationArray[2][0])][currentShape.shapeInitializationArray[2][1]-1]==false &&
+               playBoard[(currentShape.shapeInitializationArray[3][0])][currentShape.shapeInitializationArray[3][1]-1]==false;
     }
     
     
@@ -356,14 +366,35 @@ public class PlayBoard {
                         playBoard[k][l]=playBoard[k-1][l];
                         playBoard[k-1][l]=false;
 
-                        //playBoard[(currentShape.shapeInitializationArray[k][0])][currentShape.shapeInitializationArray[l][1]]=playBoard[(currentShape.shapeInitializationArray[k-1][0])][currentShape.shapeInitializationArray[l][1]];
-                        //playBoard[(currentShape.shapeInitializationArray[k-1][0])][currentShape.shapeInitializationArray[l][1]]=false;//immediately removes old row
+                        
                     }
                 }
+            score+=200*speedBonusFromSpeedLevel;
+            numberFullRowsInOneTurn++;    
             }
         isFullRow=true;//renewing of variable
-            
         }
+        
+        //bonuses depends on number of rows completed at once
+        if (numberFullRowsInOneTurn>1){
+            score+=numberFullRowsInOneTurn*200*speedBonusFromSpeedLevel;//bonus for more rows and increases by level of speed
+        }
+        numberFullRowsInOneTurn=0;
     }
-}
+
+    /**
+     * @return the score
+     */
+    public int getScore() {
+        return score;
+    }
+
    
+public void setSpeedBonusFromSpeedLevel(int speedBonusFromSpeedLevel) {
+        this.speedBonusFromSpeedLevel = speedBonusFromSpeedLevel;
+    }
+
+
+
+
+}
