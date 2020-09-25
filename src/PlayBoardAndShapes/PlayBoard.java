@@ -156,7 +156,7 @@ public class PlayBoard {
             
             if (checkIfShapeCanGoDown()) { //if there is a possibility to go down - new shape can co only down at first
                 writeShapeToPlayBoardXYSystem();
-
+                
 //print by javaswing
 
             }
