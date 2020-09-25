@@ -21,13 +21,13 @@ protected int[][] shapeInitializationArray;
     /**
      *
      */
-final protected int baseX=3; //pozrieť
+final protected int BASEX=3; //pozrieť
 //shape´s starting position na x axis of array
 
     /**
      *
      */
-protected int baseY=8;
+final protected int BASEY=8;
 
  /**
  *Starting position of shape´s rotation - each shape has it´s own positions.
@@ -38,17 +38,28 @@ final protected int startingNumberOfRotationPositionOfShape=0;
  */
 protected int maxNumberOfRotationPositionOfShape;
 
-protected int currentNumberOfRotationPositionOfShape;
+    /**
+     *
+     */
+    protected int currentNumberOfRotationPositionOfShape;
 
+    /**
+     *
+     */
     public Shape() {
         this.currentNumberOfRotationPositionOfShape=startingNumberOfRotationPositionOfShape;
     }
 
-  abstract public void rotateShape(boolean [][] playBoard);
+    /**
+     *
+     * @param playBoard
+     */
+    abstract public void rotateShape(boolean [][] playBoard);
       
- 
-  
-   public void chceckAndDecideRotationState(){ 
+    /**
+     *
+     */ 
+    public void chceckAndDecideRotationState(){ 
         if (currentNumberOfRotationPositionOfShape<maxNumberOfRotationPositionOfShape){
             currentNumberOfRotationPositionOfShape++;
         }

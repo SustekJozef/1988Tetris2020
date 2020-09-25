@@ -13,6 +13,8 @@ public interface ShapeRotateInterface {
 
     /**
      *
+     * @param playBoard
+     * @param playBoard
      */
     public void rotateShape (boolean [][] playBoard);
         

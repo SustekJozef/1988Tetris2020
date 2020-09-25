@@ -16,9 +16,13 @@ public class ShapeSquare extends Shape{
      *
      */
     public ShapeSquare() {
-        this.shapeInitializationArray= new int[][]{{baseX, baseY},{baseX, baseY-1},{baseX-1, baseY-1},{baseX-1, baseY}};
+        this.shapeInitializationArray= new int[][]{{BASEX, BASEY},{BASEX, BASEY-1},{BASEX-1, BASEY-1},{BASEX-1, BASEY}};
     }
 
+    /**
+     *
+     * @param playBoard
+     */
     @Override
     public void rotateShape(boolean [][] playBoard) {
     }

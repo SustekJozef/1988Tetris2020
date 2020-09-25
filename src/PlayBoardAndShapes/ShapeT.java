@@ -16,11 +16,15 @@ public class ShapeT extends Shape{
      *
      */
     public ShapeT() {
-        this.shapeInitializationArray= new int[][]{{baseX, baseY},{baseX, baseY+1},{baseX, baseY-1},{baseX-1, baseY}};
+        this.shapeInitializationArray= new int[][]{{BASEX, BASEY},{BASEX, BASEY+1},{BASEX, BASEY-1},{BASEX-1, BASEY}};
         super.maxNumberOfRotationPositionOfShape=3; 
 
     }
 
+    /**
+     *
+     * @param playBoard
+     */
     @Override
     public void rotateShape(boolean [][] playBoard) {
         chceckAndDecideRotationState();

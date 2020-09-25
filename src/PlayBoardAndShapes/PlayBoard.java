@@ -104,6 +104,7 @@ public class PlayBoard {
         setDownOrCanRotete=true;
         this.score=0;
         this.numberFullRowsInOneTurn=0;
+        speedBonusFromSpeedLevel=1;
     }
 
     /**
@@ -111,9 +112,14 @@ public class PlayBoard {
      */
     public void prepareScreenBorders() {
         //fills first and last row with blocks (by this it makes playing ground
-        for (int i = 0; i < (playBoard[0].length); i++) {
+
+        
+        for (int i = 0; i < (playBoard.length); i++) {
             //playBoard[0][i]=true;//makes blocks upper row
-            playBoard[(playBoard.length-1)][i]=true; //makes blocks lower row
+            
+            if (i<12){
+                playBoard[(playBoard.length-1)][i]=true; //makes blocks lower row
+            }
             playBoard[i][playBoard[0].length-1]=true;//makes blocks on the right side
             playBoard[i][0]=true;//makes blocks on the left side
 
@@ -363,10 +369,10 @@ public class PlayBoard {
     public void checkFullRowAndRemoveIt(){
         boolean isFullRow=true;
         for (int i = 1; i < playBoard.length-1; i++) {
-            for (int j = 1; j < playBoard[1].length; j++) {
+            for (int j = 1; j < playBoard[0].length; j++) {
                 if ((playBoard[i][j]==false)){//if there is any white space - result will remains false
                     isFullRow=false;//if there is no false/white space - remains true - so that is full row
-                    j=playBoard[1].length;//if there is even only one white space - it is not needed to look up further
+                    j=playBoard[0].length;//if there is even only one white space - it is not needed to look up further
                 }
             }    
             if (isFullRow){

@@ -16,7 +16,7 @@ public class ShapeLMirrored extends Shape{
      *
      */
     public ShapeLMirrored() {
-        this.shapeInitializationArray= new int[][]{{baseX, baseY},{baseX, baseY-1},{baseX-1, baseY},{baseX-2, baseY}};
+        this.shapeInitializationArray= new int[][]{{BASEX, BASEY},{BASEX, BASEY-1},{BASEX-1, BASEY},{BASEX-2, BASEY}};
         super.maxNumberOfRotationPositionOfShape=3; 
 
     }
@@ -26,6 +26,10 @@ public class ShapeLMirrored extends Shape{
     
     }*/
 
+    /**
+     *
+     * @param playBoard
+     */
     @Override
     public void rotateShape(boolean [][] playBoard) {
        chceckAndDecideRotationState();

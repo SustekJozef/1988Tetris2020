@@ -25,6 +25,7 @@ public class Background extends JPanel{
     /**
      * Saves instantion of backround
      * 
+     * @param playBoard Playboard of game
      */
     public Background(PlayBoard playBoard){
         super();

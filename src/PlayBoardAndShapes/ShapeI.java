@@ -16,12 +16,13 @@ public class ShapeI extends Shape implements ShapeRotateInterface{
      *
      */
     public ShapeI() {
-        this.shapeInitializationArray= new int[][]{{baseX, baseY},{baseX, baseY-1},{baseX, baseY+1},{baseX, baseY+2}};
+        this.shapeInitializationArray= new int[][]{{BASEX, BASEY},{BASEX, BASEY-1},{BASEX, BASEY+1},{BASEX, BASEY+2}};
         super.maxNumberOfRotationPositionOfShape=1;
     }
 
      /**
      *Push shapeI to rotate to the next rotation
+     * @param playBoard
      */
     @Override
     public void rotateShape(boolean [][] playBoard) { 

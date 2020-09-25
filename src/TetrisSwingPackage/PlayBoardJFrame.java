@@ -14,6 +14,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.KeyStroke;
 
+
 /**
  *
  * @author Jozef
@@ -29,23 +30,23 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
     Action rightArrow;
     Action leftArrow;
     Action rotateShape;
-
    // ThreadMovingDown threadMovingDown=new ThreadMovingDown("Druhé");
-    
+    private int speed;
+    ////make it much more better than for 1000 repeating cycle
     Thread automaticMovingDownThread = new Thread(() -> {
         for (int i = 0; i < 1000; i++) {
             
         
                  
         try {
-                             Thread.sleep(700);
+                             Thread.sleep(speed);
                          } catch (InterruptedException ex) {
                              Logger.getLogger(PlayBoardJFrame.class.getName()).log(Level.SEVERE, null, ex);
                          }
                          updateScreen("down");
         }                }, "Druhe");
     
-    
+    private int speedLevel;
     //Vlakno threadForRepainting;
     /**
      * Creates new form MainJFrame
@@ -77,33 +78,52 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         jButton1.getActionMap().put("spaceKeyToRotate", rotateShape);
         
         //threadForRepainting = new Vlakno("PrveVlakno");
-        
-        
+        speed=1000;
+        jComboBox1.setEnabled(true);
+        this.speedLevel=1;
         
         
         
         
     }
 
-    
+    /**
+     *
+     * @param direction
+     */
     public void updateScreen(String direction){
             playBoard.inputShapeToPlayboard(direction);
+            jLabel1.setText(Integer.toString(playBoard.getScore()));//shows actual score
+            jTextField1.setText(direction);
             jPanel1.repaint();
             
 
     }
     
+    /**
+     *
+     */
     public class MoveDownBindingAction extends AbstractAction{
 
+        /**
+         *Moving down
+         * @param e Action event of moving down
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             updateScreen("down");
         }
     }
     
-       
+    /**
+     *
+     */
     public class MoveRightBindingAction extends AbstractAction{
 
+        /**
+         * Moving right
+         * @param e Action event of moving right
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             updateScreen("right");
@@ -111,8 +131,15 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         }
     }
         
+    /**
+     *
+     */
     public class MoveLeftBindingAction extends AbstractAction{
 
+        /**
+         *Moving left
+         * @param e Action event of moving right
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             updateScreen("left");
@@ -120,9 +147,15 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         }
     }
 
-    
+    /**
+     *Class for rotate a shape.
+     */
     public class RotateShapeBindingAction extends AbstractAction{
 
+        /**
+         *Rotates a shape.
+         * @param e Action event for rotate a shape
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             playBoard.rotateAnyShape();
@@ -163,11 +196,16 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tetris");
         setAlwaysOnTop(true);
         setLocation(new java.awt.Point(800, 50));
+        setLocationByPlatform(true);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -177,7 +215,7 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 342, Short.MAX_VALUE)
+            .addGap(0, 441, Short.MAX_VALUE)
         );
 
         jButton1.setText("Start");
@@ -201,37 +239,80 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel2.setText("Score:");
+
+        jTextField1.setBackground(new java.awt.Color(204, 255, 51));
+        jTextField1.setText("jTextField1");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 22, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton3)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField1)
+                                .addContainerGap())))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(81, 81, 81)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3)
-                .addGap(163, 163, 163))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20))))
         );
 
         pack();
@@ -240,15 +321,8 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
                      updateScreen("down");
-                                   
-                     //for (int i = 0; i < 1000; i++) {
-                     //automaticMovingDownThread
                      automaticMovingDownThread.start();
-                     //}
-                     
-                     
-                     //threadMovingDown.start();
-           
+                     jComboBox1.setEnabled(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -260,9 +334,32 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
      
 //add your elements
 
+
+
+
+
 playBoard.deleteScreenBorders();
         repaint();
+        jButton1ActionPerformed(evt);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+           this.speed=1000-100*Integer.parseInt(String.valueOf(jComboBox1.getSelectedItem()));
+           this.speedLevel=Integer.parseInt(String.valueOf(jComboBox1.getSelectedItem()));;
+           playBoard.setSpeedBonusFromSpeedLevel(speedLevel);
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    /**
+     *Gets level of shape´s moving speed.
+     * @return Level of shape´s moving speed, which is used also for counting current bonus in game.
+     */
+    public int getSpeedLevel() {
+        return speedLevel;
+    }
 
     /**
      * @param args the command line arguments
@@ -300,11 +397,24 @@ playBoard.deleteScreenBorders();
         });
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     public javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
