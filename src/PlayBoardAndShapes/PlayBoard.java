@@ -52,6 +52,11 @@ public class PlayBoard {
     
     private boolean pushNewShape;
     
+    /**
+     *Checks if there is a request to restart activ game.
+     */
+    private boolean restartGame;
+
    
 
     //checks if next position of the shape is occupied or not.
@@ -132,8 +137,8 @@ public class PlayBoard {
      */
     public void deleteScreenBorders() {
         //fills first and last row with blocks (by this it makes playing ground
-        for (int i = 0; i < (playBoard[1].length); i++) {
-            for (int j = 0; j < playBoard.length; j++) {
+        for (int i = 0; i < (playBoard.length); i++) {
+            for (int j = 0; j < playBoard[1].length; j++) {
                playBoard[i][j]=false;//makes blocks upper row
            
             }
@@ -413,7 +418,16 @@ public class PlayBoard {
         this.speedBonusFromSpeedLevel = speedBonusFromSpeedLevel;
     }
 
-
+/**
+     * @param pushNewShape the pushNewShape to set
+     */
+    public void setPushNewShape(boolean pushNewShape) {
+        this.pushNewShape = pushNewShape;
+    }
+    
+    public void setRestartGame(boolean restartGame) {
+        this.restartGame = restartGame;
+    }
 
 
 }
