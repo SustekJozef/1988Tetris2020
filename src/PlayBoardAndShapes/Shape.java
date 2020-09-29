@@ -39,12 +39,25 @@ final protected int startingNumberOfRotationPositionOfShape=0;
 protected int maxNumberOfRotationPositionOfShape;
 
     /**
-     *
+     *Current number represents position of rotation. 
+     * Basic position is 0
      */
     protected int currentNumberOfRotationPositionOfShape;
 
     /**
+     *Specific color which differs shape to shape. 
+     * It is represented by int numbers of rgb.
+     * So it is needed to be array of 3 numbers.
+     */
+    protected static int[] COLOR_OF_SHAPE;
+    
+     /**
      *
+     */
+    protected int numberOfShape;
+    
+    /**
+     *Represents any shape in a game.
      */
     public Shape() {
         this.currentNumberOfRotationPositionOfShape=startingNumberOfRotationPositionOfShape;
@@ -54,7 +67,7 @@ protected int maxNumberOfRotationPositionOfShape;
      *
      * @param playBoard
      */
-    abstract public void rotateShape(boolean [][] playBoard);
+    abstract public void rotateShape(int [][] playBoard);
       
     /**
      *

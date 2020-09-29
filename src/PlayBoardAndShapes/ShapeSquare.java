@@ -12,11 +12,15 @@ package PlayBoardAndShapes;
  */
 public class ShapeSquare extends Shape{
 
+        protected static int[] COLOR_OF_SHAPE=new int[]{0,255,0};
+
+
     /**
      *
      */
     public ShapeSquare() {
         this.shapeInitializationArray= new int[][]{{BASEX, BASEY},{BASEX, BASEY-1},{BASEX-1, BASEY-1},{BASEX-1, BASEY}};
+        super.numberOfShape=4;
     }
 
     /**
@@ -24,7 +28,7 @@ public class ShapeSquare extends Shape{
      * @param playBoard
      */
     @Override
-    public void rotateShape(boolean [][] playBoard) {
+    public void rotateShape(int [][] playBoard) {
     }
     
 
