@@ -22,7 +22,7 @@ public class PlayBoard {
    /**
      * Game´s playboard, where are saved all existing blocks. 
      */
-    protected boolean[][] playBoard;
+    protected int [][] playBoard;
    /**
      *
      */
@@ -85,6 +85,8 @@ public class PlayBoard {
     protected int speedBonusFromSpeedLevel;
 
     
+    Color backroundColor;
+    
     /**
      *
      */
@@ -93,7 +95,7 @@ public class PlayBoard {
         this.userChoice = "";
         this.gameArrayHeight=22; //22
         this.gameArrayWidth=12;  //12
-        this.playBoard=new boolean[gameArrayHeight][gameArrayWidth];
+        this.playBoard=new int[gameArrayHeight][gameArrayWidth];
         this.sleepTime=500;
         this.pushNewShape=true;
         this.randomShape=new Random();
@@ -110,6 +112,7 @@ public class PlayBoard {
         this.score=0;
         this.numberFullRowsInOneTurn=0;
         speedBonusFromSpeedLevel=1;
+        backroundColor=new Color(177, 156, 129);
     }
 
     /**
@@ -122,11 +125,11 @@ public class PlayBoard {
         for (int i = 0; i < (playBoard.length); i++) {
             //playBoard[0][i]=true;//makes blocks upper row
             
-            if (i<12){
-                playBoard[(playBoard.length-1)][i]=true; //makes blocks lower row
+            if (i<12){//-1 will be value for outside border
+                playBoard[(playBoard.length-1)][i]=-1; //makes blocks lower row
             }
-            playBoard[i][playBoard[0].length-1]=true;//makes blocks on the right side
-            playBoard[i][0]=true;//makes blocks on the left side
+            playBoard[i][playBoard[0].length-1]=-1;//makes blocks on the right side
+            playBoard[i][0]=-1;//makes blocks on the left side
 
         }
        
@@ -139,7 +142,7 @@ public class PlayBoard {
         //fills first and last row with blocks (by this it makes playing ground
         for (int i = 0; i < (playBoard.length); i++) {
             for (int j = 0; j < playBoard[1].length; j++) {
-               playBoard[i][j]=false;//makes blocks upper row
+               playBoard[i][j]=0;//makes blocks upper row
            
             }
               
@@ -244,20 +247,20 @@ public class PlayBoard {
      */
     public void writeShapeToPlayBoardXYSystem(){
         //put xy position from shapes´s predefined position into playboard[][] positional system.
-        playBoard[currentShape.shapeInitializationArray[0][0]][currentShape.shapeInitializationArray[0][1]]=true;
-        playBoard[currentShape.shapeInitializationArray[1][0]][currentShape.shapeInitializationArray[1][1]]=true;
-        playBoard[currentShape.shapeInitializationArray[2][0]][currentShape.shapeInitializationArray[2][1]]=true;
-        playBoard[currentShape.shapeInitializationArray[3][0]][currentShape.shapeInitializationArray[3][1]]=true;
+        playBoard[currentShape.shapeInitializationArray[0][0]][currentShape.shapeInitializationArray[0][1]]=currentShape.numberOfShape;
+        playBoard[currentShape.shapeInitializationArray[1][0]][currentShape.shapeInitializationArray[1][1]]=currentShape.numberOfShape;
+        playBoard[currentShape.shapeInitializationArray[2][0]][currentShape.shapeInitializationArray[2][1]]=currentShape.numberOfShape;
+        playBoard[currentShape.shapeInitializationArray[3][0]][currentShape.shapeInitializationArray[3][1]]=currentShape.numberOfShape;
     }
 
     /**
      *
      */
     public void removeShapeFromPlayBoardXYSystem(){
-        playBoard[currentShape.shapeInitializationArray[0][0]][currentShape.shapeInitializationArray[0][1]]=false;
-        playBoard[currentShape.shapeInitializationArray[1][0]][currentShape.shapeInitializationArray[1][1]]=false;
-        playBoard[currentShape.shapeInitializationArray[2][0]][currentShape.shapeInitializationArray[2][1]]=false;
-        playBoard[currentShape.shapeInitializationArray[3][0]][currentShape.shapeInitializationArray[3][1]]=false;
+        playBoard[currentShape.shapeInitializationArray[0][0]][currentShape.shapeInitializationArray[0][1]]=0;
+        playBoard[currentShape.shapeInitializationArray[1][0]][currentShape.shapeInitializationArray[1][1]]=0;
+        playBoard[currentShape.shapeInitializationArray[2][0]][currentShape.shapeInitializationArray[2][1]]=0;
+        playBoard[currentShape.shapeInitializationArray[3][0]][currentShape.shapeInitializationArray[3][1]]=0;
     }
     /**
      *Push shape one row down
@@ -301,10 +304,10 @@ public class PlayBoard {
     public boolean checkIfShapeCanGoDown(){
        
         
-        return playBoard[(currentShape.shapeInitializationArray[0][0])+1][currentShape.shapeInitializationArray[0][1]]==false &&
-        playBoard[(currentShape.shapeInitializationArray[1][0])+1][currentShape.shapeInitializationArray[1][1]]==false &&
-        playBoard[(currentShape.shapeInitializationArray[2][0])+1][currentShape.shapeInitializationArray[2][1]]==false &&
-        playBoard[(currentShape.shapeInitializationArray[3][0])+1][currentShape.shapeInitializationArray[3][1]]==false;
+        return playBoard[(currentShape.shapeInitializationArray[0][0])+1][currentShape.shapeInitializationArray[0][1]]==0 &&
+        playBoard[(currentShape.shapeInitializationArray[1][0])+1][currentShape.shapeInitializationArray[1][1]]==0 &&
+        playBoard[(currentShape.shapeInitializationArray[2][0])+1][currentShape.shapeInitializationArray[2][1]]==0 &&
+        playBoard[(currentShape.shapeInitializationArray[3][0])+1][currentShape.shapeInitializationArray[3][1]]==0;
     }
     
     /**
@@ -312,10 +315,10 @@ public class PlayBoard {
      * @return True if there is a possibility for shape to move right.
      */
     public boolean checkIfShapeCanGoRight(){
-        return playBoard[(currentShape.shapeInitializationArray[0][0])][currentShape.shapeInitializationArray[0][1]+1]==false &&
-                playBoard[(currentShape.shapeInitializationArray[1][0])][currentShape.shapeInitializationArray[1][1]+1]==false &&
-                playBoard[(currentShape.shapeInitializationArray[2][0])][currentShape.shapeInitializationArray[2][1]+1]==false &&
-                playBoard[(currentShape.shapeInitializationArray[3][0])][currentShape.shapeInitializationArray[3][1]+1]==false;
+        return playBoard[(currentShape.shapeInitializationArray[0][0])][currentShape.shapeInitializationArray[0][1]+1]==0 &&
+                playBoard[(currentShape.shapeInitializationArray[1][0])][currentShape.shapeInitializationArray[1][1]+1]==0 &&
+                playBoard[(currentShape.shapeInitializationArray[2][0])][currentShape.shapeInitializationArray[2][1]+1]==0 &&
+                playBoard[(currentShape.shapeInitializationArray[3][0])][currentShape.shapeInitializationArray[3][1]+1]==0;
     }
     
     /**
@@ -323,10 +326,10 @@ public class PlayBoard {
      * @return True if there is a possibility for shape to move left.
      */
     public boolean checkIfShapeCanGoLeft(){
-        return playBoard[(currentShape.shapeInitializationArray[0][0])][currentShape.shapeInitializationArray[0][1]-1]==false &&
-               playBoard[(currentShape.shapeInitializationArray[1][0])][currentShape.shapeInitializationArray[1][1]-1]==false &&
-               playBoard[(currentShape.shapeInitializationArray[2][0])][currentShape.shapeInitializationArray[2][1]-1]==false &&
-               playBoard[(currentShape.shapeInitializationArray[3][0])][currentShape.shapeInitializationArray[3][1]-1]==false;
+        return playBoard[(currentShape.shapeInitializationArray[0][0])][currentShape.shapeInitializationArray[0][1]-1]==0 &&
+               playBoard[(currentShape.shapeInitializationArray[1][0])][currentShape.shapeInitializationArray[1][1]-1]==0 &&
+               playBoard[(currentShape.shapeInitializationArray[2][0])][currentShape.shapeInitializationArray[2][1]-1]==0 &&
+               playBoard[(currentShape.shapeInitializationArray[3][0])][currentShape.shapeInitializationArray[3][1]-1]==0;
     }
     
     
@@ -338,24 +341,53 @@ public class PlayBoard {
     public void printPlayBoard(Graphics g){
     for (int i = 0; i < (playBoard[0].length); i++) {
         for (int j = 0; j < (playBoard.length); j++) {
-            if ((playBoard[j][i])==true){
-                g.setColor(Color.red);
+            if ((playBoard[j][i])==0){
+                g.setColor(backroundColor);
                 g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
 
-            //System.out.print("■");
             }
             else {
-                g.setColor(Color.green);
-                g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
-                //makes blocks white. After that it reset back to black color
-                //System.out.print("\033[37;7m■\033[0m");
+                switch(playBoard[j][i]) {
+                case 1:
+                   g.setColor(new Color(ShapeI.COLOR_OF_SHAPE[0], ShapeI.COLOR_OF_SHAPE[1], ShapeI.COLOR_OF_SHAPE[2]));
+                   g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
+                   break; 
+                case 2:
+                   g.setColor(new Color(ShapeL.COLOR_OF_SHAPE[0], ShapeL.COLOR_OF_SHAPE[1], ShapeL.COLOR_OF_SHAPE[2]));
+                   g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
+                   break;
+                case 3:
+                   g.setColor(new Color(ShapeLMirrored.COLOR_OF_SHAPE[0], ShapeLMirrored.COLOR_OF_SHAPE[1], ShapeLMirrored.COLOR_OF_SHAPE[2]));
+                   g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
+                   break; 
+                case 4:
+                   g.setColor(new Color(ShapeSquare.COLOR_OF_SHAPE[0], ShapeSquare.COLOR_OF_SHAPE[1], ShapeSquare.COLOR_OF_SHAPE[2]));
+                   g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
+                   break; 
+                case 5:
+                   g.setColor(new Color(ShapeT.COLOR_OF_SHAPE[0], ShapeT.COLOR_OF_SHAPE[1], ShapeT.COLOR_OF_SHAPE[2]));
+                   g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
+                   break; 
+                case 6:
+                   g.setColor(new Color(ShapeZ.COLOR_OF_SHAPE[0], ShapeZ.COLOR_OF_SHAPE[1], ShapeZ.COLOR_OF_SHAPE[2]));
+                   g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
+                   break; 
+                case 7:
+                   g.setColor(new Color(ShapeZMirrored.COLOR_OF_SHAPE[0], ShapeZMirrored.COLOR_OF_SHAPE[1], ShapeZMirrored.COLOR_OF_SHAPE[2]));
+                   g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
+                   break; 
+                case -1:
+                   g.setColor(Color.BLACK);
+                   g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
+                   break; 
+              
             }
         }
         System.out.println();
         System.out.print("");
     }
 }
-    
+    }  
     /**
      *Push shape to rotate to the next rotation
      */
@@ -375,7 +407,7 @@ public class PlayBoard {
         boolean isFullRow=true;
         for (int i = 1; i < playBoard.length-1; i++) {
             for (int j = 1; j < playBoard[0].length; j++) {
-                if ((playBoard[i][j]==false)){//if there is any white space - result will remains false
+                if ((playBoard[i][j]==0)){//if there is any white space - result will remains false
                     isFullRow=false;//if there is no false/white space - remains true - so that is full row
                     j=playBoard[0].length;//if there is even only one white space - it is not needed to look up further
                 }
@@ -385,7 +417,7 @@ public class PlayBoard {
                     for (int l = 0; l < playBoard[1].length; l++) {//goes block by block in actual row 
                         //saves higher row to actual row (block by block)
                         playBoard[k][l]=playBoard[k-1][l];
-                        playBoard[k-1][l]=false;
+                        playBoard[k-1][l]=0;
 
                         
                     }
