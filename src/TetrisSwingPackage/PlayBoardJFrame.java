@@ -79,15 +79,15 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         initComponents();
         
         //First player
-        downArrow=new Player1MoveDownBindingAction();
-        rightArrow=new Player1MoveRightBindingAction();
-        leftArrow=new Player1MoveLeftBindingAction();
-        rotateShapeEnter=new Player1RotateShapeBindingAction();
+        downArrow=new PlayerMoveBindingAction(playBoardForPlayer1,"down",playBoardJPanelPlayer1,displayScoreJLabel1);
+        rightArrow=new PlayerMoveBindingAction(playBoardForPlayer1,"right",playBoardJPanelPlayer1,displayScoreJLabel1);
+        leftArrow=new PlayerMoveBindingAction(playBoardForPlayer1,"left",playBoardJPanelPlayer1,displayScoreJLabel1);
+        rotateShapeEnter=new PlayerRotateBindingAction(playBoardForPlayer1,playBoardJPanelPlayer1);
         //Second player or CPU
-        downS=new Player2OrCPUMoveDownBindingAction();
-        rightD=new Player2OrCPUMoveRightBindingAction();
-        leftA=new Player2OrCPUMoveLeftBindingAction();
-        downSpacebar=new Player2OrCPURotateShapeBindingAction();
+        downS=new PlayerMoveBindingAction(playBoardForPlayer2OrCPU,"down",playBoardJPanelPlayer2OrCPU,displayScoreJLabel2);
+        rightD=new PlayerMoveBindingAction(playBoardForPlayer2OrCPU,"right",playBoardJPanelPlayer2OrCPU,displayScoreJLabel2);
+        leftA=new PlayerMoveBindingAction(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer2OrCPU,displayScoreJLabel2);
+        downSpacebar=new PlayerRotateBindingAction(playBoardForPlayer2OrCPU,playBoardJPanelPlayer2OrCPU);
 
         
         
@@ -151,9 +151,56 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
     
     
     
+    /**
+     *
+     */
+    public class PlayerMoveBindingAction extends AbstractAction{
+
+        private PlayBoard playboardOfCurrentPlayer;
+        private JPanel playBoardJPanelForCurrentPlayer;
+        private JLabel displayScoreJLabelForCurrentPlayer;
+        private String direction;
+        
+        public PlayerMoveBindingAction(PlayBoard playboardOfCurrentPlayer,String direction,JPanel playBoardJPanelForCurrentPlayer,JLabel displayScoreJLabelForCurrentPlayer) {
+        this.direction=direction;
+        this.playboardOfCurrentPlayer=playboardOfCurrentPlayer;
+        this.playBoardJPanelForCurrentPlayer=playBoardJPanelForCurrentPlayer;
+        this.displayScoreJLabelForCurrentPlayer=displayScoreJLabelForCurrentPlayer;
+        }
+
+        /**
+         *Moving left
+         * @param e Action event of moving right
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            updateScreen(playboardOfCurrentPlayer,direction,playBoardJPanelForCurrentPlayer,displayScoreJLabelForCurrentPlayer);
+            playBoardJPanelForCurrentPlayer.repaint();
+        }
+    }
     
-    
-    
+    /**
+     *Class for rotate a shape.
+     */
+    public class PlayerRotateBindingAction extends AbstractAction{
+         private PlayBoard playboardOfCurrentPlayer;
+            private JPanel playBoardJPanelForCurrentPlayer;
+        
+        public PlayerRotateBindingAction(PlayBoard playboardOfCurrentPlayer,JPanel playBoardJPanelForCurrentPlayer) {
+            this.playboardOfCurrentPlayer=playboardOfCurrentPlayer;
+            this.playBoardJPanelForCurrentPlayer=playBoardJPanelForCurrentPlayer;  
+        }
+
+        /**
+         *Rotates a shape.
+         * @param e Action event for rotate a shape
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            playboardOfCurrentPlayer.rotateAnyShape();
+            playBoardJPanelForCurrentPlayer.repaint();
+        }
+    }
     
     
     
@@ -168,137 +215,7 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
             playBoardJPanelForCurrentPlayer.repaint();
     }
     
-    /**
-     *
-     */
-    public class Player1MoveDownBindingAction extends AbstractAction{
-
-        /**
-         *Moving down
-         * @param e Action event of moving down
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            updateScreen(playBoardForPlayer1,"down",playBoardJPanelPlayer2OrCPU,displayScoreJLabel1);
-                    playBoardJPanelPlayer1.repaint();
-
-        }
-    }
     
-    /**
-     * 
-     */
-    public class Player1MoveRightBindingAction extends AbstractAction{
-
-        /**
-         * Moving right
-         * @param e Action event of moving right
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            updateScreen(playBoardForPlayer1,"right",playBoardJPanelPlayer2OrCPU,displayScoreJLabel1);
-                    playBoardJPanelPlayer1.repaint();
-
-        }
-    }
-        
-    /**
-     *
-     */
-    public class Player1MoveLeftBindingAction extends AbstractAction{
-
-        /**
-         *Moving left
-         * @param e Action event of moving right
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            updateScreen(playBoardForPlayer1,"left",playBoardJPanelPlayer2OrCPU,displayScoreJLabel1);
-            playBoardJPanelPlayer1.repaint();
-
-        }
-    }
-    /**
-     *Class for rotate a shape.
-     */
-    public class Player1RotateShapeBindingAction extends AbstractAction{
-
-        /**
-         *Rotates a shape.
-         * @param e Action event for rotate a shape
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            playBoardForPlayer1.rotateAnyShape();
-            playBoardJPanelPlayer1.repaint();
-        }
-    }
-    
-    /**
-     *
-     */
-    public class Player2OrCPUMoveDownBindingAction extends AbstractAction{
-
-        /**
-         *Moving down
-         * @param e Action event of moving down
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-           updateScreen(playBoardForPlayer2OrCPU,"down",playBoardJPanelPlayer1,displayScoreJLabel2);
-           playBoardJPanelPlayer2OrCPU.repaint();
-        }
-    }
-    
-    /**
-     * 
-     */
-    public class Player2OrCPUMoveRightBindingAction extends AbstractAction{
-
-        /**
-         * Moving right
-         * @param e Action event of moving right
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            updateScreen(playBoardForPlayer2OrCPU,"right",playBoardJPanelPlayer1,displayScoreJLabel2);
-            playBoardJPanelPlayer2OrCPU.repaint();
-
-        }
-    }
-        
-    /**
-     *
-     */
-    public class Player2OrCPUMoveLeftBindingAction extends AbstractAction{
-
-        /**
-         *Moving left
-         * @param e Action event of moving right
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer1,displayScoreJLabel2);
-            playBoardJPanelPlayer2OrCPU.repaint();
-
-        }
-    }
-
-    /**
-     *Class for rotate a shape.
-     */
-    public class Player2OrCPURotateShapeBindingAction extends AbstractAction{
-
-        /**
-         *Rotates a shape.
-         * @param e Action event for rotate a shape
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            playBoardForPlayer2OrCPU.rotateAnyShape();
-            playBoardJPanelPlayer2OrCPU.repaint();
-        }
-    }
     
     /*  public class Vlakno extends Thread{
     
