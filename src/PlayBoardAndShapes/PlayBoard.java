@@ -346,42 +346,34 @@ public class PlayBoard {
                 g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
 
             }
-            else {
+            else {//NEEDED TO REWORK THIS CODE - SIMPLER
                 switch(playBoard[j][i]) {
                 case 1:
                    g.setColor(new Color(ShapeI.COLOR_OF_SHAPE[0], ShapeI.COLOR_OF_SHAPE[1], ShapeI.COLOR_OF_SHAPE[2]));
-                   g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
                    break; 
                 case 2:
                    g.setColor(new Color(ShapeL.COLOR_OF_SHAPE[0], ShapeL.COLOR_OF_SHAPE[1], ShapeL.COLOR_OF_SHAPE[2]));
-                   g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
                    break;
                 case 3:
                    g.setColor(new Color(ShapeLMirrored.COLOR_OF_SHAPE[0], ShapeLMirrored.COLOR_OF_SHAPE[1], ShapeLMirrored.COLOR_OF_SHAPE[2]));
-                   g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
                    break; 
                 case 4:
                    g.setColor(new Color(ShapeSquare.COLOR_OF_SHAPE[0], ShapeSquare.COLOR_OF_SHAPE[1], ShapeSquare.COLOR_OF_SHAPE[2]));
-                   g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
                    break; 
                 case 5:
                    g.setColor(new Color(ShapeT.COLOR_OF_SHAPE[0], ShapeT.COLOR_OF_SHAPE[1], ShapeT.COLOR_OF_SHAPE[2]));
-                   g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
                    break; 
                 case 6:
                    g.setColor(new Color(ShapeZ.COLOR_OF_SHAPE[0], ShapeZ.COLOR_OF_SHAPE[1], ShapeZ.COLOR_OF_SHAPE[2]));
-                   g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
                    break; 
                 case 7:
                    g.setColor(new Color(ShapeZMirrored.COLOR_OF_SHAPE[0], ShapeZMirrored.COLOR_OF_SHAPE[1], ShapeZMirrored.COLOR_OF_SHAPE[2]));
-                   g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
                    break; 
                 case -1:
                    g.setColor(Color.BLACK);
-                   g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
                    break; 
-              
             }
+            g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
         }
         System.out.println();
         System.out.print("");

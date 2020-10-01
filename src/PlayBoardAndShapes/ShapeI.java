@@ -13,7 +13,7 @@ package PlayBoardAndShapes;
 public class ShapeI extends Shape{
 
      
-    protected static int[] COLOR_OF_SHAPE=new int[]{25,0,0};
+    protected static int[] COLOR_OF_SHAPE=new int[]{255,0,0};
 
 
     
