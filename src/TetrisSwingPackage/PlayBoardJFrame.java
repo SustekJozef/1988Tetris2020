@@ -8,11 +8,14 @@ package TetrisSwingPackage;
 import PlayBoardAndShapes.PlayBoard;
 import PlayBoardAndShapes.ThreadMovingDown;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 /**
@@ -24,12 +27,18 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
     /**
      * Playboard
      */
-    private PlayBoard playBoard=new PlayBoard();
-           
+    private PlayBoard playBoardForPlayer1=new PlayBoard();
+    private PlayBoard playBoardForPlayer2OrCPU=new PlayBoard();
+
     Action downArrow;
     Action rightArrow;
     Action leftArrow;
-    Action rotateShape;
+    Action rotateShapeEnter;
+    
+    Action downS;
+    Action rightD;
+    Action leftA;
+    Action downSpacebar;
    // ThreadMovingDown threadMovingDown=new ThreadMovingDown("Druhé");
     private int speed;
     
@@ -59,6 +68,7 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
     
         AutomaticMovingDownThread thread1111;
     
+        AutomaticMovingDownThread thread2222;
     
     
     //Vlakno threadForRepainting;
@@ -67,16 +77,27 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
      */
     public PlayBoardJFrame() {
         initComponents();
-         
-        downArrow=new MoveDownBindingAction();
-        rightArrow=new MoveRightBindingAction();
-        leftArrow=new MoveLeftBindingAction();
-        rotateShape=new RotateShapeBindingAction();
+        
+        //First player
+        downArrow=new Player1MoveDownBindingAction();
+        rightArrow=new Player1MoveRightBindingAction();
+        leftArrow=new Player1MoveLeftBindingAction();
+        rotateShapeEnter=new Player1RotateShapeBindingAction();
+        //Second player or CPU
+        downS=new Player2OrCPUMoveDownBindingAction();
+        rightD=new Player2OrCPUMoveRightBindingAction();
+        leftA=new Player2OrCPUMoveLeftBindingAction();
+        downSpacebar=new Player2OrCPURotateShapeBindingAction();
+
+        
+        
         
         /*jPanel1.getInputMap().put(KeyStroke.getKeyStroke("UP"), "downArrow");
         jPanel1.getActionMap().put("downArrow", downArrow);
         jPanel1.getInputMap().allKeys();
         jPanel1.getActionMap().allKeys();*/
+        
+        //Player1
         //move down
         startJButton.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "downArrow");
         startJButton.getActionMap().put("downArrow", downArrow);
@@ -86,11 +107,26 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         //move left
         startJButton.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "leftArrow");
         startJButton.getActionMap().put("leftArrow", leftArrow);
+        //rotate shape
+        startJButton.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enterToRotate");
+        startJButton.getActionMap().put("enterToRotate", rotateShapeEnter);
+        
+
+        //Player2
+        //move down
+        startJButton.getInputMap().put(KeyStroke.getKeyStroke('s'), "downS");
+        startJButton.getActionMap().put("downS", downS);
+        //move right
+        startJButton.getInputMap().put(KeyStroke.getKeyStroke('d'), "rightD");
+        startJButton.getActionMap().put("rightD",rightD );
+        //move left
+        startJButton.getInputMap().put(KeyStroke.getKeyStroke('a'), "leftA");
+        startJButton.getActionMap().put("leftA", leftA);
         
         //rotate shape
         startJButton.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "spaceKeyToRotate");
-        startJButton.getActionMap().put("spaceKeyToRotate", rotateShape);
-        
+        startJButton.getActionMap().put("spaceKeyToRotate", downSpacebar);
+        startJButton.getActionMap().allKeys();
         //threadForRepainting = new Vlakno("PrveVlakno");
         speed=1000;
         jComboBox1.setEnabled(true);
@@ -106,7 +142,7 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         //restartjButton.setEnabled(false);
 
 
-        this.thread1111=new AutomaticMovingDownThread(this.speed);
+//        this.thread1111=new AutomaticMovingDownThread(this.speed);
 
         
     }
@@ -126,19 +162,16 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
      *
      * @param direction
      */
-    public void updateScreen(String direction){
-            playBoard.inputShapeToPlayboard(direction);
-            displayScoreJLabel.setText(Integer.toString(playBoard.getScore()));//shows actual score
-            scoreJLabel.setText("Score");
-            playBoardJPanel.repaint();
-            
-
+    public void updateScreen(PlayBoard playboardOfCurrentPlayer,String direction,JPanel playBoardJPanelForCurrentPlayer,JLabel displayScoreJLabel){
+            playboardOfCurrentPlayer.inputShapeToPlayboard(direction);
+            displayScoreJLabel.setText(Integer.toString(playboardOfCurrentPlayer.getScore()));//shows actual score
+            playBoardJPanelForCurrentPlayer.repaint();
     }
     
     /**
      *
      */
-    public class MoveDownBindingAction extends AbstractAction{
+    public class Player1MoveDownBindingAction extends AbstractAction{
 
         /**
          *Moving down
@@ -146,14 +179,16 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            updateScreen("down");
+            updateScreen(playBoardForPlayer1,"down",playBoardJPanelPlayer2OrCPU,displayScoreJLabel1);
+                    playBoardJPanelPlayer1.repaint();
+
         }
     }
     
     /**
-     *
+     * 
      */
-    public class MoveRightBindingAction extends AbstractAction{
+    public class Player1MoveRightBindingAction extends AbstractAction{
 
         /**
          * Moving right
@@ -161,7 +196,8 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            updateScreen("right");
+            updateScreen(playBoardForPlayer1,"right",playBoardJPanelPlayer2OrCPU,displayScoreJLabel1);
+                    playBoardJPanelPlayer1.repaint();
 
         }
     }
@@ -169,7 +205,7 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
     /**
      *
      */
-    public class MoveLeftBindingAction extends AbstractAction{
+    public class Player1MoveLeftBindingAction extends AbstractAction{
 
         /**
          *Moving left
@@ -177,15 +213,15 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            updateScreen("left");
+            updateScreen(playBoardForPlayer1,"left",playBoardJPanelPlayer2OrCPU,displayScoreJLabel1);
+            playBoardJPanelPlayer1.repaint();
 
         }
     }
-
     /**
      *Class for rotate a shape.
      */
-    public class RotateShapeBindingAction extends AbstractAction{
+    public class Player1RotateShapeBindingAction extends AbstractAction{
 
         /**
          *Rotates a shape.
@@ -193,8 +229,74 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            playBoard.rotateAnyShape();
-            playBoardJPanel.repaint();
+            playBoardForPlayer1.rotateAnyShape();
+            playBoardJPanelPlayer1.repaint();
+        }
+    }
+    
+    /**
+     *
+     */
+    public class Player2OrCPUMoveDownBindingAction extends AbstractAction{
+
+        /**
+         *Moving down
+         * @param e Action event of moving down
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+           updateScreen(playBoardForPlayer2OrCPU,"down",playBoardJPanelPlayer1,displayScoreJLabel2);
+           playBoardJPanelPlayer2OrCPU.repaint();
+        }
+    }
+    
+    /**
+     * 
+     */
+    public class Player2OrCPUMoveRightBindingAction extends AbstractAction{
+
+        /**
+         * Moving right
+         * @param e Action event of moving right
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            updateScreen(playBoardForPlayer2OrCPU,"right",playBoardJPanelPlayer1,displayScoreJLabel2);
+            playBoardJPanelPlayer2OrCPU.repaint();
+
+        }
+    }
+        
+    /**
+     *
+     */
+    public class Player2OrCPUMoveLeftBindingAction extends AbstractAction{
+
+        /**
+         *Moving left
+         * @param e Action event of moving right
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer1,displayScoreJLabel2);
+            playBoardJPanelPlayer2OrCPU.repaint();
+
+        }
+    }
+
+    /**
+     *Class for rotate a shape.
+     */
+    public class Player2OrCPURotateShapeBindingAction extends AbstractAction{
+
+        /**
+         *Rotates a shape.
+         * @param e Action event for rotate a shape
+         */
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            playBoardForPlayer2OrCPU.rotateAnyShape();
+            playBoardJPanelPlayer2OrCPU.repaint();
         }
     }
     
@@ -227,12 +329,17 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        playBoardJPanel = new TetrisSwingPackage.Background(playBoard);
+        playBoardJPanelPlayer2OrCPU = new TetrisSwingPackage.Background(playBoardForPlayer2OrCPU);
         startJButton = new javax.swing.JButton();
         restartjButton = new javax.swing.JButton();
-        displayScoreJLabel = new javax.swing.JLabel();
+        displayScoreJLabel2 = new javax.swing.JLabel();
         scoreJLabel = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        playBoardJPanelPlayer1 = new TetrisSwingPackage.Background(playBoardForPlayer1);
+        scoreJLabel1 = new javax.swing.JLabel();
+        displayScoreJLabel1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tetris");
@@ -240,18 +347,18 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         setLocation(new java.awt.Point(800, 50));
         setLocationByPlatform(true);
 
-        playBoardJPanel.setRequestFocusEnabled(false);
-        playBoardJPanel.setVerifyInputWhenFocusTarget(false);
+        playBoardJPanelPlayer2OrCPU.setRequestFocusEnabled(false);
+        playBoardJPanelPlayer2OrCPU.setVerifyInputWhenFocusTarget(false);
 
-        javax.swing.GroupLayout playBoardJPanelLayout = new javax.swing.GroupLayout(playBoardJPanel);
-        playBoardJPanel.setLayout(playBoardJPanelLayout);
-        playBoardJPanelLayout.setHorizontalGroup(
-            playBoardJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 317, Short.MAX_VALUE)
+        javax.swing.GroupLayout playBoardJPanelPlayer2OrCPULayout = new javax.swing.GroupLayout(playBoardJPanelPlayer2OrCPU);
+        playBoardJPanelPlayer2OrCPU.setLayout(playBoardJPanelPlayer2OrCPULayout);
+        playBoardJPanelPlayer2OrCPULayout.setHorizontalGroup(
+            playBoardJPanelPlayer2OrCPULayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 337, Short.MAX_VALUE)
         );
-        playBoardJPanelLayout.setVerticalGroup(
-            playBoardJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 441, Short.MAX_VALUE)
+        playBoardJPanelPlayer2OrCPULayout.setVerticalGroup(
+            playBoardJPanelPlayer2OrCPULayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 453, Short.MAX_VALUE)
         );
 
         startJButton.setBackground(new java.awt.Color(255, 255, 51));
@@ -278,8 +385,8 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
             }
         });
 
-        displayScoreJLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        displayScoreJLabel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        displayScoreJLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        displayScoreJLabel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         scoreJLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         scoreJLabel.setText("Score:");
@@ -293,50 +400,99 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
             }
         });
 
+        playBoardJPanelPlayer1.setRequestFocusEnabled(false);
+        playBoardJPanelPlayer1.setVerifyInputWhenFocusTarget(false);
+
+        javax.swing.GroupLayout playBoardJPanelPlayer1Layout = new javax.swing.GroupLayout(playBoardJPanelPlayer1);
+        playBoardJPanelPlayer1.setLayout(playBoardJPanelPlayer1Layout);
+        playBoardJPanelPlayer1Layout.setHorizontalGroup(
+            playBoardJPanelPlayer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 317, Short.MAX_VALUE)
+        );
+        playBoardJPanelPlayer1Layout.setVerticalGroup(
+            playBoardJPanelPlayer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        scoreJLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        scoreJLabel1.setText("Score:");
+
+        displayScoreJLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        displayScoreJLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        jLabel1.setText("PLAYER2");
+
+        jLabel2.setText("Player 1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(playBoardJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(restartjButton, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addComponent(playBoardJPanelPlayer2OrCPU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(scoreJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(displayScoreJLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(playBoardJPanelPlayer1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 237, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(startJButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(scoreJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(displayScoreJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(restartjButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(startJButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap())))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(scoreJLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(displayScoreJLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(66, 66, 66)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51)
+                .addComponent(startJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(111, 111, 111)
+                .addComponent(restartjButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(49, 49, 49))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(displayScoreJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(scoreJLabel))
-                        .addGap(18, 18, 18)
-                        .addComponent(playBoardJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
+                            .addComponent(displayScoreJLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(scoreJLabel)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51)
-                        .addComponent(startJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(111, 111, 111)
-                        .addComponent(restartjButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(49, 49, 49))))
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(displayScoreJLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(scoreJLabel1)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(playBoardJPanelPlayer2OrCPU, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(playBoardJPanelPlayer1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
-
-        restartjButton.getAccessibleContext().setAccessibleParent(null);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -350,16 +506,23 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
 
                    
                    // restartjButton.setVisible(true);
-;
-                    playBoard.setRestartGame(false);
-                    updateScreen("down");
-
                     jComboBox1.setEnabled(false);
 
-                    this.thread1111=new AutomaticMovingDownThread(this.speed);
+                    //first player
+                    playBoardForPlayer1.setRestartGame(false);
+                    updateScreen(playBoardForPlayer1,"down",playBoardJPanelPlayer2OrCPU,displayScoreJLabel2);
+                    this.thread1111=new AutomaticMovingDownThread(playBoardForPlayer1,"down",playBoardJPanelPlayer2OrCPU,displayScoreJLabel1,this.speed);
                     thread1111.start();
-                     
-                     
+                    
+
+                    //second player or cpu 
+                    playBoardForPlayer2OrCPU.setRestartGame(false);
+                    updateScreen(playBoardForPlayer2OrCPU,"down",playBoardJPanelPlayer1,displayScoreJLabel1);
+                    this.thread2222=new AutomaticMovingDownThread(playBoardForPlayer2OrCPU,"down",playBoardJPanelPlayer1,displayScoreJLabel2,this.speed);
+                    thread2222.start();
+                    
+                    
+                    
     }//GEN-LAST:event_startJButtonActionPerformed
 
     private void restartjButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restartjButtonActionPerformed
@@ -373,15 +536,23 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
                              jComboBox1.setEnabled(true);
                         //automaticMovingDownThread.interrupt();
         thread1111.stop();
+                thread2222.stop();
+
         try {
             Thread.sleep(1000);//this prevents to make duplicite threats by pushing startButton
         } catch (InterruptedException ex) {
             Logger.getLogger(PlayBoardJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        playBoard.setPushNewShape(true); //new shape must come
-        playBoard.setRestartGame(true); // main algoritmus knows that it is occation when it is not new game but only restart.
+        playBoardForPlayer1.setPushNewShape(true); //new shape must come
+        playBoardForPlayer1.setRestartGame(true); // main algoritmus knows that it is occation when it is not new game but only restart.
 
-        playBoard.deleteScreenBorders();
+        playBoardForPlayer1.deleteScreenBorders();
+        repaint();
+        
+        playBoardForPlayer2OrCPU.setPushNewShape(true); //new shape must come
+        playBoardForPlayer2OrCPU.setRestartGame(true); // main algoritmus knows that it is occation when it is not new game but only restart.
+
+        playBoardForPlayer2OrCPU.deleteScreenBorders();
         repaint();
         //startJButtonActionPerformed(evt);
     }//GEN-LAST:event_restartjButtonActionPerformed
@@ -389,7 +560,7 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
            this.speed=1000-100*Integer.parseInt(String.valueOf(jComboBox1.getSelectedItem()));//takes value of selected item and 
            this.speedLevel=Integer.parseInt(String.valueOf(jComboBox1.getSelectedItem()));;
-           playBoard.setSpeedBonusFromSpeedLevel(speedLevel);
+           playBoardForPlayer1.setSpeedBonusFromSpeedLevel(speedLevel);
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     
@@ -451,11 +622,15 @@ public class AutomaticMovingDownThread implements Runnable{
     private Thread mower;
     private final AtomicBoolean runningAtomicBoolean=new AtomicBoolean(false);
     private int interval;
-    //PlayBoardJFrame playBoardJFrame=new PlayBoardJFrame();
+    private PlayBoard playboardOfCurrentPlayer;
+    private JPanel playBoardJPanelForCurrentPlayer;
+    private JLabel displayScoreJLabelForCurrentPlayer;
     
-    
-    public AutomaticMovingDownThread(int sleepInterval){
-        interval=sleepInterval;
+    public AutomaticMovingDownThread(PlayBoard playboardOfCurrentPlayer,String direction,JPanel playBoardJPanelForCurrentPlayer,JLabel displayScoreJLabelForCurrentPlayer,int sleepInterval){
+        this.interval=sleepInterval;
+        this.playboardOfCurrentPlayer=playboardOfCurrentPlayer;
+        this.playBoardJPanelForCurrentPlayer=playBoardJPanelForCurrentPlayer;
+        this.displayScoreJLabelForCurrentPlayer=displayScoreJLabelForCurrentPlayer;
     }
     
     public void start(){
@@ -479,8 +654,9 @@ public class AutomaticMovingDownThread implements Runnable{
                     Thread.currentThread().interrupt();
                     System.out.println("Thread was interreupted");
                 }
-
-                updateScreen("down");
+                //player1
+                updateScreen(playboardOfCurrentPlayer,"down",playBoardJPanelForCurrentPlayer,displayScoreJLabelForCurrentPlayer);
+                
                 
         }
     }
@@ -502,11 +678,16 @@ public class AutomaticMovingDownThread implements Runnable{
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JLabel displayScoreJLabel;
+    private javax.swing.JLabel displayScoreJLabel1;
+    private javax.swing.JLabel displayScoreJLabel2;
     private javax.swing.JComboBox<String> jComboBox1;
-    public javax.swing.JPanel playBoardJPanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    public javax.swing.JPanel playBoardJPanelPlayer1;
+    public javax.swing.JPanel playBoardJPanelPlayer2OrCPU;
     private javax.swing.JButton restartjButton;
     private javax.swing.JLabel scoreJLabel;
+    private javax.swing.JLabel scoreJLabel1;
     private javax.swing.JButton startJButton;
     // End of variables declaration//GEN-END:variables
 

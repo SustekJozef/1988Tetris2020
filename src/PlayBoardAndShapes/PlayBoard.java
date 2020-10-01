@@ -346,7 +346,7 @@ public class PlayBoard {
                 g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
 
             }
-            else {
+            else {//NEEDED TO REWORK THIS CODE - SIMPLER
                 switch(playBoard[j][i]) {
                 case 1:
                    g.setColor(new Color(ShapeI.COLOR_OF_SHAPE[0], ShapeI.COLOR_OF_SHAPE[1], ShapeI.COLOR_OF_SHAPE[2]));
