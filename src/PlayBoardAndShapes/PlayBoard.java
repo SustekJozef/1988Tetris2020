@@ -5,15 +5,15 @@
  */
 package PlayBoardAndShapes;
 
-import SoundsForGame.SoundEffect;
-import TetrisSwingPackage.Background;
+
+import sounds.SoundEffect;
 import TetrisSwingPackage.*;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+
+
 /**
  * Represents playboard of Tetris.
  *
@@ -187,7 +187,7 @@ public class PlayBoard {
                         pushNewShape=true;
                         setDownOrCanRotete=false;
                         checkFullRowAndRemoveIt();
-                        SoundEffect.SIT.play(); //play a sound of rotate movement
+                     //   SoundEffect.SIT.play(); //play a sound of rotate movement
                     }
                     break;
                   case "right":
@@ -440,6 +440,9 @@ public class PlayBoard {
             case 4: 
                 SoundEffect.REMOVE4.play(); //play a sound of rotate movement
                 break;
+            default:
+                SoundEffect.SIT.play(); //play a sound of rotate movement
+
         }        
         
         

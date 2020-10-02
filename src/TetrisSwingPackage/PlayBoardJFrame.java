@@ -6,7 +6,7 @@
 package TetrisSwingPackage;
 
 import PlayBoardAndShapes.PlayBoard;
-import PlayBoardAndShapes.ThreadMovingDown;
+import sounds.SoundEffect;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -17,7 +17,7 @@ import javax.swing.Action;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-import SoundsForGame.SoundEffect;
+
 
 /**
  *
