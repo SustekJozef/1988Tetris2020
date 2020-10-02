@@ -17,6 +17,7 @@ import javax.swing.Action;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import SoundsForGame.SoundEffect;
 
 /**
  *
@@ -144,7 +145,7 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
 
 //        this.thread1111=new AutomaticMovingDownThread(this.speed);
 
-        
+       
     }
     
     
@@ -198,6 +199,7 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             playboardOfCurrentPlayer.rotateAnyShape();
+              SoundEffect.ROTATE.play(); //play a sound of rotate movement
             playBoardJPanelForCurrentPlayer.repaint();
         }
     }
@@ -415,7 +417,8 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startJButtonActionPerformed
-                   startJButton.setVisible(true);
+                    SoundEffect.START.play(); //play a sound of start button
+                    startJButton.setVisible(true);
                    // startJButton.setEnabled(false);
         //restartjButton.enableInputMethods(false);
                     //restartjButton.setVisible(true);
@@ -443,6 +446,8 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_startJButtonActionPerformed
 
     private void restartjButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restartjButtonActionPerformed
+                            SoundEffect.QUIT.play(); //play a sound of start button
+
                             startJButton.setVisible(true);
                            //startJButton.setEnabled(true);
 

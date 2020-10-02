@@ -5,6 +5,7 @@
  */
 package PlayBoardAndShapes;
 
+import SoundsForGame.SoundEffect;
 import TetrisSwingPackage.Background;
 import TetrisSwingPackage.*;
 import java.awt.Color;
@@ -186,6 +187,7 @@ public class PlayBoard {
                         pushNewShape=true;
                         setDownOrCanRotete=false;
                         checkFullRowAndRemoveIt();
+                        SoundEffect.SIT.play(); //play a sound of rotate movement
                     }
                     break;
                   case "right":
@@ -212,7 +214,7 @@ public class PlayBoard {
     }
     
     /**
-     *
+     * 
      */
     public void MakeNewShape(){
             //makes new random shape to come to game
@@ -415,7 +417,7 @@ public class PlayBoard {
                     }
                 }
             score+=200*speedBonusFromSpeedLevel;
-            numberFullRowsInOneTurn++;    
+            numberFullRowsInOneTurn++;
             }
         isFullRow=true;//renewing of variable
         }
@@ -424,6 +426,23 @@ public class PlayBoard {
         if (numberFullRowsInOneTurn>1){
             score+=numberFullRowsInOneTurn*200*speedBonusFromSpeedLevel;//bonus for more rows and increases by level of speed
         }
+        
+        switch (numberFullRowsInOneTurn) {
+            case 1: 
+                SoundEffect.REMOVE1.play(); //play a sound of rotate movement
+                break;
+            case 2: 
+                SoundEffect.REMOVE2.play(); //play a sound of rotate movement
+                break;
+            case 3: 
+                SoundEffect.REMOVE3.play(); //play a sound of rotate movement
+                break;
+            case 4: 
+                SoundEffect.REMOVE4.play(); //play a sound of rotate movement
+                break;
+        }        
+        
+        
         numberFullRowsInOneTurn=0;
     }
 
