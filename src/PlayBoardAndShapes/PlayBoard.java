@@ -116,7 +116,7 @@ public class PlayBoard {
         backroundColor=new Color(177, 156, 129);
     }
 
-    /**
+    /** 
      *Prints screen with borders. User can choice to run a game in different modes.
      */
     public void prepareScreenBorders() {
