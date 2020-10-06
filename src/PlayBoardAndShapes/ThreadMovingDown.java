@@ -6,7 +6,7 @@
 
 package PlayBoardAndShapes;
 
-import TetrisSwingPackage.PlayBoardJFrame;
+import PlayBoardAndShapes.TetrisSwingPackage1.PlayBoardJFrame;
 
 /**
  *

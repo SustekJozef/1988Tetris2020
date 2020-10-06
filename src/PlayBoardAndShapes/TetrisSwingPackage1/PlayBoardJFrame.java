@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package TetrisSwingPackage;
+package PlayBoardAndShapes.TetrisSwingPackage1;
 
 import PlayBoardAndShapes.PlayBoard;
 import sounds.SoundEffect;
@@ -185,7 +185,7 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
      */
     public class PlayerRotateBindingAction extends AbstractAction{
          private PlayBoard playboardOfCurrentPlayer;
-            private JPanel playBoardJPanelForCurrentPlayer;
+         private JPanel playBoardJPanelForCurrentPlayer;
         
         public PlayerRotateBindingAction(PlayBoard playboardOfCurrentPlayer,JPanel playBoardJPanelForCurrentPlayer) {
             this.playboardOfCurrentPlayer=playboardOfCurrentPlayer;
@@ -198,7 +198,7 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            playboardOfCurrentPlayer.rotateAnyShape();
+            playboardOfCurrentPlayer.rotateAnyShape(playboardOfCurrentPlayer.getCurrentShape(), playboardOfCurrentPlayer.getPlayBoardArray());
               SoundEffect.ROTATE.play(); //play a sound of rotate movement
             playBoardJPanelForCurrentPlayer.repaint();
         }
@@ -212,7 +212,7 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
      * @param direction
      */
     public void updateScreen(PlayBoard playboardOfCurrentPlayer,String direction,JPanel playBoardJPanelForCurrentPlayer,JLabel displayScoreJLabel){
-            playboardOfCurrentPlayer.inputShapeToPlayboard(direction);
+            playboardOfCurrentPlayer.inputShapeToPlayboard(playboardOfCurrentPlayer.getCurrentShape(),playboardOfCurrentPlayer.getPlayBoardArray(),direction);
             displayScoreJLabel.setText(Integer.toString(playboardOfCurrentPlayer.getScore()));//shows actual score
             playBoardJPanelForCurrentPlayer.repaint();
     }
@@ -248,13 +248,13 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        playBoardJPanelPlayer2OrCPU = new TetrisSwingPackage.Background(playBoardForPlayer2OrCPU);
+        playBoardJPanelPlayer2OrCPU = new PlayBoardAndShapes.TetrisSwingPackage1.Background(playBoardForPlayer2OrCPU);
         startJButton = new javax.swing.JButton();
         restartjButton = new javax.swing.JButton();
         displayScoreJLabel2 = new javax.swing.JLabel();
         scoreJLabel = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
-        playBoardJPanelPlayer1 = new TetrisSwingPackage.Background(playBoardForPlayer1);
+        playBoardJPanelPlayer1 = new PlayBoardAndShapes.TetrisSwingPackage1.Background(playBoardForPlayer1);
         scoreJLabel1 = new javax.swing.JLabel();
         displayScoreJLabel1 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -576,7 +576,7 @@ public class AutomaticMovingDownThread implements Runnable{
                     Thread.currentThread().interrupt();
                     System.out.println("Thread was interreupted");
                 }
-                //player1
+                //current player
                 updateScreen(playboardOfCurrentPlayer,"down",playBoardJPanelForCurrentPlayer,displayScoreJLabelForCurrentPlayer);
                 
                 

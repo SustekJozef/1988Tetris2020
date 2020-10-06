@@ -6,7 +6,6 @@
 
 package tetrisgame;
 
-import TetrisSwingPackage.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 

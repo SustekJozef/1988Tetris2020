@@ -6,8 +6,9 @@
 package PlayBoardAndShapes;
 
 
+import PlayBoardAndShapes.TetrisSwingPackage1.Background;
+import PlayBoardAndShapes.CPU.ComputerPlayer;
 import sounds.SoundEffect;
-import TetrisSwingPackage.*;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
@@ -19,11 +20,11 @@ import java.util.Scanner;
  *
  * @author Jozef
  */
-public class PlayBoard {
+public class PlayBoard{
    /**
      * Game´s playboard, where are saved all existing blocks. 
      */
-    protected int [][] playBoard;
+    private int [][] playBoardArray;
    /**
      *
      */
@@ -89,14 +90,19 @@ public class PlayBoard {
     Color backroundColor;
     
     /**
+    * Uses current playboard to checks all possibilities of putting a shape to the board.
+    */
+    //ComputerPlayer computerPlayer;
+    
+    /**
      *
      */
     public PlayBoard() {
-        sc = new Scanner(System.in,"Windows-1250");
+        this.sc = new Scanner(System.in,"Windows-1250");
         this.userChoice = "";
         this.gameArrayHeight=22; //22
         this.gameArrayWidth=12;  //12
-        this.playBoard=new int[gameArrayHeight][gameArrayWidth];
+        this.playBoardArray=new int[gameArrayHeight][gameArrayWidth];
         this.sleepTime=500;
         this.pushNewShape=true;
         this.randomShape=new Random();
@@ -109,11 +115,12 @@ public class PlayBoard {
         this.arrayOfUniqueArrayListShapes.add(new ShapeZ());
         this.arrayOfUniqueArrayListShapes.add(new ShapeZMirrored());*/
         this.continueAutomaticMoveDown=true;
-        setDownOrCanRotete=true;
+        this.setDownOrCanRotete=true;
         this.score=0;
         this.numberFullRowsInOneTurn=0;
-        speedBonusFromSpeedLevel=1;
-        backroundColor=new Color(177, 156, 129);
+        this.speedBonusFromSpeedLevel=1;
+        this.backroundColor=new Color(177, 156, 129);
+        //this.computerPlayer=new ComputerPlayer(playBoardArray,getCurrentShape());
     }
 
     /** 
@@ -123,14 +130,14 @@ public class PlayBoard {
         //fills first and last row with blocks (by this it makes playing ground
 
         
-        for (int i = 0; i < (playBoard.length); i++) {
+        for (int i = 0; i < (getPlayBoardArray().length); i++) {
             //playBoard[0][i]=true;//makes blocks upper row
             
             if (i<12){//-1 will be value for outside border
-                playBoard[(playBoard.length-1)][i]=-1; //makes blocks lower row
+                playBoardArray[(getPlayBoardArray().length-1)][i]=-1; //makes blocks lower row
             }
-            playBoard[i][playBoard[0].length-1]=-1;//makes blocks on the right side
-            playBoard[i][0]=-1;//makes blocks on the left side
+            playBoardArray[i][getPlayBoardArray()[0].length-1]=-1;//makes blocks on the right side
+            playBoardArray[i][0]=-1;//makes blocks on the left side
 
         }
        
@@ -141,9 +148,9 @@ public class PlayBoard {
      */
     public void deleteScreenBorders() {
         //fills first and last row with blocks (by this it makes playing ground
-        for (int i = 0; i < (playBoard.length); i++) {
-            for (int j = 0; j < playBoard[1].length; j++) {
-               playBoard[i][j]=0;//makes blocks upper row
+        for (int i = 0; i < (getPlayBoardArray().length); i++) {
+            for (int j = 0; j < getPlayBoardArray()[1].length; j++) {
+               playBoardArray[i][j]=0;//makes blocks upper row
            
             }
               
@@ -156,15 +163,16 @@ public class PlayBoard {
      *
      * @param direction
      */
-    public void inputShapeToPlayboard(String direction){
+    public void inputShapeToPlayboard(Shape currentShape, int [][] playBoardArray,String direction){
         //if new shape request is available program makes new shape
         if (pushNewShape){                                                                                              
-            MakeNewShape(); //makes new shape
+            currentShape=MakeNewShape(); //makes new shape
+            this.currentShape=currentShape; //these two lines of code is only for first time starting of game
             pushNewShape=false; //stop making a new shape in next round
             setDownOrCanRotete=true; //can freely rotate
             
-            if (checkIfShapeCanGoDown()) { //if there is a possibility to go down - new shape can co only down at first
-                writeShapeToPlayBoardXYSystem();
+            if (checkIfShapeCanGoDown(currentShape, playBoardArray)) { //if there is a possibility to go down - new shape can co only down at first
+                writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);
                 
 //print by javaswing
 
@@ -174,16 +182,16 @@ public class PlayBoard {
             }
         } 
         else { //if the shape is NOT new
-            removeShapeFromPlayBoardXYSystem(); //removes an old shape
+            removeShapeFromPlayBoardXYSystem(currentShape, playBoardArray); //removes an old shape
             
             switch(direction) {
                 case "down":
-                    if (checkIfShapeCanGoDown()) {
-                        MoveDown();
-                        writeShapeToPlayBoardXYSystem();
+                    if (checkIfShapeCanGoDown(currentShape, playBoardArray)) {
+                        MoveDown(currentShape);
+                        writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);
                     }
                     else {
-                        writeShapeToPlayBoardXYSystem(); //even though is the shape removed, it need to be there -so it is repainted
+                        writeShapeToPlayBoardXYSystem(currentShape, playBoardArray); //even though is the shape removed, it need to be there -so it is repainted
                         pushNewShape=true;
                         setDownOrCanRotete=false;
                         checkFullRowAndRemoveIt();
@@ -191,21 +199,21 @@ public class PlayBoard {
                     }
                     break;
                   case "right":
-                    if (checkIfShapeCanGoRight()) {
-                        MoveRight();
-                        writeShapeToPlayBoardXYSystem();
+                    if (checkIfShapeCanGoRight(currentShape, playBoardArray)) {
+                        MoveRight(currentShape);
+                        writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);
                     }
                     else {
-                        writeShapeToPlayBoardXYSystem();
+                        writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);
                     }
                     break;
                   case "left":
-                   if (checkIfShapeCanGoLeft()) {
-                        MoveLeft();
-                        writeShapeToPlayBoardXYSystem();
+                   if (checkIfShapeCanGoLeft(currentShape, playBoardArray)) {
+                        MoveLeft(currentShape);
+                        writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);
                     }
                    else {
-                        writeShapeToPlayBoardXYSystem();
+                        writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);
                     }
                     break;
                 }
@@ -216,58 +224,53 @@ public class PlayBoard {
     /**
      * 
      */
-    public void MakeNewShape(){
+    public Shape MakeNewShape(){
             //makes new random shape to come to game
             //this.currentShape=arrayOfUniqueArrayListShapes.get(randomShape.nextInt(arrayOfUniqueArrayListShapes.size()));
             
             switch (randomShape.nextInt(7)){
                     case 0:
-                    this.currentShape=new ShapeI();
-                    break;
+                    return new ShapeI();
                     case 1:
-                    this.currentShape=new ShapeL();
-                    break;
+                    return new ShapeL();
                     case 2:
-                    this.currentShape=new ShapeLMirrored();
-                    break;
+                    return new ShapeLMirrored();
                     case 3:
-                    this.currentShape=new ShapeSquare();
-                    break;
+                    return new ShapeSquare();
                     case 4:
-                    this.currentShape=new ShapeT();
-                    break;
+                    return new ShapeT();
                     case 5:
-                    this.currentShape=new ShapeZ();
-                    break;
+                    return new ShapeZ();
                     case 6:
-                    this.currentShape=new ShapeZMirrored();
+                    return new ShapeZMirrored();
             }
+            return new ShapeZMirrored();
     }
     
     /**
      * Makes input of a specific shape into the playboard (in to the game)
      */
-    public void writeShapeToPlayBoardXYSystem(){
+    public void writeShapeToPlayBoardXYSystem(Shape currentShape, int [][] playBoardArray){
         //put xy position from shapes´s predefined position into playboard[][] positional system.
-        playBoard[currentShape.shapeInitializationArray[0][0]][currentShape.shapeInitializationArray[0][1]]=currentShape.numberOfShape;
-        playBoard[currentShape.shapeInitializationArray[1][0]][currentShape.shapeInitializationArray[1][1]]=currentShape.numberOfShape;
-        playBoard[currentShape.shapeInitializationArray[2][0]][currentShape.shapeInitializationArray[2][1]]=currentShape.numberOfShape;
-        playBoard[currentShape.shapeInitializationArray[3][0]][currentShape.shapeInitializationArray[3][1]]=currentShape.numberOfShape;
+        playBoardArray[currentShape.shapeInitializationArray[0][0]][currentShape.shapeInitializationArray[0][1]]=currentShape.numberOfShape;
+        playBoardArray[currentShape.shapeInitializationArray[1][0]][currentShape.shapeInitializationArray[1][1]]=currentShape.numberOfShape;
+        playBoardArray[currentShape.shapeInitializationArray[2][0]][currentShape.shapeInitializationArray[2][1]]=currentShape.numberOfShape;
+        playBoardArray[currentShape.shapeInitializationArray[3][0]][currentShape.shapeInitializationArray[3][1]]=currentShape.numberOfShape;
     }
 
     /**
      *
      */
-    public void removeShapeFromPlayBoardXYSystem(){
-        playBoard[currentShape.shapeInitializationArray[0][0]][currentShape.shapeInitializationArray[0][1]]=0;
-        playBoard[currentShape.shapeInitializationArray[1][0]][currentShape.shapeInitializationArray[1][1]]=0;
-        playBoard[currentShape.shapeInitializationArray[2][0]][currentShape.shapeInitializationArray[2][1]]=0;
-        playBoard[currentShape.shapeInitializationArray[3][0]][currentShape.shapeInitializationArray[3][1]]=0;
+    public void removeShapeFromPlayBoardXYSystem(Shape currentShape, int [][] playBoardArray){
+        playBoardArray[currentShape.shapeInitializationArray[0][0]][currentShape.shapeInitializationArray[0][1]]=0;
+        playBoardArray[currentShape.shapeInitializationArray[1][0]][currentShape.shapeInitializationArray[1][1]]=0;
+        playBoardArray[currentShape.shapeInitializationArray[2][0]][currentShape.shapeInitializationArray[2][1]]=0;
+        playBoardArray[currentShape.shapeInitializationArray[3][0]][currentShape.shapeInitializationArray[3][1]]=0;
     }
     /**
      *Push shape one row down
      */
-    public void MoveDown() { 
+    public void MoveDown(Shape currentShape) { 
     //add one point to the shape position on playboard. It pushes the shape one row down
     currentShape.shapeInitializationArray[0][0]+=1;
     currentShape.shapeInitializationArray[1][0]+=1;
@@ -279,7 +282,7 @@ public class PlayBoard {
     /**
      *Push shape one collumn right
      */
-    public void MoveRight() { 
+    public void MoveRight(Shape currentShape) { 
     //add one point to the shape position on playboard. It pushes the shape one collumn right
     currentShape.shapeInitializationArray[0][1]+=1;
     currentShape.shapeInitializationArray[1][1]+=1;
@@ -290,7 +293,7 @@ public class PlayBoard {
     /**
      *Push shape one collumn leff
      */
-    public void MoveLeft() { 
+    public void MoveLeft(Shape currentShape) { 
         
     //add one point to the shape position on playboard. It pushes the shape one collumn left
     currentShape.shapeInitializationArray[0][1]-=1;
@@ -303,35 +306,35 @@ public class PlayBoard {
      *Checks if and only if there is any possibility for shape to go down.
      * @return True if there is a possibility for shape to move down.
      */
-    public boolean checkIfShapeCanGoDown(){
+    public boolean checkIfShapeCanGoDown(Shape currentShape, int [][] playBoardArray){
        
         
-        return playBoard[(currentShape.shapeInitializationArray[0][0])+1][currentShape.shapeInitializationArray[0][1]]==0 &&
-        playBoard[(currentShape.shapeInitializationArray[1][0])+1][currentShape.shapeInitializationArray[1][1]]==0 &&
-        playBoard[(currentShape.shapeInitializationArray[2][0])+1][currentShape.shapeInitializationArray[2][1]]==0 &&
-        playBoard[(currentShape.shapeInitializationArray[3][0])+1][currentShape.shapeInitializationArray[3][1]]==0;
+        return playBoardArray[(currentShape.shapeInitializationArray[0][0])+1][currentShape.shapeInitializationArray[0][1]]==0 &&
+        playBoardArray[(currentShape.shapeInitializationArray[1][0])+1][currentShape.shapeInitializationArray[1][1]]==0 &&
+        playBoardArray[(currentShape.shapeInitializationArray[2][0])+1][currentShape.shapeInitializationArray[2][1]]==0 &&
+        playBoardArray[(currentShape.shapeInitializationArray[3][0])+1][currentShape.shapeInitializationArray[3][1]]==0;
     }
     
     /**
      *Checks if and only if there is any possibility for shape to go right.
      * @return True if there is a possibility for shape to move right.
      */
-    public boolean checkIfShapeCanGoRight(){
-        return playBoard[(currentShape.shapeInitializationArray[0][0])][currentShape.shapeInitializationArray[0][1]+1]==0 &&
-                playBoard[(currentShape.shapeInitializationArray[1][0])][currentShape.shapeInitializationArray[1][1]+1]==0 &&
-                playBoard[(currentShape.shapeInitializationArray[2][0])][currentShape.shapeInitializationArray[2][1]+1]==0 &&
-                playBoard[(currentShape.shapeInitializationArray[3][0])][currentShape.shapeInitializationArray[3][1]+1]==0;
+    public boolean checkIfShapeCanGoRight(Shape currentShape, int [][] playBoardArray){
+        return playBoardArray[(currentShape.shapeInitializationArray[0][0])][currentShape.shapeInitializationArray[0][1]+1]==0 &&
+                playBoardArray[(currentShape.shapeInitializationArray[1][0])][currentShape.shapeInitializationArray[1][1]+1]==0 &&
+                playBoardArray[(currentShape.shapeInitializationArray[2][0])][currentShape.shapeInitializationArray[2][1]+1]==0 &&
+                playBoardArray[(currentShape.shapeInitializationArray[3][0])][currentShape.shapeInitializationArray[3][1]+1]==0;
     }
     
     /**
      *Checks if and only if there is any possibility for shape to go left.
      * @return True if there is a possibility for shape to move left.
      */
-    public boolean checkIfShapeCanGoLeft(){
-        return playBoard[(currentShape.shapeInitializationArray[0][0])][currentShape.shapeInitializationArray[0][1]-1]==0 &&
-               playBoard[(currentShape.shapeInitializationArray[1][0])][currentShape.shapeInitializationArray[1][1]-1]==0 &&
-               playBoard[(currentShape.shapeInitializationArray[2][0])][currentShape.shapeInitializationArray[2][1]-1]==0 &&
-               playBoard[(currentShape.shapeInitializationArray[3][0])][currentShape.shapeInitializationArray[3][1]-1]==0;
+    public boolean checkIfShapeCanGoLeft(Shape currentShape, int [][] playBoardArray){
+        return playBoardArray[(currentShape.shapeInitializationArray[0][0])][currentShape.shapeInitializationArray[0][1]-1]==0 &&
+               playBoardArray[(currentShape.shapeInitializationArray[1][0])][currentShape.shapeInitializationArray[1][1]-1]==0 &&
+               playBoardArray[(currentShape.shapeInitializationArray[2][0])][currentShape.shapeInitializationArray[2][1]-1]==0 &&
+               playBoardArray[(currentShape.shapeInitializationArray[3][0])][currentShape.shapeInitializationArray[3][1]-1]==0;
     }
     
     
@@ -341,15 +344,15 @@ public class PlayBoard {
      * @param g Object of Graphic type
      */
     public void printPlayBoard(Graphics g){
-    for (int i = 0; i < (playBoard[0].length); i++) {
-        for (int j = 0; j < (playBoard.length); j++) {
-            if ((playBoard[j][i])==0){
+    for (int i = 0; i < (getPlayBoardArray()[0].length); i++) {
+        for (int j = 0; j < (getPlayBoardArray().length); j++) {
+            if ((getPlayBoardArray()[j][i])==0){
                 g.setColor(backroundColor);
                 g.fillRect(i * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), j * (BLOCK_WIDTH + SPACE_BETWEEN_BLOCKS), BLOCK_WIDTH, BLOCK_WIDTH);
 
             }
             else {//NEEDED TO REWORK THIS CODE - SIMPLER
-                switch(playBoard[j][i]) {
+                switch(getPlayBoardArray()[j][i]) {
                 case 1:
                    g.setColor(new Color(ShapeI.COLOR_OF_SHAPE[0], ShapeI.COLOR_OF_SHAPE[1], ShapeI.COLOR_OF_SHAPE[2]));
                    break; 
@@ -385,12 +388,12 @@ public class PlayBoard {
     /**
      *Push shape to rotate to the next rotation
      */
-    public void rotateAnyShape() { 
+    public void rotateAnyShape(Shape currentShape, int [][] playBoardArray) { 
          if (setDownOrCanRotete){
              
-         removeShapeFromPlayBoardXYSystem();
-         currentShape.rotateShape(playBoard);
-         writeShapeToPlayBoardXYSystem();
+         removeShapeFromPlayBoardXYSystem(currentShape,playBoardArray);
+         currentShape.rotateShape(playBoardArray);
+         writeShapeToPlayBoardXYSystem(currentShape,playBoardArray);
          }
 }
     /**
@@ -399,19 +402,19 @@ public class PlayBoard {
     */
     public void checkFullRowAndRemoveIt(){
         boolean isFullRow=true;
-        for (int i = 1; i < playBoard.length-1; i++) {
-            for (int j = 1; j < playBoard[0].length; j++) {
-                if ((playBoard[i][j]==0)){//if there is any white space - result will remains false
+        for (int i = 1; i < getPlayBoardArray().length-1; i++) {
+            for (int j = 1; j < getPlayBoardArray()[0].length; j++) {
+                if ((getPlayBoardArray()[i][j]==0)){//if there is any white space - result will remains false
                     isFullRow=false;//if there is no false/white space - remains true - so that is full row
-                    j=playBoard[0].length;//if there is even only one white space - it is not needed to look up further
+                    j=getPlayBoardArray()[0].length;//if there is even only one white space - it is not needed to look up further
                 }
             }    
             if (isFullRow){
                 for (int k = i; k > 1; k--) {//goes up to reach each row (till second row from top)
-                    for (int l = 0; l < playBoard[1].length; l++) {//goes block by block in actual row 
+                    for (int l = 0; l < getPlayBoardArray()[1].length; l++) {//goes block by block in actual row 
                         //saves higher row to actual row (block by block)
-                        playBoard[k][l]=playBoard[k-1][l];
-                        playBoard[k-1][l]=0;
+                        playBoardArray[k][l]=getPlayBoardArray()[k-1][l];
+                        playBoardArray[k-1][l]=0;
 
                         
                     }
@@ -475,5 +478,26 @@ public class PlayBoard {
         this.restartGame = restartGame;
     }
 
+
+    public int [][] getCloneOfPlayBoardForCPU(){
+        return getPlayBoardArray().clone();
+    }
+    
+   
+
+    /**
+     * @return the playBoardArray
+     */
+    public int[][] getPlayBoardArray() {
+        return playBoardArray;
+    }
+
+    /**
+     * @return the currentShape
+     */
+    public Shape getCurrentShape() {
+        return currentShape;
+    }
+    
 
 }

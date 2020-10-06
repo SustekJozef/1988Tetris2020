@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package TetrisSwingPackage;
+package PlayBoardAndShapes.TetrisSwingPackage1;
 
 import PlayBoardAndShapes.PlayBoard;
 import java.awt.Graphics;
