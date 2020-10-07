@@ -453,7 +453,7 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
                     //first player
                     playBoardForPlayer1.setRestartGame(false);
                     updateScreen(playBoardForPlayer1,"down",playBoardJPanelPlayer1,displayScoreJLabel2);
-                    this.thread1111=new AutomaticMovingDownThread(playBoardForPlayer1,"down",playBoardJPanelPlayer2OrCPU,displayScoreJLabel1,this.speed);
+                    this.thread1111=new AutomaticMovingDownThread(playBoardForPlayer1,"down",playBoardJPanelPlayer1,displayScoreJLabel1,this.speed);
                     thread1111.start();
                     
 
@@ -484,17 +484,13 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
                              jComboBox1.setEnabled(true);
                         //automaticMovingDownThread.interrupt();
         thread1111.stop();
-                thread2222.stop();
+        thread2222.stop();
 
+        
+        thread3333.stop();
                 
                 
-                
-                
-                thread3333.stop();
-                
-                
-                
-                
+              
 
         try {
             Thread.sleep(1000);//this prevents to make duplicite threats by pushing startButton
