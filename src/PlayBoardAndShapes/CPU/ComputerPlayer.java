@@ -8,6 +8,7 @@ package PlayBoardAndShapes.CPU;
 
 import PlayBoardAndShapes.PlayBoard;
 import PlayBoardAndShapes.Shape;
+import org.apache.commons.lang.SerializationUtils;
 
 /**
  *Class represents CPU player.Contains methods which tryies all possibilities for putting current shape in
@@ -29,27 +30,44 @@ public class ComputerPlayer{
     /**
      *Instance of Playboard.
      */
-    PlayBoard playBoard;
+    PlayBoard playBoardCPU;
     
     /**
      *Instance of Shape.
      */
-    Shape currentShape;
+    Shape currentShapeCPU;
+    /**
+     *Only for testing purposses.
+     */
+    boolean removeShape=true;
 
     /**
      *Inicializes new instance of class
      * @param playBoardArray Array for trying all possibiligies for playboard. 
      */
-    public ComputerPlayer(int[][] playBoardArray,Shape currentShape) {
-        this.originPlayboardForCPU=playBoardArray.clone();
-        this.currentPlayboardForCPU=this.originPlayboardForCPU.clone();
+    public ComputerPlayer(int[][] playBoardArray,Shape currentShape) throws CloneNotSupportedException {
+        this.playBoardCPU=new PlayBoard();
+        this.playBoardCPU.setPlayBoardArray(playBoardArray.clone());
+        //this.originPlayboardForCPU=playBoardArray.clone();
+        this.currentPlayboardForCPU=this.playBoardCPU.getPlayBoardArray().clone();
         
-        this.currentShape=currentShape;
+        this.currentShapeCPU=(Shape) currentShape.clone();
+        
+        // Serializes Student object to a byte[] array
+        byte[] bytes = SerializationUtils.serialize(playBoardCPU);
+
+// Deserializes Student object from an array of bytes
+Student clone = (Student) SerializationUtils.deserialize(bytes);
+        
+        
+        
     }
  
     public void testAllPositionsOfCurrentShapeInCurrentState(){
-        /* moveShapeToStartingPosition();
-        setDownShape();
+        
+        moveShapeToStartingPositionLeft();
+        
+        /*setDownShape();
         checkAndSaveScoreOfCurrentPositionBySettingShapeDown();
         
         renewPlayboard();
@@ -57,9 +75,27 @@ public class ComputerPlayer{
     }
     
     
-    public void moveToStartingPosition(){
-        playBoard.MoveLeft(currentShape);
+    public void moveShapeToStartingPositionLeft(){
+        //simulating of moving shape throught the playboard.     
+        
+        
+        if (removeShape) {
+            playBoardCPU.removeShapeFromPlayBoardXYSystem(currentShapeCPU, currentPlayboardForCPU);
+            if (playBoardCPU.checkIfShapeCanGoLeft(currentShapeCPU, currentPlayboardForCPU)) {
+                playBoardCPU.MoveLeft(currentShapeCPU);
+                playBoardCPU.writeShapeToPlayBoardXYSystem(currentShapeCPU, currentPlayboardForCPU);
     }
+            else {
+                removeShape=false;
+                playBoardCPU.writeShapeToPlayBoardXYSystem(currentShapeCPU, currentPlayboardForCPU);
+            }
+        }
+    for (int i = 0; i < 10; i++) {
+                    for (int j = 0; j < 10; j++) {
+                        System.out.print(currentPlayboardForCPU[i][j]);
+                    }
+                    System.out.println("");
+                }
     
 
 

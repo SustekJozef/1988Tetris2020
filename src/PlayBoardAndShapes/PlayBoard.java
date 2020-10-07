@@ -11,6 +11,7 @@ import PlayBoardAndShapes.CPU.ComputerPlayer;
 import sounds.SoundEffect;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -20,7 +21,7 @@ import java.util.Scanner;
  *
  * @author Jozef
  */
-public class PlayBoard{
+public class PlayBoard implements Serializable{
    /**
      * Game´s playboard, where are saved all existing blocks. 
      */
