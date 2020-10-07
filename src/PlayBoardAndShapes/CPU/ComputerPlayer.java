@@ -27,10 +27,10 @@ public class ComputerPlayer{
      */
     int[][] currentPlayboardForCPU;
     
-    /**
+    /**;
      *Instance of Playboard.
      */
-    PlayBoard playBoardCPU;
+    PlayBoard playBoardForCPU;
     
     /**
      *Instance of Shape.
@@ -45,19 +45,18 @@ public class ComputerPlayer{
      *Inicializes new instance of class
      * @param playBoardArray Array for trying all possibiligies for playboard. 
      */
-    public ComputerPlayer(int[][] playBoardArray,Shape currentShape) throws CloneNotSupportedException {
-        this.playBoardCPU=new PlayBoard();
-        this.playBoardCPU.setPlayBoardArray(playBoardArray.clone());
+    public ComputerPlayer(PlayBoard playBoardForCPU) throws CloneNotSupportedException {
+        /*this.playBoardForCPU=new PlayBoard();
+        this.playBoardForCPU.setPlayBoardArray(playBoardArray.clone());
         //this.originPlayboardForCPU=playBoardArray.clone();
-        this.currentPlayboardForCPU=this.playBoardCPU.getPlayBoardArray().clone();
+        this.currentPlayboardForCPU=this.playBoardForCPU.getPlayBoardArray().clone();
         
         this.currentShapeCPU=(Shape) currentShape.clone();
-        
+        */
         // Serializes Student object to a byte[] array
-        byte[] bytes = SerializationUtils.serialize(playBoardCPU);
-
-// Deserializes Student object from an array of bytes
-Student clone = (Student) SerializationUtils.deserialize(bytes);
+        byte[] bytes = SerializationUtils.serialize(this.playBoardForCPU);
+        // Deserializes Student object from an array of bytes
+        PlayBoard clone = (PlayBoard) SerializationUtils.deserialize(bytes);
         
         
         
@@ -80,14 +79,14 @@ Student clone = (Student) SerializationUtils.deserialize(bytes);
         
         
         if (removeShape) {
-            playBoardCPU.removeShapeFromPlayBoardXYSystem(currentShapeCPU, currentPlayboardForCPU);
-            if (playBoardCPU.checkIfShapeCanGoLeft(currentShapeCPU, currentPlayboardForCPU)) {
-                playBoardCPU.MoveLeft(currentShapeCPU);
-                playBoardCPU.writeShapeToPlayBoardXYSystem(currentShapeCPU, currentPlayboardForCPU);
+            playBoardForCPU.removeShapeFromPlayBoardXYSystem(currentShapeCPU, currentPlayboardForCPU);
+            if (playBoardForCPU.checkIfShapeCanGoLeft(currentShapeCPU, currentPlayboardForCPU)) {
+                playBoardForCPU.MoveLeft(currentShapeCPU);
+                playBoardForCPU.writeShapeToPlayBoardXYSystem(currentShapeCPU, currentPlayboardForCPU);
     }
             else {
                 removeShape=false;
-                playBoardCPU.writeShapeToPlayBoardXYSystem(currentShapeCPU, currentPlayboardForCPU);
+                playBoardForCPU.writeShapeToPlayBoardXYSystem(currentShapeCPU, currentPlayboardForCPU);
             }
         }
     for (int i = 0; i < 10; i++) {
@@ -96,7 +95,7 @@ Student clone = (Student) SerializationUtils.deserialize(bytes);
                     }
                     System.out.println("");
                 }
-    
+    }
 
 
     

@@ -30,6 +30,7 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
      */
     private PlayBoard playBoardForPlayer1=new PlayBoard();
     private PlayBoard playBoardForPlayer2OrCPU=new PlayBoard();
+    private PlayBoard playBoardForPlayer3CPU=new PlayBoard();
 
     Action downArrow;
     Action rightArrow;
@@ -67,9 +68,10 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
     Thread t1;
     */
     
-        AutomaticMovingDownThread thread1111;
+    private AutomaticMovingDownThread thread1111;
     
-        AutomaticMovingDownThread thread2222;
+    private AutomaticMovingDownThread thread2222;
+    private AutomaticMovingDownThread thread3333;
     
     
     //Vlakno threadForRepainting;
@@ -259,6 +261,7 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         displayScoreJLabel1 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        playBoardJPanelPlayer3CPU = new PlayBoardAndShapes.TetrisSwingPackage1.Background(playBoardForPlayer3CPU);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tetris");
@@ -273,7 +276,7 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         playBoardJPanelPlayer2OrCPU.setLayout(playBoardJPanelPlayer2OrCPULayout);
         playBoardJPanelPlayer2OrCPULayout.setHorizontalGroup(
             playBoardJPanelPlayer2OrCPULayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 337, Short.MAX_VALUE)
+            .addGap(0, 365, Short.MAX_VALUE)
         );
         playBoardJPanelPlayer2OrCPULayout.setVerticalGroup(
             playBoardJPanelPlayer2OrCPULayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -326,11 +329,11 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         playBoardJPanelPlayer1.setLayout(playBoardJPanelPlayer1Layout);
         playBoardJPanelPlayer1Layout.setHorizontalGroup(
             playBoardJPanelPlayer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 317, Short.MAX_VALUE)
+            .addGap(0, 345, Short.MAX_VALUE)
         );
         playBoardJPanelPlayer1Layout.setVerticalGroup(
             playBoardJPanelPlayer1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 459, Short.MAX_VALUE)
         );
 
         scoreJLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -342,6 +345,20 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         jLabel1.setText("PLAYER2");
 
         jLabel2.setText("Player 1");
+
+        playBoardJPanelPlayer3CPU.setRequestFocusEnabled(false);
+        playBoardJPanelPlayer3CPU.setVerifyInputWhenFocusTarget(false);
+
+        javax.swing.GroupLayout playBoardJPanelPlayer3CPULayout = new javax.swing.GroupLayout(playBoardJPanelPlayer3CPU);
+        playBoardJPanelPlayer3CPU.setLayout(playBoardJPanelPlayer3CPULayout);
+        playBoardJPanelPlayer3CPULayout.setHorizontalGroup(
+            playBoardJPanelPlayer3CPULayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 317, Short.MAX_VALUE)
+        );
+        playBoardJPanelPlayer3CPULayout.setVerticalGroup(
+            playBoardJPanelPlayer3CPULayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -361,7 +378,9 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(playBoardJPanelPlayer1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 237, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(playBoardJPanelPlayer3CPU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(restartjButton, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -409,7 +428,10 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
                         .addComponent(playBoardJPanelPlayer2OrCPU, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(playBoardJPanelPlayer1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(playBoardJPanelPlayer1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(playBoardJPanelPlayer3CPU, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -430,18 +452,22 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
 
                     //first player
                     playBoardForPlayer1.setRestartGame(false);
-                    updateScreen(playBoardForPlayer1,"down",playBoardJPanelPlayer2OrCPU,displayScoreJLabel2);
+                    updateScreen(playBoardForPlayer1,"down",playBoardJPanelPlayer1,displayScoreJLabel2);
                     this.thread1111=new AutomaticMovingDownThread(playBoardForPlayer1,"down",playBoardJPanelPlayer2OrCPU,displayScoreJLabel1,this.speed);
                     thread1111.start();
                     
 
                     //second player or cpu 
                     playBoardForPlayer2OrCPU.setRestartGame(false);
-                    updateScreen(playBoardForPlayer2OrCPU,"down",playBoardJPanelPlayer1,displayScoreJLabel1);
-                    this.thread2222=new AutomaticMovingDownThread(playBoardForPlayer2OrCPU,"down",playBoardJPanelPlayer1,displayScoreJLabel2,this.speed);
+                    updateScreen(playBoardForPlayer2OrCPU,"down",playBoardJPanelPlayer2OrCPU,displayScoreJLabel1);
+                    this.thread2222=new AutomaticMovingDownThread(playBoardForPlayer2OrCPU,"down",playBoardJPanelPlayer2OrCPU,displayScoreJLabel2,this.speed);
                     thread2222.start();
                     
-                    
+       //cpu test player
+                    playBoardForPlayer3CPU.setRestartGame(false);
+                    updateScreen(playBoardForPlayer3CPU,"down",playBoardJPanelPlayer3CPU,displayScoreJLabel1);
+         this.thread3333=new AutomaticMovingDownThread(playBoardForPlayer3CPU,"down",playBoardJPanelPlayer3CPU,displayScoreJLabel2,this.speed);
+                    thread3333.start();                         
                     
     }//GEN-LAST:event_startJButtonActionPerformed
 
@@ -460,6 +486,16 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         thread1111.stop();
                 thread2222.stop();
 
+                
+                
+                
+                
+                thread3333.stop();
+                
+                
+                
+                
+
         try {
             Thread.sleep(1000);//this prevents to make duplicite threats by pushing startButton
         } catch (InterruptedException ex) {
@@ -468,13 +504,18 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         playBoardForPlayer1.setPushNewShape(true); //new shape must come
         playBoardForPlayer1.setRestartGame(true); // main algoritmus knows that it is occation when it is not new game but only restart.
 
-        playBoardForPlayer1.deleteScreenBorders();
+        playBoardForPlayer1.deleteOnlyScreenNotBorders();
         repaint();
         
         playBoardForPlayer2OrCPU.setPushNewShape(true); //new shape must come
         playBoardForPlayer2OrCPU.setRestartGame(true); // main algoritmus knows that it is occation when it is not new game but only restart.
+        playBoardForPlayer2OrCPU.deleteOnlyScreenNotBorders();
+        repaint();
 
-        playBoardForPlayer2OrCPU.deleteScreenBorders();
+
+        playBoardForPlayer3CPU.setPushNewShape(true); //new shape must come
+        playBoardForPlayer3CPU.setRestartGame(true); // main algoritmus knows that it is occation when it is not new game but only restart.
+        playBoardForPlayer3CPU.deleteOnlyScreenNotBorders();
         repaint();
         //startJButtonActionPerformed(evt);
     }//GEN-LAST:event_restartjButtonActionPerformed
@@ -607,6 +648,7 @@ public class AutomaticMovingDownThread implements Runnable{
     private javax.swing.JLabel jLabel2;
     public javax.swing.JPanel playBoardJPanelPlayer1;
     public javax.swing.JPanel playBoardJPanelPlayer2OrCPU;
+    public javax.swing.JPanel playBoardJPanelPlayer3CPU;
     private javax.swing.JButton restartjButton;
     private javax.swing.JLabel scoreJLabel;
     private javax.swing.JLabel scoreJLabel1;

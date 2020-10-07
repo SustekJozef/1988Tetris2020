@@ -14,6 +14,8 @@ import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -93,7 +95,7 @@ public class PlayBoard implements Serializable{
     /**
     * Uses current playboard to checks all possibilities of putting a shape to the board.
     */
-    //ComputerPlayer computerPlayer;
+    ComputerPlayer computerPlayer;
     
     /**
      *
@@ -121,7 +123,7 @@ public class PlayBoard implements Serializable{
         this.numberFullRowsInOneTurn=0;
         this.speedBonusFromSpeedLevel=1;
         this.backroundColor=new Color(177, 156, 129);
-        //this.computerPlayer=new ComputerPlayer(playBoardArray,getCurrentShape());
+       // this.computerPlayer=new ComputerPlayer(this);
     }
 
     /** 
@@ -147,7 +149,7 @@ public class PlayBoard implements Serializable{
     /**
      *Prints Welcome screen. User can choice to run a game in different modes.
      */
-    public void deleteScreenBorders() {
+    public void deleteOnlyScreenNotBorders() {
         //fills first and last row with blocks (by this it makes playing ground
         for (int i = 0; i < (getPlayBoardArray().length); i++) {
             for (int j = 0; j < getPlayBoardArray()[1].length; j++) {
@@ -220,6 +222,11 @@ public class PlayBoard implements Serializable{
                 }
             
           }
+        /*try {
+        this.computerPlayer=new ComputerPlayer(this);
+        } catch (CloneNotSupportedException ex) {
+        Logger.getLogger(PlayBoard.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
     }
     
     /**
