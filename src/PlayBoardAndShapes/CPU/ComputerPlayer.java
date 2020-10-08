@@ -8,6 +8,7 @@ package PlayBoardAndShapes.CPU;
 
 import PlayBoardAndShapes.PlayBoard;
 import PlayBoardAndShapes.Shape;
+import java.io.Serializable;
 import org.apache.commons.lang.SerializationUtils;
 
 /**
@@ -16,26 +17,26 @@ import org.apache.commons.lang.SerializationUtils;
  * to count different possibillities of putting shapes. It determines which possibillity will be chosen.
  * @author Jozef
  */
-public class ComputerPlayer{
+public class ComputerPlayer implements Serializable{
     /**
      *Array to save copy of original playboard of game.
      */
-    int[][] originPlayboardForCPU;
+    //int[][] originPlayboardForCPU;
      /**
      *Array to save  playboard of game for using for counting of possibillities of game, when I put current
      * shape to different positions.
      */
-    int[][] currentPlayboardForCPU;
+    //int[][] currentPlayboardForCPU;
     
     /**;
      *Instance of Playboard.
      */
-    PlayBoard playBoardForCPU;
+    PlayBoard originalPlayBoardForCPU;
     
     /**
-     *Instance of Shape.
+     *Instance of PlayBoard for testing purposes.
      */
-    Shape currentShapeCPU;
+    private PlayBoard currentTestingPlayBoardForCPU;
     /**
      *Only for testing purposses.
      */
@@ -46,23 +47,30 @@ public class ComputerPlayer{
      * @param playBoardArray Array for trying all possibiligies for playboard. 
      */
     public ComputerPlayer(PlayBoard playBoardForCPU) throws CloneNotSupportedException {
-        /*this.playBoardForCPU=new PlayBoard();
-        this.playBoardForCPU.setPlayBoardArray(playBoardArray.clone());
+        this.originalPlayBoardForCPU=playBoardForCPU;
+
+        renewOfTestingPlayBoardByOriginalOne();
+        //getCurrentTestingPlayBoardForCPU().removeShapeFromPlayBoardXYSystem(getCurrentTestingPlayBoardForCPU().getCurrentShape(), getCurrentTestingPlayBoardForCPU().getPlayBoardArray());
+        //getCurrentTestingPlayBoardForCPU().setPushNewShape(false);
+        
+        
+        /*this.originalPlayBoardForCPU=new PlayBoard();
+        this.originalPlayBoardForCPU.setPlayBoardArray(playBoardArray.clone());
         //this.originPlayboardForCPU=playBoardArray.clone();
-        this.currentPlayboardForCPU=this.playBoardForCPU.getPlayBoardArray().clone();
+        this.currentPlayboardForCPU=this.originalPlayBoardForCPU.getPlayBoardArray().clone();
         
         this.currentShapeCPU=(Shape) currentShape.clone();
         */
-        // Serializes Student object to a byte[] array
-        byte[] bytes = SerializationUtils.serialize(this.playBoardForCPU);
+        /* // Serializes Student object to a byte[] array
+        byte[] bytes = SerializationUtils.serialize(this.originalPlayBoardForCPU);
         // Deserializes Student object from an array of bytes
         PlayBoard clone = (PlayBoard) SerializationUtils.deserialize(bytes);
-        
+        */
         
         
     }
  
-    public void testAllPositionsOfCurrentShapeInCurrentState(){
+    public void testAllPositionsOfCurrentShapeInCurrentState() throws InterruptedException{
         
         moveShapeToStartingPositionLeft();
         
@@ -74,32 +82,55 @@ public class ComputerPlayer{
     }
     
     
-    public void moveShapeToStartingPositionLeft(){
+    public void moveShapeToStartingPositionLeft() throws InterruptedException{
         //simulating of moving shape throught the playboard.     
-        
-        
         if (removeShape) {
-            playBoardForCPU.removeShapeFromPlayBoardXYSystem(currentShapeCPU, currentPlayboardForCPU);
-            if (playBoardForCPU.checkIfShapeCanGoLeft(currentShapeCPU, currentPlayboardForCPU)) {
-                playBoardForCPU.MoveLeft(currentShapeCPU);
-                playBoardForCPU.writeShapeToPlayBoardXYSystem(currentShapeCPU, currentPlayboardForCPU);
+        //removes shape to avoid conflict of old shape and while it is chcecking if shape can move
+        getCurrentTestingPlayBoardForCPU().removeShapeFromPlayBoardXYSystem(getCurrentTestingPlayBoardForCPU().getCurrentShape(), getCurrentTestingPlayBoardForCPU().getPlayBoardArray());
+
+        while (getCurrentTestingPlayBoardForCPU().checkIfShapeCanGoLeft(getCurrentTestingPlayBoardForCPU().getCurrentShape(), getCurrentTestingPlayBoardForCPU().getPlayBoardArray())){
+    
+            if (removeShape) {
+
+            if (getCurrentTestingPlayBoardForCPU().checkIfShapeCanGoLeft(getCurrentTestingPlayBoardForCPU().getCurrentShape(), getCurrentTestingPlayBoardForCPU().getPlayBoardArray())) {
+                getCurrentTestingPlayBoardForCPU().MoveLeft(getCurrentTestingPlayBoardForCPU().getCurrentShape());
+                getCurrentTestingPlayBoardForCPU().writeShapeToPlayBoardXYSystem(getCurrentTestingPlayBoardForCPU().getCurrentShape(), getCurrentTestingPlayBoardForCPU().getPlayBoardArray());
     }
             else {
                 removeShape=false;
-                playBoardForCPU.writeShapeToPlayBoardXYSystem(currentShapeCPU, currentPlayboardForCPU);
+                getCurrentTestingPlayBoardForCPU().writeShapeToPlayBoardXYSystem(getCurrentTestingPlayBoardForCPU().getCurrentShape(), getCurrentTestingPlayBoardForCPU().getPlayBoardArray());
             }
-        }
-    for (int i = 0; i < 10; i++) {
-                    for (int j = 0; j < 10; j++) {
-                        System.out.print(currentPlayboardForCPU[i][j]);
-                    }
-                    System.out.println("");
+                    Thread.sleep(5000);
+                    getCurrentTestingPlayBoardForCPU().removeShapeFromPlayBoardXYSystem(getCurrentTestingPlayBoardForCPU().getCurrentShape(), getCurrentTestingPlayBoardForCPU().getPlayBoardArray());
+
                 }
+        }
+        
+        /*for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+        System.out.print(getCurrentTestingPlayBoardForCPU().getCurrentShape());
+        }
+        System.out.println("");
+        }*/
+    }
+        }
+
+     /**
+     *Renewing of playBoardObject for another testing.
+     */
+    private void renewOfTestingPlayBoardByOriginalOne(){
+        // Serializes Student object to a byte[] array
+        byte[] bytes = SerializationUtils.serialize(this.originalPlayBoardForCPU);
+        // Deserializes Student object from an array of bytes
+        this.currentTestingPlayBoardForCPU = (PlayBoard) SerializationUtils.deserialize(bytes);    
     }
 
-
-    
-    
+    /**
+     * @return the currentTestingPlayBoardForCPU
+     */
+    public PlayBoard getCurrentTestingPlayBoardForCPU() {
+        return currentTestingPlayBoardForCPU;
+    }
     
     
     

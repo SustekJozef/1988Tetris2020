@@ -5,6 +5,7 @@
  */
 package PlayBoardAndShapes.TetrisSwingPackage1;
 
+import PlayBoardAndShapes.CPU.ComputerPlayer;
 import PlayBoardAndShapes.PlayBoard;
 import sounds.SoundEffect;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,7 @@ import javax.swing.Action;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import org.apache.commons.lang.SerializationUtils;
 
 
 /**
@@ -25,13 +27,26 @@ import javax.swing.KeyStroke;
  */ 
 public class PlayBoardJFrame extends javax.swing.JFrame {
 
+    private ComputerPlayer computerPlayer;
+    
+    
+    
+    
     /**
      * Playboard
      */
-    private PlayBoard playBoardForPlayer1=new PlayBoard();
-    private PlayBoard playBoardForPlayer2OrCPU=new PlayBoard();
-    private PlayBoard playBoardForPlayer3CPU=new PlayBoard();
+    private PlayBoard playBoardForPlayer1;
+    private PlayBoard playBoardForPlayer2OrCPU;
+    private PlayBoard playBoardForPlayer3CPU;
 
+    
+     
+    
+    
+    
+    
+    
+    
     Action downArrow;
     Action rightArrow;
     Action leftArrow;
@@ -63,6 +78,10 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
     */
     private int speedLevel;
     
+    
+    
+    
+    
     /*//AutomaticMovingDownThread automaticMovingDownThread1=new AutomaticMovingDownThread(1000);
     
     Thread t1;
@@ -78,8 +97,36 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainJFrame
      */
-    public PlayBoardJFrame() {
-        initComponents();
+    public PlayBoardJFrame() throws CloneNotSupportedException {
+        
+        
+        
+   
+    playBoardForPlayer1=new PlayBoard();
+    playBoardForPlayer2OrCPU=new PlayBoard();
+    ///very important - this makes copy of CPU player/2. player to computerPlayer - which is for testing all
+    //possibilities of puting shapes to decide how will be cpu´s next move. Code needed nicer look of course
+   try {
+        // Serializes object to a byte[] array
+        byte[] bytes = SerializationUtils.serialize(playBoardForPlayer2OrCPU);
+        // Deserializes object from an array of bytes
+        this.playBoardForPlayer3CPU = (PlayBoard) SerializationUtils.deserialize(bytes);  
+        //cpu test player
+        this.computerPlayer=new ComputerPlayer(playBoardForPlayer3CPU);
+    } catch (CloneNotSupportedException ex) {
+        Logger.getLogger(PlayBoardJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    
+    
+    
+    
+            
+         initComponents();  
+    
+        
+        
+        
         
         //First player
         downArrow=new PlayerMoveBindingAction(playBoardForPlayer1,"down",playBoardJPanelPlayer1,displayScoreJLabel1);
@@ -145,8 +192,10 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         //restartjButton.setEnabled(false);
 
 
-//        this.thread1111=new AutomaticMovingDownThread(this.speed);
+        //this.thread1111=new AutomaticMovingDownThread(this.speed);
 
+
+     //   this.computerPlayer=new ComputerPlayer(playBoardForPlayer3CPU);
        
     }
     
@@ -261,7 +310,7 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         displayScoreJLabel1 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        playBoardJPanelPlayer3CPU = new PlayBoardAndShapes.TetrisSwingPackage1.Background(playBoardForPlayer3CPU);
+        playBoardJPanelPlayer3CPU = new PlayBoardAndShapes.TetrisSwingPackage1.Background(computerPlayer.getCurrentTestingPlayBoardForCPU());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tetris");
@@ -346,14 +395,11 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
 
         jLabel2.setText("Player 1");
 
-        playBoardJPanelPlayer3CPU.setRequestFocusEnabled(false);
-        playBoardJPanelPlayer3CPU.setVerifyInputWhenFocusTarget(false);
-
         javax.swing.GroupLayout playBoardJPanelPlayer3CPULayout = new javax.swing.GroupLayout(playBoardJPanelPlayer3CPU);
         playBoardJPanelPlayer3CPU.setLayout(playBoardJPanelPlayer3CPULayout);
         playBoardJPanelPlayer3CPULayout.setHorizontalGroup(
             playBoardJPanelPlayer3CPULayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 317, Short.MAX_VALUE)
+            .addGap(0, 299, Short.MAX_VALUE)
         );
         playBoardJPanelPlayer3CPULayout.setVerticalGroup(
             playBoardJPanelPlayer3CPULayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -378,9 +424,9 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(playBoardJPanelPlayer1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(playBoardJPanelPlayer3CPU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(playBoardJPanelPlayer3CPU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(restartjButton, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -428,10 +474,9 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
                         .addComponent(playBoardJPanelPlayer2OrCPU, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(playBoardJPanelPlayer1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(playBoardJPanelPlayer3CPU, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(playBoardJPanelPlayer3CPU, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(playBoardJPanelPlayer1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
@@ -463,11 +508,40 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
                     this.thread2222=new AutomaticMovingDownThread(playBoardForPlayer2OrCPU,"down",playBoardJPanelPlayer2OrCPU,displayScoreJLabel2,this.speed);
                     thread2222.start();
                     
-       //cpu test player
-                    playBoardForPlayer3CPU.setRestartGame(false);
-                    updateScreen(playBoardForPlayer3CPU,"down",playBoardJPanelPlayer3CPU,displayScoreJLabel1);
-         this.thread3333=new AutomaticMovingDownThread(playBoardForPlayer3CPU,"down",playBoardJPanelPlayer3CPU,displayScoreJLabel2,this.speed);
-                    thread3333.start();                         
+      //trieda môže opúť vložiť shape, takže to môže byť problém treba aby bol predtým už zachytený (naclonovaný)
+                    
+
+      /*       try {
+      
+      // Serializes Student object to a byte[] array
+      byte[] bytes = SerializationUtils.serialize(playBoardForPlayer2OrCPU);
+      // Deserializes Student object from an array of bytes
+      this.playBoardForPlayer3CPU = (PlayBoard) SerializationUtils.deserialize(bytes);
+      
+      
+      //cpu test player
+      this.computerPlayer=new ComputerPlayer(playBoardForPlayer3CPU);
+      
+      
+      } catch (CloneNotSupportedException ex) {
+      Logger.getLogger(PlayBoardJFrame.class.getName()).log(Level.SEVERE, null, ex);
+      }*/
+
+                   //playBoardForPlayer3CPU=computerPlayer.getCurrentTestingPlayBoardForCPU();
+                    
+                    //this.computerPlayer.getCurrentTestingPlayBoardForCPU().setRestartGame(false);//nadbytočné
+                    //updateScreen(this.computerPlayer.getCurrentTestingPlayBoardForCPU(),"down",playBoardJPanelPlayer3CPU,displayScoreJLabel1);
+                    
+                    updateScreen(computerPlayer.getCurrentTestingPlayBoardForCPU(),"doNothingOnlyPaintShapeIntoPlayboard",playBoardJPanelPlayer3CPU,displayScoreJLabel1);
+     
+                    
+                    
+       thread3333=new AutomaticMovingDownThread(this.computerPlayer.getCurrentTestingPlayBoardForCPU(),"down",playBoardJPanelPlayer3CPU,displayScoreJLabel2,this.speed);
+                    thread3333.start();  
+        
+                    
+                    
+                               
                     
     }//GEN-LAST:event_startJButtonActionPerformed
 
@@ -562,7 +636,11 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PlayBoardJFrame().setVisible(true);
+                try {
+                    new PlayBoardJFrame().setVisible(true);
+                } catch (CloneNotSupportedException ex) {
+                    Logger.getLogger(PlayBoardJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

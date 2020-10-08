@@ -6,11 +6,13 @@
 
 package PlayBoardAndShapes;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Jozef
  */
-public abstract class Shape{
+public abstract class Shape implements Serializable{
 
     /**
      * Array in which is saved position of all of blocks of current shape. 

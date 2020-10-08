@@ -16,6 +16,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.lang.SerializationUtils;
 
 
 /**
@@ -35,7 +36,7 @@ public class PlayBoard implements Serializable{
     /**
      *
      */
-    private Scanner sc;
+    //private Scanner sc;
     
     
     /**
@@ -101,7 +102,7 @@ public class PlayBoard implements Serializable{
      *
      */
     public PlayBoard() {
-        this.sc = new Scanner(System.in,"Windows-1250");
+        //this.sc = new Scanner(System.in,"Windows-1250");
         this.userChoice = "";
         this.gameArrayHeight=22; //22
         this.gameArrayWidth=12;  //12
@@ -127,7 +128,7 @@ public class PlayBoard implements Serializable{
     }
 
     /** 
-     *Prints screen with borders. User can choice to run a game in different modes.
+     *Prints screen with borders. User can choice to run a game in different modes.---bad writen - new things this does!!!!!!!!!!!!!!!!!!!!
      */
     public void prepareScreenBorders() {
         //fills first and last row with blocks (by this it makes playing ground
@@ -168,10 +169,18 @@ public class PlayBoard implements Serializable{
      */
     public void inputShapeToPlayboard(Shape currentShape, int [][] playBoardArray,String direction){
         //if new shape request is available program makes new shape
-        if (pushNewShape){                                                                                              
-            currentShape=MakeNewShape(); //makes new shape
+        if (isPushNewShape()){                                                                                              
+            if (currentShape==null){//it means that it is the first shape in activ game
+            currentShape=MakeNewShape(); //makes new shape 
             this.currentShape=currentShape; //these two lines of code is only for first time starting of game
-            pushNewShape=false; //stop making a new shape in next round
+            }
+            else {
+                currentShape=MakeNewShape(); ///reworkreworkreworkreworkreworkreworkreworkreworkreworkrework reworkreworkreworkreworkrework
+                this.currentShape=currentShape;
+            }
+            
+            
+            setPushNewShape(false); //stop making a new shape in next round
             setDownOrCanRotete=true; //can freely rotate
             
             if (checkIfShapeCanGoDown(currentShape, playBoardArray)) { //if there is a possibility to go down - new shape can co only down at first
@@ -181,8 +190,8 @@ public class PlayBoard implements Serializable{
 
             }
             else  { //if there is not a possibility to go ONLY down (so there is needed new shape {
-                pushNewShape=true;//it means that this else will run only when is a Game OVER, becase there is no space for a new shape
-            }
+                setPushNewShape(true);//it means that this else will run only when is a Game OVER, becase there is no space for a new shape
+            };
         } 
         else { //if the shape is NOT new
             removeShapeFromPlayBoardXYSystem(currentShape, playBoardArray); //removes an old shape
@@ -195,7 +204,7 @@ public class PlayBoard implements Serializable{
                     }
                     else {
                         writeShapeToPlayBoardXYSystem(currentShape, playBoardArray); //even though is the shape removed, it need to be there -so it is repainted
-                        pushNewShape=true;
+                        setPushNewShape(true);
                         setDownOrCanRotete=false;
                         checkFullRowAndRemoveIt();
                      //   SoundEffect.SIT.play(); //play a sound of rotate movement
@@ -219,14 +228,37 @@ public class PlayBoard implements Serializable{
                         writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);
                     }
                     break;
+                  case "doNothingOnlyPaintShapeIntoPlayboard":
+                        writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);//needed to write again, because it was removed one step before
+                    break;
                 }
             
           }
-        /*try {
-        this.computerPlayer=new ComputerPlayer(this);
+        
+        
+        
+        
+        
+        /*
+        // Serializes Student object to a byte[] array
+        byte[] bytes = SerializationUtils.serialize(this);
+        // Deserializes Student object from an array of bytes
+        PlayBoard clone = (PlayBoard) SerializationUtils.deserialize(bytes);
+        
+        
+        try {
+        this.computerPlayer=new ComputerPlayer(clone);
         } catch (CloneNotSupportedException ex) {
         Logger.getLogger(PlayBoard.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
+        
+        computerPlayer.moveShapeToStartingPositionLeft();
+        */
+        
+        
+    
+    
+    
     }
     
     /**
@@ -252,7 +284,7 @@ public class PlayBoard implements Serializable{
                     case 6:
                     return new ShapeZMirrored();
             }
-            return new ShapeZMirrored();
+            return new ShapeZMirrored(); ///opraviť
     }
     
     /**
@@ -486,11 +518,7 @@ public class PlayBoard implements Serializable{
         this.restartGame = restartGame;
     }
 
-
-    public int [][] getCloneOfPlayBoardForCPU(){
-        return getPlayBoardArray().clone();
-    }
-    
+ 
    
 
     /**
@@ -505,6 +533,13 @@ public class PlayBoard implements Serializable{
      */
     public Shape getCurrentShape() {
         return currentShape;
+    }
+
+    /**
+     * @return the pushNewShape
+     */
+    public boolean isPushNewShape() {
+        return pushNewShape;
     }
     
 
