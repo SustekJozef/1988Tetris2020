@@ -19,7 +19,7 @@ public class ShapeL extends Shape {
      *
      */
     public ShapeL(){
-                this.shapeInitializationArray= new int[][]{{BASEX, BASEY},{BASEX, BASEY+1},{BASEX-1, BASEY},{BASEX-2, BASEY}};
+                this.shapeInitializationArray= new int[][]{{super.BASEX, super.BASEY},{super.BASEX, super.BASEY+1},{super.BASEX-1, super.BASEY},{super.BASEX-2, super.BASEY}};
                 super.maxNumberOfRotationPositionOfShape=3; 
                 super.numberOfShape=2;
     }

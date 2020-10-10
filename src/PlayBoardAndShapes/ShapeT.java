@@ -21,7 +21,7 @@ public class ShapeT extends Shape{
      *
      */
     public ShapeT() {
-        this.shapeInitializationArray= new int[][]{{BASEX, BASEY},{BASEX, BASEY+1},{BASEX, BASEY-1},{BASEX-1, BASEY}};
+        this.shapeInitializationArray= new int[][]{{super.BASEX, super.BASEY},{super.BASEX, super.BASEY+1},{super.BASEX, super.BASEY-1},{super.BASEX-1, super.BASEY}};
         super.maxNumberOfRotationPositionOfShape=3; 
         super.numberOfShape=5;
     }

@@ -98,6 +98,27 @@ public class PlayBoard implements Serializable{
     */
     ComputerPlayer computerPlayer;
     
+    
+    /**
+     *Saves if there is any possibility to move in left direction. It return false if there is no possible 
+     * movement in chosen direction (left)
+     */
+    protected boolean canGoLeft;
+
+    
+    
+    /**
+     *Saves if there is any possibility to move in right direction. It return false if there is no possible 
+     * movement in chosen direction (right)
+     */
+    protected boolean canGoRight;
+    
+    /**
+     *Saves if there is any possibility to move in down direction. It return false if there is no possible 
+     * movement in chosen direction (down)
+     */
+    protected boolean canGoDown;
+    
     /**
      *
      */
@@ -125,6 +146,11 @@ public class PlayBoard implements Serializable{
         this.speedBonusFromSpeedLevel=1;
         this.backroundColor=new Color(177, 156, 129);
        // this.computerPlayer=new ComputerPlayer(this);
+        this.canGoLeft=true;
+        this.canGoRight=true;
+        this.canGoDown=true;
+        //prepareScreenBorders();
+        
     }
 
     /** 
@@ -201,11 +227,13 @@ public class PlayBoard implements Serializable{
                     if (checkIfShapeCanGoDown(currentShape, playBoardArray)) {
                         MoveDown(currentShape);
                         writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);
+                        canGoDown=true;
                     }
                     else {
                         writeShapeToPlayBoardXYSystem(currentShape, playBoardArray); //even though is the shape removed, it need to be there -so it is repainted
                         setPushNewShape(true);
                         setDownOrCanRotete=false;
+                        canGoDown=false;
                         checkFullRowAndRemoveIt();
                      //   SoundEffect.SIT.play(); //play a sound of rotate movement
                     }
@@ -214,18 +242,23 @@ public class PlayBoard implements Serializable{
                     if (checkIfShapeCanGoRight(currentShape, playBoardArray)) {
                         MoveRight(currentShape);
                         writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);
+                        canGoRight=true;
                     }
                     else {
                         writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);
+                        canGoRight=false;
                     }
                     break;
                   case "left":
-                   if (checkIfShapeCanGoLeft(currentShape, playBoardArray)) {
+                   if (checkIfShapeCanGoLeft(currentShape, playBoardArray) && isCanGoLeft()) {
                         MoveLeft(currentShape);
                         writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);
+                        canGoLeft=true;
                     }
                    else {
                         writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);
+                        canGoLeft=false;
+    
                     }
                     break;
                   case "doNothingOnlyPaintShapeIntoPlayboard":
@@ -371,10 +404,13 @@ public class PlayBoard implements Serializable{
      * @return True if there is a possibility for shape to move left.
      */
     public boolean checkIfShapeCanGoLeft(Shape currentShape, int [][] playBoardArray){
-        return playBoardArray[(currentShape.shapeInitializationArray[0][0])][currentShape.shapeInitializationArray[0][1]-1]==0 &&
+            return playBoardArray[(currentShape.shapeInitializationArray[0][0])][currentShape.shapeInitializationArray[0][1]-1]==0 &&
                playBoardArray[(currentShape.shapeInitializationArray[1][0])][currentShape.shapeInitializationArray[1][1]-1]==0 &&
                playBoardArray[(currentShape.shapeInitializationArray[2][0])][currentShape.shapeInitializationArray[2][1]-1]==0 &&
                playBoardArray[(currentShape.shapeInitializationArray[3][0])][currentShape.shapeInitializationArray[3][1]-1]==0;
+      
+        
+        
     }
     
     
@@ -543,4 +579,17 @@ public class PlayBoard implements Serializable{
     }
     
 
+    public boolean isCanGoLeft() {
+        return canGoLeft;
+    }
+
+    public boolean isCanGoRight() {
+        return canGoRight;
+    }
+
+    public boolean isCanGoDown() {
+        return canGoDown;
+    }
+    
+    
 }

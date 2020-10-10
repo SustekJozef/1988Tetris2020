@@ -29,7 +29,7 @@ final protected int BASEX=3; //pozrieť
     /**
      *
      */
-final protected int BASEY=8;
+final protected int BASEY=6;
 
  /**
  *Starting position of shape´s rotation - each shape has it´s own positions.

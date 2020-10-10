@@ -127,11 +127,10 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
         
         
         
-        
         //First player
-        downArrow=new PlayerMoveBindingAction(playBoardForPlayer1,"down",playBoardJPanelPlayer1,displayScoreJLabel1);
-        rightArrow=new PlayerMoveBindingAction(playBoardForPlayer1,"right",playBoardJPanelPlayer1,displayScoreJLabel1);
-        leftArrow=new PlayerMoveBindingAction(playBoardForPlayer1,"left",playBoardJPanelPlayer1,displayScoreJLabel1);
+        downArrow=new PlayerMoveBindingAction(playBoardForPlayer1,"down",playBoardJPanelPlayer1, getDisplayScoreJLabel1());
+        rightArrow=new PlayerMoveBindingAction(playBoardForPlayer1,"right",playBoardJPanelPlayer1, getDisplayScoreJLabel1());
+        leftArrow=new PlayerMoveBindingAction(playBoardForPlayer1,"left",playBoardJPanelPlayer1, getDisplayScoreJLabel1());
         rotateShapeEnter=new PlayerRotateBindingAction(playBoardForPlayer1,playBoardJPanelPlayer1);
         //Second player or CPU
         downS=new PlayerMoveBindingAction(playBoardForPlayer2OrCPU,"down",playBoardJPanelPlayer2OrCPU,displayScoreJLabel2);
@@ -196,7 +195,8 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
 
 
      //   this.computerPlayer=new ComputerPlayer(playBoardForPlayer3CPU);
-       
+                           startJButton.doClick();
+
     }
     
     
@@ -498,46 +498,38 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
                     //first player
                     playBoardForPlayer1.setRestartGame(false);
                     updateScreen(playBoardForPlayer1,"down",playBoardJPanelPlayer1,displayScoreJLabel2);
-                    this.thread1111=new AutomaticMovingDownThread(playBoardForPlayer1,"down",playBoardJPanelPlayer1,displayScoreJLabel1,this.speed);
-                    thread1111.start();
+                    //this.thread1111=new AutomaticMovingDownThread(playBoardForPlayer1,"down",playBoardJPanelPlayer1, getDisplayScoreJLabel1(),this.speed);
+                   // thread1111.start();
                     
 
                     //second player or cpu 
                     playBoardForPlayer2OrCPU.setRestartGame(false);
-                    updateScreen(playBoardForPlayer2OrCPU,"down",playBoardJPanelPlayer2OrCPU,displayScoreJLabel1);
-                    this.thread2222=new AutomaticMovingDownThread(playBoardForPlayer2OrCPU,"down",playBoardJPanelPlayer2OrCPU,displayScoreJLabel2,this.speed);
-                    thread2222.start();
-                    
-      //trieda môže opúť vložiť shape, takže to môže byť problém treba aby bol predtým už zachytený (naclonovaný)
-                    
+                    updateScreen(playBoardForPlayer2OrCPU,"down",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
+                            updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
+                    updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
+                    updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
+                    updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
+                    updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
+                    updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
+                    updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
+                    updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
 
-      /*       try {
-      
-      // Serializes Student object to a byte[] array
-      byte[] bytes = SerializationUtils.serialize(playBoardForPlayer2OrCPU);
-      // Deserializes Student object from an array of bytes
-      this.playBoardForPlayer3CPU = (PlayBoard) SerializationUtils.deserialize(bytes);
-      
-      
-      //cpu test player
-      this.computerPlayer=new ComputerPlayer(playBoardForPlayer3CPU);
-      
-      
-      } catch (CloneNotSupportedException ex) {
-      Logger.getLogger(PlayBoardJFrame.class.getName()).log(Level.SEVERE, null, ex);
-      }*/
-
-                   //playBoardForPlayer3CPU=computerPlayer.getCurrentTestingPlayBoardForCPU();
-                    
-                    //this.computerPlayer.getCurrentTestingPlayBoardForCPU().setRestartGame(false);//nadbytočné
-                    //updateScreen(this.computerPlayer.getCurrentTestingPlayBoardForCPU(),"down",playBoardJPanelPlayer3CPU,displayScoreJLabel1);
-                    
-                    updateScreen(computerPlayer.getCurrentTestingPlayBoardForCPU(),"doNothingOnlyPaintShapeIntoPlayboard",playBoardJPanelPlayer3CPU,displayScoreJLabel1);
+            //this.thread2222=new AutomaticMovingDownThread(playBoardForPlayer2OrCPU,"down",playBoardJPanelPlayer2OrCPU,displayScoreJLabel2,this.speed);
+            //thread2222.start();
+           
+            
+            
      
-                    
-                    
-       thread3333=new AutomaticMovingDownThread(this.computerPlayer.getCurrentTestingPlayBoardForCPU(),"down",playBoardJPanelPlayer3CPU,displayScoreJLabel2,this.speed);
-                    thread3333.start();  
+            /*  updateScreen(computerPlayer.getCurrentTestingPlayBoardForCPU(),"doNothingOnlyPaintShapeIntoPlayboard", getPlayBoardJPanelPlayer3CPU(), getDisplayScoreJLabel1());
+            try {
+            computerPlayer.moveShapeToStartingPositionLeft();
+            updateScreen(computerPlayer.getCurrentTestingPlayBoardForCPU(),"doNothingOnlyPaintShapeIntoPlayboard", getPlayBoardJPanelPlayer3CPU(), getDisplayScoreJLabel1());
+            } catch (InterruptedException ex) {
+            Logger.getLogger(PlayBoardJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }*/
+            
+           // thread3333=new AutomaticMovingDownThread(this.computerPlayer.getCurrentTestingPlayBoardForCPU(),"left", getPlayBoardJPanelPlayer3CPU(),displayScoreJLabel2,this.speed);
+           // thread3333.start();
         
                     
                     
@@ -553,14 +545,12 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
 
                              //restartjButton.setVisible(false);
                              //restartjButton.setEnabled(false);
-                            //restartjButton.enableInputMethods(false);
+          //restartjButton.enableInputMethods(false);
 
                              jComboBox1.setEnabled(true);
                         //automaticMovingDownThread.interrupt();
         thread1111.stop();
         thread2222.stop();
-
-        
         thread3333.stop();
                 
                 
@@ -662,12 +652,14 @@ public class AutomaticMovingDownThread implements Runnable{
     private PlayBoard playboardOfCurrentPlayer;
     private JPanel playBoardJPanelForCurrentPlayer;
     private JLabel displayScoreJLabelForCurrentPlayer;
+    private String direction;
     
     public AutomaticMovingDownThread(PlayBoard playboardOfCurrentPlayer,String direction,JPanel playBoardJPanelForCurrentPlayer,JLabel displayScoreJLabelForCurrentPlayer,int sleepInterval){
         this.interval=sleepInterval;
         this.playboardOfCurrentPlayer=playboardOfCurrentPlayer;
         this.playBoardJPanelForCurrentPlayer=playBoardJPanelForCurrentPlayer;
         this.displayScoreJLabelForCurrentPlayer=displayScoreJLabelForCurrentPlayer;
+        this.direction=direction;
     }
     
     public void start(){
@@ -692,7 +684,7 @@ public class AutomaticMovingDownThread implements Runnable{
                     System.out.println("Thread was interreupted");
                 }
                 //current player
-                updateScreen(playboardOfCurrentPlayer,"down",playBoardJPanelForCurrentPlayer,displayScoreJLabelForCurrentPlayer);
+                updateScreen(playboardOfCurrentPlayer,direction,playBoardJPanelForCurrentPlayer,displayScoreJLabelForCurrentPlayer);
                 
                 
         }
@@ -728,6 +720,27 @@ public class AutomaticMovingDownThread implements Runnable{
     private javax.swing.JLabel scoreJLabel1;
     private javax.swing.JButton startJButton;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the playBoardJPanelPlayer3CPU
+     */
+    public javax.swing.JPanel getPlayBoardJPanelPlayer3CPU() {
+        return playBoardJPanelPlayer3CPU;
+    }
+
+    /**
+     * @return the displayScoreJLabel1
+     */
+    public javax.swing.JLabel getDisplayScoreJLabel1() {
+        return displayScoreJLabel1;
+    }
+
+    /**
+     * @param displayScoreJLabel1 the displayScoreJLabel1 to set
+     */
+    public void setDisplayScoreJLabel1(javax.swing.JLabel displayScoreJLabel1) {
+        this.displayScoreJLabel1 = displayScoreJLabel1;
+    }
 
 
 

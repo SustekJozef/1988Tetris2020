@@ -8,6 +8,7 @@ package PlayBoardAndShapes.CPU;
 
 import PlayBoardAndShapes.PlayBoard;
 import PlayBoardAndShapes.Shape;
+import PlayBoardAndShapes.TetrisSwingPackage1.PlayBoardJFrame;
 import java.io.Serializable;
 import org.apache.commons.lang.SerializationUtils;
 
@@ -42,6 +43,8 @@ public class ComputerPlayer implements Serializable{
      */
     boolean removeShape=true;
 
+    
+    
     /**
      *Inicializes new instance of class
      * @param playBoardArray Array for trying all possibiligies for playboard. 
@@ -67,7 +70,7 @@ public class ComputerPlayer implements Serializable{
         PlayBoard clone = (PlayBoard) SerializationUtils.deserialize(bytes);
         */
         
-        
+        ;
     }
  
     public void testAllPositionsOfCurrentShapeInCurrentState() throws InterruptedException{
@@ -83,37 +86,16 @@ public class ComputerPlayer implements Serializable{
     
     
     public void moveShapeToStartingPositionLeft() throws InterruptedException{
-        //simulating of moving shape throught the playboard.     
-        if (removeShape) {
-        //removes shape to avoid conflict of old shape and while it is chcecking if shape can move
-        getCurrentTestingPlayBoardForCPU().removeShapeFromPlayBoardXYSystem(getCurrentTestingPlayBoardForCPU().getCurrentShape(), getCurrentTestingPlayBoardForCPU().getPlayBoardArray());
-
-        while (getCurrentTestingPlayBoardForCPU().checkIfShapeCanGoLeft(getCurrentTestingPlayBoardForCPU().getCurrentShape(), getCurrentTestingPlayBoardForCPU().getPlayBoardArray())){
-    
-            if (removeShape) {
-
-            if (getCurrentTestingPlayBoardForCPU().checkIfShapeCanGoLeft(getCurrentTestingPlayBoardForCPU().getCurrentShape(), getCurrentTestingPlayBoardForCPU().getPlayBoardArray())) {
-                getCurrentTestingPlayBoardForCPU().MoveLeft(getCurrentTestingPlayBoardForCPU().getCurrentShape());
-                getCurrentTestingPlayBoardForCPU().writeShapeToPlayBoardXYSystem(getCurrentTestingPlayBoardForCPU().getCurrentShape(), getCurrentTestingPlayBoardForCPU().getPlayBoardArray());
-    }
-            else {
-                removeShape=false;
-                getCurrentTestingPlayBoardForCPU().writeShapeToPlayBoardXYSystem(getCurrentTestingPlayBoardForCPU().getCurrentShape(), getCurrentTestingPlayBoardForCPU().getPlayBoardArray());
-            }
-                    Thread.sleep(5000);
-                    getCurrentTestingPlayBoardForCPU().removeShapeFromPlayBoardXYSystem(getCurrentTestingPlayBoardForCPU().getCurrentShape(), getCurrentTestingPlayBoardForCPU().getPlayBoardArray());
-
-                }
+       do
+        {
+            //currentTestingPlayBoardForCPU.removeShapeFromPlayBoardXYSystem(currentTestingPlayBoardForCPU.getCurrentShape(), currentTestingPlayBoardForCPU.getPlayBoardArray());
+            currentTestingPlayBoardForCPU.inputShapeToPlayboard(currentTestingPlayBoardForCPU.getCurrentShape(), currentTestingPlayBoardForCPU.getPlayBoardArray(), "left");
         }
+               while (currentTestingPlayBoardForCPU.isCanGoLeft());
+ 
+}
         
-        /*for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
-        System.out.print(getCurrentTestingPlayBoardForCPU().getCurrentShape());
-        }
-        System.out.println("");
-        }*/
-    }
-        }
+        
 
      /**
      *Renewing of playBoardObject for another testing.

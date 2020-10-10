@@ -21,7 +21,7 @@ public class ShapeI extends Shape{
      *
      */
     public ShapeI() {
-        this.shapeInitializationArray= new int[][]{{BASEX, BASEY},{BASEX, BASEY-1},{BASEX, BASEY+1},{BASEX, BASEY+2}};
+        this.shapeInitializationArray= new int[][]{{super.BASEX, super.BASEY},{super.BASEX, super.BASEY-1},{super.BASEX, super.BASEY+1},{super.BASEX, super.BASEY+2}};
         super.maxNumberOfRotationPositionOfShape=1;
         super.numberOfShape=1;
     }

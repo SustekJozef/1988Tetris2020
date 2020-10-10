@@ -19,7 +19,7 @@ public class ShapeSquare extends Shape{
      *
      */
     public ShapeSquare() {
-        this.shapeInitializationArray= new int[][]{{BASEX, BASEY},{BASEX, BASEY-1},{BASEX-1, BASEY-1},{BASEX-1, BASEY}};
+        this.shapeInitializationArray= new int[][]{{super.BASEX, super.BASEY},{super.BASEX, super.BASEY-1},{super.BASEX-1, super.BASEY-1},{super.BASEX-1, super.BASEY}};
         super.numberOfShape=4;
     }
 

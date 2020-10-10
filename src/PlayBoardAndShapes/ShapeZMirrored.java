@@ -19,7 +19,7 @@ public class ShapeZMirrored extends Shape{
      *
      */
     public ShapeZMirrored() {
-        this.shapeInitializationArray= new int[][]{{BASEX, BASEY},{BASEX, BASEY-1},{BASEX-1, BASEY},{BASEX-1, BASEY+1}};
+        this.shapeInitializationArray= new int[][]{{super.BASEX, super.BASEY},{super.BASEX, super.BASEY-1},{super.BASEX-1, super.BASEY},{super.BASEX-1, super.BASEY+1}};
         super.maxNumberOfRotationPositionOfShape=1;
         super.numberOfShape=7;
 
