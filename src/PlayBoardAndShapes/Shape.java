@@ -75,13 +75,20 @@ protected int maxNumberOfRotationPositionOfShape;
      *
      */ 
     public void chceckAndDecideRotationState(){ 
-        if (currentNumberOfRotationPositionOfShape<maxNumberOfRotationPositionOfShape){
+        if (currentNumberOfRotationPositionOfShape<getMaxNumberOfRotationPositionOfShape()){
             currentNumberOfRotationPositionOfShape++;
         }
         else {
             currentNumberOfRotationPositionOfShape=startingNumberOfRotationPositionOfShape;
         }
   }
+
+    /**
+     * @return the maxNumberOfRotationPositionOfShape
+     */
+    public int getMaxNumberOfRotationPositionOfShape() {
+        return maxNumberOfRotationPositionOfShape;
+    }
 
 
 

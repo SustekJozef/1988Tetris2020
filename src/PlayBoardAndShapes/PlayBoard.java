@@ -78,7 +78,9 @@ public class PlayBoard implements Serializable{
     //private PlayBoardJFrame playBoardJFrame=new PlayBoardJFrame();
     private Background background=new Background(this);
     
-    
+    /**
+     *Checks if shape can rotate(true) or is setted down, so it can move anymore(false).
+     */
     private boolean setDownOrCanRotete;
     
     private int score;
@@ -105,8 +107,6 @@ public class PlayBoard implements Serializable{
      */
     protected boolean canGoLeft;
 
-    
-    
     /**
      *Saves if there is any possibility to move in right direction. It return false if there is no possible 
      * movement in chosen direction (right)
@@ -149,7 +149,7 @@ public class PlayBoard implements Serializable{
         this.canGoLeft=true;
         this.canGoRight=true;
         this.canGoDown=true;
-        //prepareScreenBorders();
+        prepareScreenBorders();
         
     }
 
@@ -242,24 +242,39 @@ public class PlayBoard implements Serializable{
                     if (checkIfShapeCanGoRight(currentShape, playBoardArray)) {
                         MoveRight(currentShape);
                         writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);
-                        canGoRight=true;
+                        
+                        //shape needs to be removed again, because is needed to check if there is another moving position after this one - and this for computer player which can test it (method moveShapeOnePositionRight() in ComputerPlyer)
+                        removeShapeFromPlayBoardXYSystem(currentShape, playBoardArray);
+                        if (checkIfShapeCanGoRight(currentShape, playBoardArray)) {
+                                canGoRight=true;//it there is possibility to go next step - then computer player can test it (method moveShapeOnePositionRight() in ComputerPlyer)
+                            }
+                            else {
+                                canGoRight=false;
+                            }
+                        writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);//writeing again - after kontrol. Shape needs to be written in playboardarray
                     }
                     else {
                         writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);
-                        canGoRight=false;
                     }
                     break;
                   case "left":
                    if (checkIfShapeCanGoLeft(currentShape, playBoardArray) && isCanGoLeft()) {
                         MoveLeft(currentShape);
                         writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);
-                        canGoLeft=true;
+                       //shape needs to be removed again, because is needed to check if there is another moving position after this one - and this for computer player which can test it (method moveShapeOnePositionRight() in ComputerPlyer)
+                        removeShapeFromPlayBoardXYSystem(currentShape, playBoardArray);
+                        if (checkIfShapeCanGoLeft(currentShape, playBoardArray)) {
+                                canGoLeft=true;//it there is possibility to go next step - then computer player can test it (method moveShapeOnePositionRight() in ComputerPlyer)
+                            }
+                            else {
+                                canGoLeft=false;
+                            }
+                        writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);//writeing again - after kontrol. Shape needs to be written in playboardarray
                     }
                    else {
                         writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);
-                        canGoLeft=false;
-    
-                    }
+                        
+                   }
                     break;
                   case "doNothingOnlyPaintShapeIntoPlayboard":
                         writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);//needed to write again, because it was removed one step before

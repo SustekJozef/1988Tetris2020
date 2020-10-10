@@ -505,32 +505,36 @@ public class PlayBoardJFrame extends javax.swing.JFrame {
                     //second player or cpu 
                     playBoardForPlayer2OrCPU.setRestartGame(false);
                     updateScreen(playBoardForPlayer2OrCPU,"down",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
-                            updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
-                    updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
-                    updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
-                    updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
-                    updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
-                    updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
-                    updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
-                    updateScreen(playBoardForPlayer2OrCPU,"left",playBoardJPanelPlayer2OrCPU, getDisplayScoreJLabel1());
-
+                    
             //this.thread2222=new AutomaticMovingDownThread(playBoardForPlayer2OrCPU,"down",playBoardJPanelPlayer2OrCPU,displayScoreJLabel2,this.speed);
             //thread2222.start();
            
             
             
      
-            /*  updateScreen(computerPlayer.getCurrentTestingPlayBoardForCPU(),"doNothingOnlyPaintShapeIntoPlayboard", getPlayBoardJPanelPlayer3CPU(), getDisplayScoreJLabel1());
-            try {
-            computerPlayer.moveShapeToStartingPositionLeft();
             updateScreen(computerPlayer.getCurrentTestingPlayBoardForCPU(),"doNothingOnlyPaintShapeIntoPlayboard", getPlayBoardJPanelPlayer3CPU(), getDisplayScoreJLabel1());
-            } catch (InterruptedException ex) {
-            Logger.getLogger(PlayBoardJFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
             
-           // thread3333=new AutomaticMovingDownThread(this.computerPlayer.getCurrentTestingPlayBoardForCPU(),"left", getPlayBoardJPanelPlayer3CPU(),displayScoreJLabel2,this.speed);
-           // thread3333.start();
-        
+            
+            try {
+        // Serializes object to a byte[] array
+        byte[] bytes = SerializationUtils.serialize(playBoardForPlayer2OrCPU);
+        // Deserializes object from an array of bytes
+        this.playBoardForPlayer3CPU = (PlayBoard) SerializationUtils.deserialize(bytes);  
+        //cpu test player
+        this.computerPlayer=new ComputerPlayer(playBoardForPlayer3CPU);
+    } catch (CloneNotSupportedException ex) {
+        Logger.getLogger(PlayBoardJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+            
+            computerPlayer.testAllPositionsOfCurrentShapeInCurrentState();
+            
+            updateScreen(computerPlayer.getCurrentTestingPlayBoardForCPU(),"doNothingOnlyPaintShapeIntoPlayboard", getPlayBoardJPanelPlayer3CPU(), getDisplayScoreJLabel1());
+  
+            
+            
+         // thread3333=new AutomaticMovingDownThread(this.computerPlayer.getCurrentTestingPlayBoardForCPU(),"left", getPlayBoardJPanelPlayer3CPU(),displayScoreJLabel2,this.speed);
+            // thread3333.start();
                     
                     
                                
