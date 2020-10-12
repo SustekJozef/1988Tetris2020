@@ -258,7 +258,7 @@ public class PlayBoard implements Serializable{
                     }
                     break;
                   case "left":
-                   if (checkIfShapeCanGoLeft(currentShape, playBoardArray) && isCanGoLeft()) {
+                   if (checkIfShapeCanGoLeft(currentShape, playBoardArray)) {
                         MoveLeft(currentShape);
                         writeShapeToPlayBoardXYSystem(currentShape, playBoardArray);
                        //shape needs to be removed again, because is needed to check if there is another moving position after this one - and this for computer player which can test it (method moveShapeOnePositionRight() in ComputerPlyer)
