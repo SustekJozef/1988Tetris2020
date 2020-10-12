@@ -39,15 +39,7 @@ public class ComputerPlayer implements Serializable{
      */
     private int testingScore;
     
-    /**
-     *Checks if there is any testing position right from current position.
-     */
-    private boolean canMoveRight=true;
     
-    /**
-     *Checks if there is any testing position left from current position.
-     */
-    private boolean canMoveLeft=true;
     
     /**
      *Checks what is starting position testing shape in y-axis.
@@ -103,8 +95,13 @@ public class ComputerPlayer implements Serializable{
             //1st score for current state of rotation without any moving in playboardArray
             moveShapeToPositionSitDown();
             countAndSaveScoreAndMoveInformationsAndRotationOfCurrentTryInArray(0,0);      
+            
             renewOfTestingPlayBoardByOriginalOne();                            
             //move to the starting position
+            //after renewewing of an object - it is needed to change rotation to needed state
+            for (int i = 0; i < counterOfRotation; i++) {
+                currentTestingPlayBoardForCPU.rotateAnyShape(currentTestingPlayBoardForCPU.getCurrentShape(), currentTestingPlayBoardForCPU.getPlayBoardArray());
+            }
 
             
             //moves steb by step right and tests what score it earns when it put a shape
@@ -123,9 +120,13 @@ public class ComputerPlayer implements Serializable{
                 if (!currentTestingPlayBoardForCPU.isCanGoRight()){
                     whileContinue=false;
                 }
+                
                 renewOfTestingPlayBoardByOriginalOne();
+                 //after renewewing of an object - it is needed to change rotation to needed state
+                for (int i = 0; i < counterOfRotation; i++) {
+                    currentTestingPlayBoardForCPU.rotateAnyShape(currentTestingPlayBoardForCPU.getCurrentShape(), currentTestingPlayBoardForCPU.getPlayBoardArray());
+                }
             }
-            canMoveRight=!canMoveRight;//restoring variable /// DELETE ALLL VARIABLE
             rightMovementCounter=0;
             whileContinue=true;
             
@@ -145,17 +146,18 @@ public class ComputerPlayer implements Serializable{
                     whileContinue=false;
                 }
                 renewOfTestingPlayBoardByOriginalOne();
+                 //after renewewing of an object - it is needed to change rotation to needed state
+                for (int i = 0; i < counterOfRotation; i++) {
+                    currentTestingPlayBoardForCPU.rotateAnyShape(currentTestingPlayBoardForCPU.getCurrentShape(), currentTestingPlayBoardForCPU.getPlayBoardArray());
+                }
             }
-            canMoveLeft=!canMoveLeft;//restoring variable
             leftMovementCounter=0;
             
             
             //change rotation into next one state
-            currentTestingPlayBoardForCPU.rotateAnyShape(currentTestingPlayBoardForCPU.getCurrentShape(), currentTestingPlayBoardForCPU.getPlayBoardArray());
-            counterOfRotation++; //this ensure that all rotation states will be tested
+            counterOfRotation++; //this makes that all rotation states will be tested
         }
     }
-    ////// PROBLEM WITH ROTATION --- neotáča sa, lebo sa opäť vymaže ked sa aj otočí, treba dalšiu kopiu vytvoriť - a nanovo celé porzeiť
     
     /**
      *Moves shape fully left to find shape´s starting position(shape in current rotating state).
@@ -224,9 +226,6 @@ public class ComputerPlayer implements Serializable{
            currentTestingPlayBoardForCPU.inputShapeToPlayboard(currentTestingPlayBoardForCPU.getCurrentShape(), currentTestingPlayBoardForCPU.getPlayBoardArray(), "right");
            
         }
-        else {
-            canMoveRight = false;
-        }
 }
     
         /**
@@ -238,9 +237,6 @@ public class ComputerPlayer implements Serializable{
         if ((currentTestingPlayBoardForCPU.isCanGoLeft())){
            currentTestingPlayBoardForCPU.inputShapeToPlayboard(currentTestingPlayBoardForCPU.getCurrentShape(), currentTestingPlayBoardForCPU.getPlayBoardArray(), "left");
   
-        }
-        else {
-            canMoveLeft = false;
         }
 }
     
